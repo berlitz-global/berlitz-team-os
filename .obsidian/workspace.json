@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "product-development/data-engineering/CLAUDE.md",
+                "file": "product-development/CLAUDE.md",
                 "mode": "source",
                 "source": false
               },
@@ -185,9 +185,11 @@
   },
   "active": "16edec67cc5a3a7a",
   "lastOpenFiles": [
-    "product-development/analytics/dashboards/deployment/custom-domains-dashboards.md",
-    "product-development/analytics/dashboards/billing/credit-usage-dashboards.md",
+    "team/CLAUDE.md",
     "CLAUDE.md",
-    "README.md"
+    "README.md",
+    "product-development/data-engineering/CLAUDE.md",
+    "product-development/analytics/dashboards/deployment/custom-domains-dashboards.md",
+    "product-development/analytics/dashboards/billing/credit-usage-dashboards.md"
   ]
 }

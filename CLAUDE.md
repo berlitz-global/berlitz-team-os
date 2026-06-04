@@ -2,16 +2,16 @@
 
 ## Team
 
-| Function | Team Member | GitHub | Linear / Jira / Asana ID | Slack ID |
-|----------|-------------|--------|-----------|----------|
-| PM | | | | |
-| EM | | | | |
-| Engineering | | | | |
-| Engineering | | | | |
-| Design | | | | |
-| Analytics | | | | |
+| Function    | Team Member  | GitHub         | Linear / Jira / Asana ID | Slack ID | Teams |
+| ----------- | ------------ | -------------- | ------------------------ | -------- | ----- |
+| PM          | Jan Hoffmann | JanHoffmann800 |                          |          | yes   |
+| EM          |              |                |                          |          |       |
+| Engineering |              |                |                          |          |       |
+| Engineering |              |                |                          |          |       |
+| Design      |              |                |                          |          |       |
+| Analytics   |              |                |                          |          |       |
 
-## Slack Channels
+## Teams Channels
 
 | Channel | ID | Visibility | Purpose |
 |---------|-----|------------|---------|
