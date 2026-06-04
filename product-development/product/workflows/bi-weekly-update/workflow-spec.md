@@ -2,7 +2,7 @@
 
 ## Overview
 
-This workflow produces a dated bi-weekly Forge update document. It runs interactively: each step has an automated part (data gathering, drafting) and an interactive part (the PM reviews, adds context, approves). Each section is written to the output file as it completes so progress is visible in real time. The final step auto-pushes the compiled document to a Google Doc via the Google Workspace MCP.
+This workflow produces a dated bi-weekly AI Tutor update document. It runs interactively: each step has an automated part (data gathering, drafting) and an interactive part (the PM reviews, adds context, approves). Each section is written to the output file as it completes so progress is visible in real time. The final step auto-pushes the compiled document to a Google Doc via the Google Workspace MCP.
 
 ---
 
@@ -98,5 +98,5 @@ Step 4 automatically pushes the compiled update to a Google Doc using the Google
 See `reference/2026-02-11.md` for the canonical example of what good output looks like. This was the first bi-weekly produced with this workflow and covers:
 - OKR tables with workstream status
 - 5 customer calls synthesized with thematic analysis
-- Cross-customer summary for Meridian and CloudKitchen
+- Cross-customer summary for active pilots
 - Full exec summaries and deep dives for active pilots

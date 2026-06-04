@@ -1,6 +1,6 @@
 # Competitors
 
-Per-competitor research profiles and website audits for Forge competitors.
+Per-competitor research profiles and website audits for AI Tutor competitors.
 
 ---
 
@@ -9,20 +9,19 @@ Per-competitor research profiles and website audits for Forge competitors.
 | File | Description |
 |------|-------------|
 | `competitive-matrix.md` | Standardized feature comparison across all audited competitors |
-| `plans/website-audit-plan.md` | Audit methodology, checklist, and standard folder structure |
 
 ---
 
 ## Competitor Index
 
-| Folder | Type | Focus | Forge Relevance |
+| Folder | Type | Focus | AI Tutor Relevance |
 |--------|------|-------|-----------------|
-| `lovable/` | Website audit | Full-stack AI app builder with instant deployment | Direct competitor - closest feature overlap |
-| `google-stitch/` | Website audit | Google's AI prototyping tool, deep integration with Google Cloud | Direct competitor (enterprise) |
-| `v0/` | Website audit | Vercel's AI UI generation, React/Next.js focused | Direct competitor - strong in frontend generation |
-| `replit/` | Website audit | AI-powered cloud IDE with built-in hosting | Direct competitor - broader scope (full IDE) |
-| `figma-make/` | Website audit | Figma's design-to-code AI feature | Adjacent - design-first approach, different entry point |
-| `bolt/` | Website audit | Full-stack AI app builder (bolt.new) | Direct competitor - speed-focused prompt-to-app |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
 
 ---
 

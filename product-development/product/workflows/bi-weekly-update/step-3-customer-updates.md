@@ -11,10 +11,10 @@ Update customer pilot/launch exec summaries, deep dives, and cross-customer summ
 ### 1. Identify customers with new calls
 
 Check which active pilot and enterprise customers had calls in the last 2 weeks (from Step 2 data). Current active pilots:
-- Meridian Health (healthcare SaaS, 12-person eng team)
-- CloudKitchen (restaurant ops platform, 8-person eng team)
-- Nexus Financial (fintech startup, 20-person eng team)
-- Aether Logistics (supply chain platform, 15-person eng team)
+- [Customer A] (add your active pilots here)
+
+
+
 
 ### 2. Compare new data against existing sections
 
@@ -80,7 +80,7 @@ Write updated customer sections and cross-customer summary to the dated output f
 
 ### Rewrite
 - Exec summary opening paragraph (should reflect current state)
-- "Forge Use Cases Today" if new use cases emerged
+- "AI Tutor Use Cases Today" if new use cases emerged
 - Feature gap status if engineering progress changed the situation
 - Any section where a stronger quote replaced a weaker one
 
@@ -107,4 +107,4 @@ The cross-customer summary sits between "Customer Calls" and the first customer 
 
 - Customer sections are the most labor-intensive part of the bi-weekly. Most cycles, they'll need only minor updates or none at all.
 - If a customer hasn't had a call in the last 2 weeks, carry forward the existing sections unchanged.
-- If a new customer becomes a pilot, create a new exec summary and deep dive following the Meridian/CloudKitchen format.
+- If a new customer becomes a pilot, create a new exec summary and deep dive following the [Pilot A]/[Pilot B] format.

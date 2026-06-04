@@ -1,7 +1,8 @@
 # Product Context
 
 ## Purpose
-Reference documentation on Forge Labs products and platforms that Forge integrates with or extends. Use these docs to understand how Forge fits into the broader Forge Labs developer ecosystem.
+
+Reference documentation on Berlitz products and platforms that AI Tutor integrates with or extends.
 
 ---
 
@@ -9,26 +10,15 @@ Reference documentation on Forge Labs products and platforms that Forge integrat
 
 | File | Description |
 |------|-------------|
-| `forge-platform-overview.md` | Forge Labs platform structure, navigation, features, and integration points |
+| | |
 
 ---
 
 ## When to Use
 
-- Understanding how Forge extends Developer Console capabilities
-- Writing PRDs that reference Console features
-- Explaining Forge's value-add vs native Console functionality
-- Onboarding new team members on Forge Labs developer tools
-
----
-
-## Forge Integration Points
-
-| Forge Labs Product | Forge Relationship |
-|--------------------|-------------------|
-| **Developer Console** | Forge accessible via Console link-out; extends Projects > Generations |
-| **Forge CLI** | CLI tool for local development and deployment |
-| **Forge Cloud** | Hosting and deployment infrastructure |
+- Understanding how AI Tutor fits into the broader Berlitz product ecosystem
+- Writing PRDs that reference platform features
+- Onboarding new team members on Berlitz products
 
 ---
 
@@ -36,6 +26,6 @@ Reference documentation on Forge Labs products and platforms that Forge integrat
 
 | Folder | Content |
 |--------|---------|
-| `../strategy/` | Forge roadmaps and vision |
-| `../competitive-research/` | How Forge compares to third-party alternatives |
+| `../strategy/` | AI Tutor roadmaps and vision |
+| `../competitive-research/` | How AI Tutor compares to alternatives |
 | `../PRDs/` | Feature specifications |

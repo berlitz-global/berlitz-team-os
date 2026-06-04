@@ -1,6 +1,6 @@
 # Competitive Feature Matrix
 
-Last updated: 2026-03-22
+Last updated:
 
 ## How to Read This Matrix
 
@@ -10,93 +10,93 @@ Last updated: 2026-03-22
 
 ## Generation Quality
 
-| Feature | Forge | Lovable | Google Stitch | v0 | Replit | Figma Make | Bolt |
-|---------|-------|---------|---------------|-----|--------|------------|------|
-| UI component quality | Yes | Yes | Partial | Yes | Partial | Yes | Yes |
-| Responsive design | Yes | Yes | Partial | Yes | Partial | Yes | Yes |
-| Design system adherence | Yes | Yes | Partial | Partial | No | Yes | Partial |
-| Code maintainability | Yes | Partial | Partial | Yes | Partial | Partial | Partial |
-| Iteration without full regen | Yes | Partial | Partial | Partial | Yes | No | Yes |
-| Multi-page app generation | Yes | Yes | Partial | No | Yes | No | Yes |
-| State management quality | Yes | Partial | Partial | Partial | Yes | No | Partial |
+| Feature | AI Tutor | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] |
+|---------|-------|-------------|-------------|-------------|-------------|-------------|-------------|
+| UI component quality | | | | | | | |
+| Responsive design | | | | | | | |
+| Design system adherence | | | | | | | |
+| Code maintainability | | | | | | | |
+| Iteration without full regen | | | | | | | |
+| Multi-page app generation | | | | | | | |
+| State management quality | | | | | | | |
 
 ## Deployment
 
-| Feature | Forge | Lovable | Google Stitch | v0 | Replit | Figma Make | Bolt |
-|---------|-------|---------|---------------|-----|--------|------------|------|
-| One-click deploy | Yes | Yes | Partial | Partial | Yes | No | Yes |
-| Custom domain support | Yes | Yes | No | No | Yes | No | Partial |
-| CI/CD pipeline | Yes | No | Partial | Partial | Partial | No | No |
-| Environment management | Yes | Partial | Partial | No | Yes | No | Partial |
-| Hosting included | Yes | Yes | Yes | Partial | Yes | No | Yes |
-| Export to own infra | Yes | Partial | No | Yes | Yes | Partial | Partial |
+| Feature | AI Tutor | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] |
+|---------|-------|-------------|-------------|-------------|-------------|-------------|-------------|
+| One-click deploy | | | | | | | |
+| Custom domain support | | | | | | | |
+| CI/CD pipeline | | | | | | | |
+| Environment management | | | | | | | |
+| Hosting included | | | | | | | |
+| Export to own infra | | | | | | | |
 
 ## Collaboration
 
-| Feature | Forge | Lovable | Google Stitch | v0 | Replit | Figma Make | Bolt |
-|---------|-------|---------|---------------|-----|--------|------------|------|
-| Real-time multiplayer editing | Yes | No | Partial | No | Yes | Yes | No |
-| Team workspaces | Yes | Partial | Yes | Partial | Yes | Yes | Partial |
-| Version history | Yes | Partial | Partial | Yes | Yes | Partial | Partial |
-| Commenting / review | Yes | No | Partial | Partial | Partial | Yes | No |
-| Role-based permissions | Yes | Partial | Yes | No | Partial | Yes | No |
-| Share preview links | Yes | Yes | Yes | Yes | Yes | Partial | Yes |
+| Feature | AI Tutor | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] |
+|---------|-------|-------------|-------------|-------------|-------------|-------------|-------------|
+| Real-time multiplayer editing | | | | | | | |
+| Team workspaces | | | | | | | |
+| Version history | | | | | | | |
+| Commenting / review | | | | | | | |
+| Role-based permissions | | | | | | | |
+| Share preview links | | | | | | | |
 
 ## Enterprise Features
 
-| Feature | Forge | Lovable | Google Stitch | v0 | Replit | Figma Make | Bolt |
-|---------|-------|---------|---------------|-----|--------|------------|------|
-| SSO / SAML | Yes | No | Yes | No | Partial | Yes | No |
-| Audit logging | Yes | No | Yes | No | Partial | Partial | No |
-| SOC 2 compliance | Yes | No | Yes | No | Yes | Yes | No |
-| Data residency controls | Partial | No | Yes | No | No | Partial | No |
-| Admin console | Yes | No | Yes | No | Partial | Yes | No |
-| SLA guarantees | Yes | No | Yes | No | Partial | Yes | No |
-| On-prem / private cloud | Partial | No | Partial | No | No | No | No |
+| Feature | AI Tutor | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] |
+|---------|-------|-------------|-------------|-------------|-------------|-------------|-------------|
+| SSO / SAML | | | | | | | |
+| Audit logging | | | | | | | |
+| SOC 2 compliance | | | | | | | |
+| Data residency controls | | | | | | | |
+| Admin console | | | | | | | |
+| SLA guarantees | | | | | | | |
+| On-prem / private cloud | | | | | | | |
 
 ## Pricing
 
-| Feature | Forge | Lovable | Google Stitch | v0 | Replit | Figma Make | Bolt |
-|---------|-------|---------|---------------|-----|--------|------------|------|
-| Free tier | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
-| Per-seat pricing | Yes | Yes | No | Yes | Yes | Yes | Yes |
-| Usage-based pricing | Yes | Yes | No | Yes | Yes | No | Yes |
-| Enterprise custom pricing | Yes | No | Yes | No | Yes | Yes | No |
-| Starting price point | $20/mo | $20/mo | Free (beta) | $20/mo | $25/mo | Included w/ Figma | $20/mo |
+| Feature | AI Tutor | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] |
+|---------|-------|-------------|-------------|-------------|-------------|-------------|-------------|
+| Free tier | | | | | | | |
+| Per-seat pricing | | | | | | | |
+| Usage-based pricing | | | | | | | |
+| Enterprise custom pricing | | | | | | | |
+| Starting price point | | | | | | | |
 
 ## Integrations
 
-| Feature | Forge | Lovable | Google Stitch | v0 | Replit | Figma Make | Bolt |
-|---------|-------|---------|---------------|-----|--------|------------|------|
-| Git (GitHub/GitLab) | Yes | Partial | Partial | Yes | Yes | No | Partial |
-| Database connectors | Yes | Partial | Partial | No | Yes | No | Partial |
-| Auth providers | Yes | Partial | Yes | No | Partial | No | Partial |
-| API integrations | Yes | Partial | Partial | Partial | Yes | No | Partial |
-| Design tool import | Yes | Partial | No | Partial | No | Yes | No |
-| Cloud provider support | Yes | No | Yes | Partial | Partial | No | No |
+| Feature | AI Tutor | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] |
+|---------|-------|-------------|-------------|-------------|-------------|-------------|-------------|
+| Git (GitHub/GitLab) | | | | | | | |
+| Database connectors | | | | | | | |
+| Auth providers | | | | | | | |
+| API integrations | | | | | | | |
+| Design tool import | | | | | | | |
+| Cloud provider support | | | | | | | |
 
 ## Customization
 
-| Feature | Forge | Lovable | Google Stitch | v0 | Replit | Figma Make | Bolt |
-|---------|-------|---------|---------------|-----|--------|------------|------|
-| Tech stack selection | Yes | Partial | Partial | No | Yes | No | Partial |
-| Architecture patterns | Yes | No | Partial | No | Partial | No | No |
-| Custom component library | Yes | Partial | No | Partial | Partial | Yes | No |
-| Theme / design token support | Yes | Partial | Partial | Partial | No | Yes | Partial |
-| Code style / linting config | Yes | No | No | Partial | Yes | No | No |
-| Plugin / extension system | Partial | No | No | No | Partial | Yes | No |
+| Feature | AI Tutor | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] |
+|---------|-------|-------------|-------------|-------------|-------------|-------------|-------------|
+| Tech stack selection | | | | | | | |
+| Architecture patterns | | | | | | | |
+| Custom component library | | | | | | | |
+| Theme / design token support | | | | | | | |
+| Code style / linting config | | | | | | | |
+| Plugin / extension system | | | | | | | |
 
 ## Summary Scorecard
 
-| Category | Forge | Lovable | Google Stitch | v0 | Replit | Figma Make | Bolt |
-|----------|-------|---------|---------------|-----|--------|------------|------|
-| Generation Quality | 5 | 4 | 3 | 4 | 3 | 2 | 4 |
-| Deployment | 5 | 4 | 2 | 2 | 4 | 1 | 4 |
-| Collaboration | 5 | 2 | 4 | 2 | 4 | 4 | 2 |
-| Enterprise Features | 5 | 1 | 5 | 1 | 3 | 4 | 1 |
-| Pricing | 4 | 4 | 4 | 3 | 4 | 3 | 4 |
-| Integrations | 5 | 2 | 3 | 2 | 4 | 2 | 2 |
-| Customization | 5 | 2 | 2 | 2 | 3 | 3 | 2 |
+| Category | AI Tutor | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] | [Competitor] |
+|----------|-------|-------------|-------------|-------------|-------------|-------------|-------------|
+| Generation Quality | | | | | | | |
+| Deployment | | | | | | | |
+| Collaboration | | | | | | | |
+| Enterprise Features | | | | | | | |
+| Pricing | | | | | | | |
+| Integrations | | | | | | | |
+| Customization | | | | | | | |
 
 Scoring: 1 (weak) to 5 (best-in-class). Scores populated after individual teardowns are complete.
 

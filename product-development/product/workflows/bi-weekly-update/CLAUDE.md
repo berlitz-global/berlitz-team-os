@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Automated workflow that generates the bi-weekly product review document for Forge. This runs before each bi-weekly review meeting and compiles progress, metrics, and next steps into a presentation-ready format.
+Automated workflow that generates the bi-weekly product review document for AI Tutor. This runs before each bi-weekly review meeting and compiles progress, metrics, and next steps into a presentation-ready format.
 
 ## What This Workflow Does
 
@@ -20,7 +20,7 @@ Automated workflow that generates the bi-weekly product review document for Forg
 The generated doc follows this structure:
 
 ```
-# Forge Bi-Weekly Review - [Date]
+# AI Tutor Bi-Weekly Review - [Date]
 
 ## Highlights
 - Top 3-5 accomplishments from the last two weeks
@@ -43,4 +43,4 @@ The generated doc follows this structure:
 
 ## File Naming
 
-Output files follow the convention: `YYYY-MM-DD-forge-bi-weekly-review.md`
+Output files follow the convention: `YYYY-MM-DD-bi-weekly-review.md`

@@ -1,7 +1,8 @@
 # Processes
 
 ## Purpose
-Operational processes and how-to guides for Forge.
+
+Operational processes and how-to guides for AI Tutor.
 
 ---
 
@@ -9,7 +10,7 @@ Operational processes and how-to guides for Forge.
 
 | File | Description |
 |------|-------------|
-| `customer-onboarding-checklist.md` | Step-by-step checklist for onboarding new Forge customers |
+| | |
 
 ---
 
