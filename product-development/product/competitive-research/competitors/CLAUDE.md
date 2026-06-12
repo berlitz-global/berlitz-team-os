@@ -1,6 +1,6 @@
 # Competitors
 
-Per-competitor research profiles and website audits for AI Tutor competitors.
+Per-competitor research profiles for Berlitz AI Tutor competitors.
 
 ---
 
@@ -8,20 +8,27 @@ Per-competitor research profiles and website audits for AI Tutor competitors.
 
 | File | Description |
 |------|-------------|
-| `competitive-matrix.md` | Standardized feature comparison across all audited competitors |
+| `competitive-matrix.md` | Standardized feature comparison across all 13 competitors |
 
 ---
 
 ## Competitor Index
 
-| Folder | Type | Focus | AI Tutor Relevance |
-|--------|------|-------|-----------------|
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
+| Folder | Type | Focus | Berlitz Relevance |
+|--------|------|-------|-------------------|
+| `duolingo/` | Incumbent | B2C gamified language learning | Market leader; free-tier benchmark; best gamification |
+| `babbel/` | Incumbent | B2C/B2B subscription language learning | Strong in Europe; subscription model comparison |
+| `italki/` | Marketplace | B2C human-tutor marketplace | Largest tutor marketplace; no AI; human-side benchmark |
+| `preply/` | Marketplace | B2C/B2B tutoring + growing AI | Closest hybrid competitor; Preply Business for B2B |
+| `rosetta-stone/` | Legacy | B2B/B2C/B2G enterprise language learning | Enterprise/government contracts; displacement opportunity |
+| `busuu/` | Incumbent | B2C/B2B with CEFR certification | McGraw-Hill backed; CEFR certification benchmark |
+| `speak/` | AI-native | B2C AI conversation practice | OpenAI-backed; dominant in Korea; strong speech tech |
+| `elsa/` | AI-native | B2C/B2B pronunciation AI | Best-in-class pronunciation; ELSA for Organizations |
+| `praktika/` | AI-native | B2C AI avatar conversations | Most direct avatar competitor to Berlitz |
+| `talkpal/` | AI-native | B2C GPT-powered conversation | Fast-growing AI wrapper; multi-modal |
+| `lingoda/` | Hybrid | B2C live group + 1:1 classes | Sprint model; CEFR certification; scale human delivery |
+| `ef-english-live/` | Enterprise hybrid | B2B/B2C/B2G live teachers + self-study | Direct enterprise competitor |
+| `jumpspeak/` | AI-native | B2C conversation-first AI learning | Conversation-first approach; sister company Rype has live tutoring |
 
 ---
 
@@ -33,8 +40,7 @@ Each `{competitor}/` folder follows a standard structure:
 {competitor}/
 ├── CLAUDE.md       # Doc index + brief competitor context
 ├── tldr.md         # Executive summary (start here)
-├── pricing.md      # Pricing model and tiers
-└── images/         # Pricing screenshots
+└── pricing.md      # Pricing model and tiers
 ```
 
 ---
@@ -43,16 +49,17 @@ Each `{competitor}/` folder follows a standard structure:
 
 When auditing a competitor, evaluate across these dimensions:
 
-| Dimension | What to Capture |
-|-----------|-----------------|
-| **Generation Quality** | Framework support, code quality, error handling, multi-file output |
-| **Developer Experience** | Editor UX, preview speed, iteration flow, prompt interface |
-| **Deployment** | Hosting options, custom domains, environment variables, CI/CD |
-| **Collaboration** | Sharing, team features, permissions, commenting |
-| **Pricing** | Free tier limits, paid tiers, enterprise pricing, usage-based components |
-| **Templates** | Library size, categories, customization depth, community contributions |
-| **Enterprise** | SSO, audit logs, admin controls, SLAs, compliance |
-| **Ecosystem** | Integrations, plugins, API access, import/export |
+| Category | What to Capture |
+|----------|-----------------|
+| **A. AI Capabilities** | Conversational AI, avatar/visual agent, ASR, pronunciation feedback, accent training, grammar correction, adaptive learning, role-play/simulation, writing assistance, translation, LLM foundation |
+| **B. Content & Pedagogy** | CEFR alignment, structured curriculum, language count, business content, cultural content, skills beyond language, content freshness, lesson variety |
+| **C. Speech & Pronunciation** | Real-time voice interaction, TTS quality, phoneme-level scoring, shadowing/repeat-after-me, conversation recording and playback |
+| **D. Assessment & Progress** | Placement test, progress dashboard, pre/post assessment, certification, learning analytics |
+| **E. Engagement & Gamification** | Streaks/daily goals, leaderboards, rewards/points, achievements/badges, social features, push notifications |
+| **F. Platform & Delivery** | iOS app, Android app, web app, offline mode, wearable/smart speaker, multi-device sync |
+| **G. Human Teacher Integration** | 1:1 live tutoring, group classes, teacher marketplace, AI-human handoff, teacher QA, teacher-learner continuity |
+| **H. Enterprise/B2B Features** | Admin dashboard, team reports, ROI measurement, SSO/SAML, SCIM, HRIS integration, LMS/LTI, custom content, compliance training, seat management, data residency, dedicated CSM, API access, SLAs |
+| **I. Monetization Model** | Free tier, consumer pricing, enterprise pricing, credit/token system, family/team plan, money-back guarantee |
 
 ---
 
@@ -61,4 +68,4 @@ When auditing a competitor, evaluate across these dimensions:
 - **Quick competitive read:** Start with `tldr.md` in any competitor folder
 - **Feature comparisons:** Use `competitive-matrix.md`
 - **Pricing deep dive:** Read the competitor's `pricing.md`
-- **After new audits:** Update `competitive-matrix.md` and `../CLAUDE.md`
+- **After new research:** Update `competitive-matrix.md` and `../CLAUDE.md`

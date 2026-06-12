@@ -1,0 +1,6 @@
+{
+  "enabledPlugins": {
+    "berlitz-product@ai-kit": true,
+    "berlitz-engineering@ai-kit": true
+  }
+}

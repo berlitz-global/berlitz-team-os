@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "product-development/CLAUDE.md",
+                "file": "product-development/product/PRDs/mobile-app-feature-overview.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CLAUDE"
+              "title": "mobile-app-feature-overview"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 421.5
+    "width": 346.5
   },
   "right": {
     "id": "fd385c5980405bf1",
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "product-development/data-engineering/CLAUDE.md",
+                "file": "product-development/product/PRDs/mobile-app-feature-overview.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for CLAUDE"
+              "title": "Backlinks for mobile-app-feature-overview"
             }
           },
           {
@@ -169,7 +169,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 997.5,
     "collapsed": true
   },
   "left-ribbon": {
@@ -185,11 +185,41 @@
   },
   "active": "16edec67cc5a3a7a",
   "lastOpenFiles": [
-    "team/CLAUDE.md",
-    "CLAUDE.md",
-    "README.md",
-    "product-development/data-engineering/CLAUDE.md",
-    "product-development/analytics/dashboards/deployment/custom-domains-dashboards.md",
-    "product-development/analytics/dashboards/billing/credit-usage-dashboards.md"
+    "product-development/product/PRDs/mobile-app-feature-overview.md",
+    "product-development/product/strategy/business-context/berlitz-mobile-app.md",
+    "product-development/CLAUDE.md",
+    "product-development/product/competitive-research/competitors/competitive-matrix.md",
+    "product-development/product/competitive-research/strategic-positioning.md",
+    "product-development/product/PRDs/plans/ai-avatar-mobile-app-roadmap.md",
+    "product-development/product/strategy/business-context/berlitz-mobile-app-mvp.md",
+    "product-development/product/PRDs/ai-avatar-mobile-app-roadmap.md",
+    "product-development/product/strategy/roadmaps/ai-avatar-feature-roadmap.md",
+    "team/credentials.md",
+    "product-development/product/competitive-research/strategic-positioning - CLAUDE DRAFT.md",
+    "product-development/product/competitive-research/competitors/italki/tldr.md",
+    "product-development/product/competitive-research/competitors/busuu/tldr.md",
+    "product-development/product/competitive-research/competitors/busuu/CLAUDE.md",
+    "product-development/product/competitive-research/competitors/duolingo/CLAUDE.md",
+    "product-development/product/competitive-research/competitors/duolingo/pricing.md",
+    "product-development/product/competitive-research/competitors/duolingo/tldr.md",
+    "product-development/engineering/design/plans/feature-matrix.md",
+    "product-development/engineering/design/plans/ai-tutor-architecture.md",
+    "product-development/engineering/design/plans",
+    "product-development/product/competitive-research/competitors/babbel/pricing.md",
+    "product-development/product/competitive-research/competitors/babbel/CLAUDE.md",
+    "product-development/product/competitive-research/competitors/CLAUDE.md",
+    "product-development/product/competitive-research/competitors/jumpspeak/pricing.md",
+    "product-development/product/competitive-research/competitors/jumpspeak/tldr.md",
+    "product-development/product/competitive-research/competitors/jumpspeak/CLAUDE.md",
+    "product-development/product/competitive-research/competitors/jumpspeak",
+    "product-development/product/competitive-research/CLAUDE.md",
+    "product-development/product/competitive-research/competitors/ef-english-live",
+    "product-development/product/competitive-research/competitors/lingoda",
+    "product-development/product/competitive-research/competitors/talkpal",
+    "product-development/product/competitive-research/competitors/praktika",
+    "product-development/product/competitive-research/competitors/elsa",
+    "product-development/product/competitive-research/competitors/speak",
+    "product-development/product/competitive-research/competitors/busuu",
+    "product-development/product/competitive-research/competitors/rosetta-stone"
   ]
 }
