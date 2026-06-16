@@ -74,11 +74,13 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 346.5
+    "width": 346.5,
+    "collapsed": true
   },
   "right": {
     "id": "fd385c5980405bf1",
@@ -185,7 +187,20 @@
   },
   "active": "16edec67cc5a3a7a",
   "lastOpenFiles": [
+    "product-development/product/PRDs/ai-tutor/ai-avatar-prd.md",
+    "product-development/product/PRDs/ai-tutor",
+    "product-development/product/product-context/ai-avatar-tutor-spec-research.md",
+    "product-development/product/PRDs/feature-matrix.md",
+    "product-development/product/PRDs/_prd-template.md",
+    "product-development/product/PRDs/plans/ai-avatar-tutor-spec-research.md",
+    "product-development/product/strategy/business-context/berlitz_unit_economics_benchmarks_v3.html",
+    "product-development/product/strategy/business-context/berlitz_cost_model_v2.6.xlsx",
     "product-development/product/strategy/business-context/berlitz-mobile-app.md",
+    "product-development/product/strategy/business-context/berlitz-jtbd-and-users.md",
+    "product-development/product/strategy/business-context/berlitz-business-info.md",
+    "product-development/product/strategy/business-context",
+    "product-development/product/strategy/plans/berlitz-simulator.md",
+    "product-development/engineering/design/plans/feature-matrix.md",
     "product-development/product/PRDs/mobile-app-feature-overview.md",
     "product-development/CLAUDE.md",
     "product-development/product/competitive-research/competitors/competitive-matrix.md",
@@ -202,24 +217,11 @@
     "product-development/product/competitive-research/competitors/duolingo/CLAUDE.md",
     "product-development/product/competitive-research/competitors/duolingo/pricing.md",
     "product-development/product/competitive-research/competitors/duolingo/tldr.md",
-    "product-development/engineering/design/plans/feature-matrix.md",
-    "product-development/engineering/design/plans/ai-tutor-architecture.md",
     "product-development/engineering/design/plans",
-    "product-development/product/competitive-research/competitors/babbel/pricing.md",
-    "product-development/product/competitive-research/competitors/babbel/CLAUDE.md",
-    "product-development/product/competitive-research/competitors/CLAUDE.md",
-    "product-development/product/competitive-research/competitors/jumpspeak/pricing.md",
-    "product-development/product/competitive-research/competitors/jumpspeak/tldr.md",
-    "product-development/product/competitive-research/competitors/jumpspeak/CLAUDE.md",
     "product-development/product/competitive-research/competitors/jumpspeak",
-    "product-development/product/competitive-research/CLAUDE.md",
     "product-development/product/competitive-research/competitors/ef-english-live",
     "product-development/product/competitive-research/competitors/lingoda",
     "product-development/product/competitive-research/competitors/talkpal",
-    "product-development/product/competitive-research/competitors/praktika",
-    "product-development/product/competitive-research/competitors/elsa",
-    "product-development/product/competitive-research/competitors/speak",
-    "product-development/product/competitive-research/competitors/busuu",
-    "product-development/product/competitive-research/competitors/rosetta-stone"
+    "product-development/product/competitive-research/competitors/praktika"
   ]
 }

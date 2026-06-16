@@ -39,21 +39,24 @@
 | B3 | Grammar Exercises | Yes | Fill-in-the-blank and sentence construction with voice input; instant correction with explanation | Adaptive grammar review targeting error patterns; grammar rule reference cards; contrastive grammar (L1 vs L2) | STU |
 | B4 | Listen & Comprehend | No | -- | Audio clips with comprehension questions; dictation exercises; speed adjustment; natural speech (not textbook pace) | STU |
 | B5 | Drill Session Summary | Yes | Post-drill summary: words practiced, accuracy rate, pronunciation scores, time spent | Trend charts over time; weak-area recommendations; share summary with teacher | STU, TCH |
+| B6 | Wordbook | Yes | Personal vocabulary collection: save words/phrases from any session (drill, conversation, microlesson) with translation and example sentence; browse, search, mark known/learning | Spaced-repetition (SRS) review scheduling; auto-suggest words from the learner's error patterns and weak vocabulary; pronunciation practice from entries; export; cross-device sync. (Grounded in the spacing effect — the highest-confidence pedagogical lever; see spec research.) | STU |
 
 ---
 
 ## C. AI Tutor - Avatar Mode (Conversation)
 
-| # | Feature | MVP? | V1.0 Scope | Improvements & Extensions | Viewpoints |
-|---|---------|------|-----------|---------------------------|------------|
-| C1 | AI Avatar Character | Yes | Single animated 3D avatar with lip-sync, expressions, and voice; personality consistent with Berlitz brand | Multiple avatar personas (different accents, personalities, cultural backgrounds); avatar customization; scene variety | STU |
-| C2 | Guided Conversation | Yes | Scenario-based dialogue following Berlitz curriculum: avatar guides learner through a structured conversation with specific learning objectives (e.g., "order food at a restaurant using polite forms") | Branching scenarios based on learner choices; multi-character scenes; increasing open-endedness as level rises | STU |
-| C3 | Open Conversation | No | -- | Free-form conversation on any topic within level constraints; avatar adapts to learner's interests; no fixed scenario script | STU |
-| C4 | Role-Play | Yes | Pre-defined role-play scenarios from Berlitz curriculum (job interview, client meeting, hotel check-in); avatar plays one character, learner plays the other | Custom role-play creation; multi-role scenarios; role reversal (learner plays both parts); business-specific role-plays per industry | STU, ENT |
-| C5 | Real-Time Grammar Correction | Yes | Avatar gently corrects grammar errors inline during conversation (Berlitz Method: correct without breaking flow) | Post-session grammar report with pattern analysis; link corrections to grammar rules; difficulty-adjusted correction frequency | STU, TCH |
-| C6 | Conversation Recording & Playback | No | -- | Record full conversation; replay with avatar animation; highlight corrections; share with teacher for review | STU, TCH |
-| C7 | Berlitz Method Compliance | Yes | System prompts enforce: immersive L2 use, question-answer cycles, graduated difficulty, gentle error correction, encouragement patterns | Method compliance scoring per session (internal QA); A/B test method variations; method adaptation per culture/L1 | BIZ, STU |
-| C8 | Level-Appropriate Language | Yes | AI tutor output constrained to learner's CEFR level: vocabulary, grammar structures, sentence complexity, speaking speed | Dynamic adjustment within session if learner is struggling or excelling; cross-session level drift detection | STU, TCH |
+| #   | Feature                           | MVP? | V1.0 Scope                                                                                                                                                                                              | Improvements & Extensions                                                                                                            | Viewpoints |
+| --- | --------------------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------- |
+| C1  | AI Avatar Character               | Yes  | Single animated 3D avatar with lip-sync, expressions, and voice; personality consistent with Berlitz brand                                                                                              | Multiple avatar personas (different accents, personalities, cultural backgrounds); avatar customization; scene variety               | STU        |
+| C2  | Guided Conversation               | Yes  | Scenario-based dialogue following Berlitz curriculum: avatar guides learner through a structured conversation with specific learning objectives (e.g., "order food at a restaurant using polite forms") | Branching scenarios based on learner choices; multi-character scenes; increasing open-endedness as level rises                       | STU        |
+| C3  | Open Conversation                 | No   | --                                                                                                                                                                                                      | Free-form conversation on any topic within level constraints; avatar adapts to learner's interests; no fixed scenario script         | STU        |
+| C4  | Role-Play                         | Yes  | Pre-defined role-play scenarios from Berlitz curriculum (job interview, client meeting, hotel check-in); avatar plays one character, learner plays the other                                            | Custom role-play creation; multi-role scenarios; role reversal (learner plays both parts); business-specific role-plays per industry | STU, ENT   |
+| C5  | Real-Time Grammar Correction      | Yes  | Avatar gently corrects grammar errors inline during conversation (Berlitz Method: correct without breaking flow)                                                                                        | Post-session grammar report with pattern analysis; link corrections to grammar rules; difficulty-adjusted correction frequency       | STU, TCH   |
+| C6  | Conversation Recording & Playback | No   | --                                                                                                                                                                                                      | Record full conversation; replay with avatar animation; highlight corrections; share with teacher for review                         | STU, TCH   |
+| C7  | Berlitz Method Compliance         | Yes  | System prompts enforce: immersive L2 use, question-answer cycles, graduated difficulty, gentle error correction, encouragement patterns                                                                 | Method compliance scoring per session (internal QA); A/B test method variations; method adaptation per culture/L1                    | BIZ, STU   |
+| C8  | Level-Appropriate Language        | Yes  | AI tutor output constrained to learner's CEFR level: vocabulary, grammar structures, sentence complexity, speaking speed                                                                                | Dynamic adjustment within session if learner is struggling or excelling; cross-session level drift detection                         | STU, TCH   |
+| C9  | Live In-Session Feedback          | Yes  | Real-time, multi-dimensional feedback during a session: extends inline grammar correction to also surface pronunciation flags, vocabulary suggestions, and fluency cues as the learner speaks — gentle and salient, without breaking flow (Berlitz Method) | Learner-configurable feedback intensity; phoneme-level live highlighting; confidence-gated suggestions; defer low-priority corrections to post-session. Research favors salient, self-repair-eliciting prompts over implicit recasts. | STU, TCH   |
+| C10 | Crosstalk Mode (L1↔L2 bilingual)  | No   | — | Learner may speak or ask in their L1 mid-conversation; tutor understands and continues in the target language, and answers L1 questions about meaning/grammar on demand. Comprehensible-input style with code-switching + inline translation; L1 allowance configurable per CEFR level (generous at A1, phased out by B1); track L1-reliance as a progress signal. Grounded in comprehensible-input + affective-filter research. | STU        |
 
 ---
 
@@ -95,6 +98,7 @@
 | F6 | AI-Assisted Lesson Prep | No | -- | Before session, teacher gets AI-generated lesson plan based on learner's recent activity, weak areas, and curriculum position. Reduces 10-15 min prep to 2 min. | TCH |
 | F7 | Session Continuity | No | -- | Human teacher picks up exactly where AI left off: same vocabulary, same grammar focus, aware of what was practiced. No "first 5 minutes wasted on warm-up." | TCH, STU |
 | F8 | Teacher Scheduling Management | No | -- | Teachers manage availability, view upcoming sessions, see utilization %, handle cancellations. Target: 60-65% utilization (vs 45.7% current). | TCH, BIZ |
+| F9 | Persistent Collaborative Whiteboard | No | -- | Shared, persistent canvas per learner (Miro-style): teachers place assets (images, docs, vocabulary cards, lesson artifacts); both teacher and learner draw/write/annotate, live during a session and asynchronously between sessions. Persists as a living workspace and is linked to the learner path so board content maps to curriculum units and surfaces in relevant AI and human sessions. Real-time multiplayer + async edits; embed AI-generated scenarios and Wordbook entries; export/snapshot; per-learner access control. | TCH, STU |
 
 ---
 
@@ -168,25 +172,28 @@
 
 ## Summary: MVP Feature Count by Viewpoint
 
+_Recounted 2026-06-16 directly from the table above, including the four features added this round (Wordbook B6, Live In-Session Feedback C9, Crosstalk Mode C10, Persistent Collaborative Whiteboard F9). A feature serving multiple viewpoints is counted under each, so viewpoint rows sum to more than the unique totals._
+
 | Viewpoint | MVP Features | Post-MVP Features | Total |
 |-----------|-------------|-------------------|-------|
-| STU (Student) | 22 | 28 | 50 |
-| BIZ (Berlitz) | 16 | 16 | 32 |
-| ENT (Enterprise) | 3 | 18 | 21 |
-| TCH (Teacher) | 2 | 10 | 12 |
+| STU (Student) | 32 | 19 | 51 |
+| BIZ (Berlitz) | 16 | 10 | 26 |
+| ENT (Enterprise) | 6 | 16 | 22 |
+| TCH (Teacher) | 8 | 10 | 18 |
 
-**MVP total: 30 unique features** (some serve multiple viewpoints)
-**Post-MVP total: 35 unique features**
+**MVP total: 38 unique features** (some serve multiple viewpoints)
+**Post-MVP total: 37 unique features**
+**Total: 75 unique features**
 
 ### MVP Features by Area
 
 | Area | MVP Count | Features |
 |------|-----------|----------|
 | A. Onboarding | 4 | Sign-up, placement test, L1/L2, goal setting |
-| B. Audio-Only Drills | 4 | Pronunciation, vocabulary, grammar, drill summary |
-| C. Avatar Conversation | 5 | Avatar, guided conversation, role-play, grammar correction, Berlitz Method, level-appropriate language |
+| B. Audio-Only Drills | 5 | Pronunciation, vocabulary, grammar, drill summary, Wordbook |
+| C. Avatar Conversation | 7 | Avatar, guided conversation, role-play, grammar correction, Berlitz Method, level-appropriate language, live in-session feedback |
 | D. Content Pipeline | 4 | PDF ingestion, prompt generation, content QA, scenario library |
-| E. Progress | 3 | Dashboard, session history, CEFR tracking, basic analytics |
+| E. Progress | 4 | Dashboard, session history, CEFR tracking, learning analytics |
 | F. Human Teaching | 0 | All post-MVP (Differentiator tier) |
 | G. Billing | 5 | Tiers, credits, payment, free tier, metering |
 | H. Engagement | 2 | Streak, daily goal |

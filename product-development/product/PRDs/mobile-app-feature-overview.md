@@ -109,6 +109,7 @@ graph TB
 | D3                               | AI Avatar       | Role-Play (pre-defined scenarios from Berlitz curriculum)                | Yes          | STU, ENT      |
 | D4                               | AI Avatar       | Open Conversation (free-form within level constraints)                   | No           | STU           |
 | D5                               | AI Avatar       | Conversation Recording & Playback                                        | No           | STU, TCH      |
+| D6                               | AI Avatar       | Crosstalk Mode (L1↔L2 bilingual conversation, code-switching + translation) | No        | STU           |
 | **E. AI Engine**                 |                 |                                                                          |              |               |
 | E1                               | AI Engine       | Berlitz Method Compliance (system prompts, guardrails)                   | Yes          | BIZ, STU      |
 | E2                               | AI Engine       | Level-Appropriate Language (CEFR-bounded output)                         | Yes          | STU, TCH      |
@@ -116,6 +117,7 @@ graph TB
 | E4                               | AI Engine       | Adaptive Difficulty (in-session + cross-session)                         | Yes          | STU           |
 | E5                               | AI Engine       | CEFR Assessment Engine (placement + continuous estimation)               | Yes          | STU, ENT, TCH |
 | E6                               | AI Engine       | Learner Profile & State (persistent, cross-session)                      | Yes          | STU           |
+| E7                               | AI Engine       | Live In-Session Feedback (real-time pronunciation, vocab & fluency cues) | Yes          | STU, TCH      |
 | **F. Content Factory**           |                 |                                                                          |              |               |
 | F1                               | Content Factory | Abstract Content Ingestion (PDFs)                                        | Yes          | BIZ           |
 | F2                               | Content Factory | Content Structuring & Tagging (CEFR, skill, topic)                       | Yes          | BIZ           |
@@ -133,6 +135,7 @@ graph TB
 | G2                               | App Shell       | Content Library Browser (browse by topic, level, skill)                  | No           | STU           |
 | G3                               | App Shell       | Settings & Profile (language prefs, notifications, data export)          | Yes          | STU           |
 | G4                               | App Shell       | Support / Help Section                                                   | Yes          | STU           |
+| G5                               | App Shell       | Wordbook (save, translate & review saved vocabulary; SRS review)         | Yes          | STU           |
 | **H. Progress & Assessment**     |                 |                                                                          |              |               |
 | H1                               | Progress        | Progress Dashboard (CEFR level, lessons completed, vocabulary mastered)  | Yes          | STU           |
 | H2                               | Progress        | Session History                                                          | Yes          | STU, TCH      |
@@ -158,6 +161,7 @@ graph TB
 | I15                              | Human Teaching  | Teacher Onboarding (profile setup, qualification verification)           | No           | TCH, BIZ      |
 | I16                              | Human Teaching  | Teacher Utilization Dashboard (target 60-65% vs current 45.7%)           | No           | BIZ           |
 | I17                              | Human Teaching  | Teacher Notifications (upcoming sessions, cancellations, learner context)| No           | TCH           |
+| I18                              | Human Teaching  | Persistent Collaborative Whiteboard (Miro-style; teacher+student; linked to learner path) | No | TCH, STU      |
 | **J. Billing, Analytics & Growth** |               |                                                                          |              |               |
 | J1                               | Billing         | Subscription Tiers (Free/Plus/Pro/Premium)                               | Yes          | BIZ, STU      |
 | J2                               | Billing         | Credit Balance & Usage                                                   | Yes          | BIZ, STU      |

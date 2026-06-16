@@ -15,7 +15,7 @@ Engineering plans, design docs, and bug investigations for Berlitz AI Tutor. All
 | Document | Path | Description |
 |----------|------|-------------|
 | AI Tutor Architecture | `design/plans/ai-tutor-architecture.md` | Building-block architecture for the Learner App and AI Tutor module. Covers content pipeline, AI engine, presentation modes (audio-only + avatar), learning intelligence, evaluation framework, and essential/differentiator/enhancement classification. |
-| Feature Matrix | `design/plans/feature-matrix.md` | 65 features across 11 areas with MVP scope, v1.0 definition, extensions, and viewpoint tags (Student, Berlitz, Enterprise, Teacher). 30 MVP features, 35 post-MVP. |
+| Feature Matrix | `design/plans/feature-matrix.md` | 75 features across 11 areas with MVP scope, v1.0 definition, extensions, and viewpoint tags (Student, Berlitz, Enterprise, Teacher). 38 MVP features, 37 post-MVP. |
 
 ## Product Areas
 

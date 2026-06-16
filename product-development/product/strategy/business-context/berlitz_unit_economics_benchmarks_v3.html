@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #080f1e; color: white; font-family: 'Segoe UI', Arial, sans-serif; padding: 32px; }
+h1 { font-size: 19px; font-weight: 700; margin-bottom: 4px; }
+.sub { font-size: 12px; color: #5b8fce; margin-bottom: 20px; }
+h2 { font-size: 14px; font-weight: 700; margin: 24px 0 10px; color: #fff; }
+
+.tabs { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+.tab { padding: 8px 18px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid #1e3255; background: #0c1a30; color: #94a3b8; transition: all .15s; }
+.tab.active { background: #1e3a8a; color: #fff; border-color: #3b82f6; }
+.tab:hover:not(.active) { background: #0f2040; color: #cbd5e1; }
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* BENCHMARK TABLE */
+.bm { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 20px; }
+.bm th { padding: 8px 12px; background: #0c1a30; color: #5b8fce; font-size: 9px; text-transform: uppercase; letter-spacing: .06em; text-align: left; border-bottom: 2px solid #1e3255; }
+.bm th:not(:first-child) { text-align: center; }
+.bm td { padding: 9px 12px; border-bottom: 1px solid #1e3255; vertical-align: middle; line-height: 1.4; }
+.bm tr:last-child td { border-bottom: none; }
+.bm tr:hover td { background: #0c1a3044; }
+.bm td:first-child { font-weight: 600; color: #fff; width: 18%; }
+.bm td:not(:first-child) { text-align: center; }
+.bm tr.berlitz-row td { background: #0d1a2e; }
+.bm tr.berlitz-row td:first-child { color: #60a5fa; }
+
+/* STAT CARDS */
+.sc-row { display: grid; grid-template-columns: repeat(6,1fr); gap: 10px; margin-bottom: 20px; }
+.sc { background: #0c1a30; border: 1px solid #1e3255; border-radius: 8px; padding: 12px; text-align: center; }
+.sc-val { font-size: 20px; font-weight: 800; line-height: 1; }
+.sc-label { font-size: 9px; color: #64748b; margin-top: 3px; line-height: 1.3; }
+.sc-note { font-size: 9px; color: #334155; margin-top: 2px; font-style: italic; }
+
+/* AI COST TABLE */
+.ai-card { background: #0c1a30; border: 1px solid #1e3255; border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+.ai-card-header { padding: 10px 16px; border-bottom: 1px solid #1e3255; display: flex; align-items: center; justify-content: space-between; }
+.ai-card-title { font-size: 12px; font-weight: 700; color: #fff; }
+.ai-card-sub { font-size: 10px; color: #64748b; }
+.ai-grid { display: grid; grid-template-columns: repeat(6,1fr); }
+.ai-cell { padding: 10px 14px; border-right: 1px solid #1e3255; border-bottom: 1px solid #1e3255; }
+.ai-cell:nth-child(6n) { border-right: none; }
+.ai-cell:nth-last-child(-n+6) { border-bottom: none; }
+.ai-cell-label { font-size: 9px; color: #64748b; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; font-weight: 700; }
+.ai-cell-val { font-size: 16px; font-weight: 800; line-height: 1; }
+.ai-cell-desc { font-size: 10px; color: #94a3b8; margin-top: 3px; line-height: 1.4; }
+
+/* COMPARISON BAR */
+.comp-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.comp-label { font-size: 11px; width: 160px; flex-shrink: 0; }
+.comp-track { flex: 1; height: 22px; background: #091525; border-radius: 3px; overflow: hidden; }
+.comp-bar { height: 100%; border-radius: 3px; display: flex; align-items: center; padding: 0 8px; font-size: 9px; font-weight: 700; color: white; white-space: nowrap; }
+.comp-val { font-size: 11px; font-weight: 700; width: 70px; text-align: right; flex-shrink: 0; }
+
+/* MARGIN WATERFALL */
+.wf-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.wf-label { font-size: 10px; color: #94a3b8; width: 180px; flex-shrink: 0; text-align: right; }
+.wf-area { flex: 1; height: 20px; position: relative; background: #091525; border-radius: 3px; }
+.wf-bar { height: 100%; border-radius: 3px; position: absolute; display: flex; align-items: center; padding: 0 6px; font-size: 9px; font-weight: 700; color: white; white-space: nowrap; }
+.wf-num { font-size: 11px; font-weight: 700; width: 80px; text-align: right; flex-shrink: 0; }
+
+.tag { display: inline-block; padding: 2px 7px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+.tag.g { background: #14532d; color: #22c55e; }
+.tag.y { background: #451a03; color: #fbbf24; }
+.tag.r { background: #450a0a; color: #fca5a5; }
+.tag.b { background: #1e3a8a; color: #93c5fd; }
+
+.insight { font-size: 11px; background: #0c1a30; border-left: 3px solid #3b82f6; padding: 10px 14px; border-radius: 0 6px 6px 0; color: #94a3b8; line-height: 1.6; margin-bottom: 10px; }
+.insight strong { color: #60a5fa; }
+.warn-box { font-size: 11px; background: #1c0f00; border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 6px 6px 0; color: #94a3b8; line-height: 1.6; margin-bottom: 10px; }
+.warn-box strong { color: #fbbf24; }
+.note { font-size: 10px; color: #334155; font-style: italic; margin-top: 12px; }
+.pos { color: #22c55e; font-weight: 700; }
+.neg { color: #ef4444; font-weight: 700; }
+.warn { color: #f59e0b; font-weight: 700; }
+.neu { color: #94a3b8; }
+</style>
+</head>
+<body>
+
+<h1>Unit Economics & AI Cost Benchmarks</h1>
+<div class="sub">Berlitz targets vs comparable consumer edtech, AI language learning, and B2B L&D platforms · 2025–2026 public data</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="show('b2c')">B2C Benchmarks</div>
+  <div class="tab" onclick="show('b2b')">B2B Benchmarks</div>
+  <div class="tab" onclick="show('ai')">AI Cost Per Session</div>
+  <div class="tab" onclick="show('margin')">Gross Margin Model</div>
+  <div class="tab" onclick="show('targets')">Berlitz Targets</div>
+</div>
+
+<!-- ═══════════ B2C ═══════════ -->
+<div class="panel active" id="panel-b2c">
+
+<h2>Consumer Language Learning — B2C Benchmarks</h2>
+
+<div class="sc-row">
+  <div class="sc" style="border-left:3px solid #3b82f6;">
+    <div class="sc-val" style="color:#3b82f6;">5–15%</div>
+    <div class="sc-label">Free-to-paid<br>conversion benchmark</div>
+    <div class="sc-note">Duolingo: ~7–8%<br>Babbel: ~12–15%</div>
+  </div>
+  <div class="sc" style="border-left:3px solid #22c55e;">
+    <div class="sc-val" style="color:#22c55e;">$60–120</div>
+    <div class="sc-label">Annual ARPU<br>paid subscriber</div>
+    <div class="sc-note">Duolingo: ~$80<br>Babbel: ~$72</div>
+  </div>
+  <div class="sc" style="border-left:3px solid #a855f7;">
+    <div class="sc-val" style="color:#a855f7;">5–10%</div>
+    <div class="sc-label">Monthly paid churn<br>consumer apps</div>
+    <div class="sc-note">Good: &lt;6%<br>Great: &lt;4%</div>
+  </div>
+  <div class="sc" style="border-left:3px solid #f59e0b;">
+    <div class="sc-val" style="color:#f59e0b;">$5–25</div>
+    <div class="sc-label">CAC range<br>B2C edtech</div>
+    <div class="sc-note">Organic: $3–8<br>Paid social: $10–25</div>
+  </div>
+  <div class="sc" style="border-left:3px solid #06b6d4;">
+    <div class="sc-val" style="color:#06b6d4;">28–35%</div>
+    <div class="sc-label">DAU/MAU ratio<br>strong apps</div>
+    <div class="sc-note">Duolingo: ~28%<br>Target: &gt;25%</div>
+  </div>
+</div>
+
+<table class="bm">
+  <thead>
+    <tr>
+      <th>Company / Product</th>
+      <th>Free→Paid Conv.</th>
+      <th>Monthly Churn</th>
+      <th>ARPU (paid)</th>
+      <th>CAC</th>
+      <th>D30 Retention</th>
+      <th>LTV:CAC</th>
+      <th>Gross Margin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duolingo (Super/Max)</td>
+      <td>~7–8%</td>
+      <td class="warn">~8–10%</td>
+      <td class="pos">$6.50/mo</td>
+      <td class="pos">$3–8</td>
+      <td>~40%</td>
+      <td class="pos">8–12:1</td>
+      <td class="pos">~73%</td>
+    </tr>
+    <tr>
+      <td>Babbel</td>
+      <td class="pos">~12–15%</td>
+      <td>~6–8%</td>
+      <td>$6–8/mo</td>
+      <td>$10–18</td>
+      <td>~45%</td>
+      <td>5–8:1</td>
+      <td>~68%</td>
+    </tr>
+    <tr>
+      <td>Busuu</td>
+      <td>~8–10%</td>
+      <td>~7–9%</td>
+      <td>$5–7/mo</td>
+      <td>$8–15</td>
+      <td>~38%</td>
+      <td>4–7:1</td>
+      <td>~65%</td>
+    </tr>
+    <tr>
+      <td>Italki (marketplace)</td>
+      <td>~25–35%</td>
+      <td>~5–7%</td>
+      <td>$40–80/mo</td>
+      <td>$15–30</td>
+      <td>~55%</td>
+      <td>10–15:1</td>
+      <td>~30% (GMV take rate)</td>
+    </tr>
+    <tr>
+      <td>Preply</td>
+      <td>~30–40%</td>
+      <td>~4–6%</td>
+      <td>$80–200/mo</td>
+      <td>$20–50</td>
+      <td>~60%</td>
+      <td>12–20:1</td>
+      <td>~33% (take rate)</td>
+    </tr>
+    <tr>
+      <td>Coursera (individual)</td>
+      <td>~3–5%</td>
+      <td>~10–15%</td>
+      <td>$49/mo</td>
+      <td>$40–80</td>
+      <td>~30%</td>
+      <td>3–6:1</td>
+      <td>~60%</td>
+    </tr>
+    <tr class="berlitz-row">
+      <td>Berlitz — India Plus (target)</td>
+      <td><span class="tag b">18–20%</span></td>
+      <td><span class="tag g">&lt;8%</span></td>
+      <td><span class="tag b">$10.80/mo</span></td>
+      <td><span class="tag g">$3–6</span></td>
+      <td><span class="tag b">&gt;40%</span></td>
+      <td><span class="tag b">~12:1</span></td>
+      <td><span class="tag b">~55–60%</span></td>
+    </tr>
+    <tr class="berlitz-row">
+      <td>Berlitz — Chile Plus (target)</td>
+      <td><span class="tag b">20–22%</span></td>
+      <td><span class="tag g">&lt;6%</span></td>
+      <td><span class="tag b">$19/mo</span></td>
+      <td><span class="tag y">$8–12</span></td>
+      <td><span class="tag b">&gt;45%</span></td>
+      <td><span class="tag b">~18:1</span></td>
+      <td><span class="tag b">~60–65%</span></td>
+    </tr>
+    <tr class="berlitz-row">
+      <td>Berlitz — Pro (target)</td>
+      <td><span class="tag b">5–8% of Plus</span></td>
+      <td><span class="tag g">&lt;5%</span></td>
+      <td><span class="tag b">$30–49/mo</span></td>
+      <td><span class="tag g">$0 (upgrade)</span></td>
+      <td><span class="tag b">&gt;55%</span></td>
+      <td><span class="tag b">&gt;20:1</span></td>
+      <td><span class="tag y">~45–52%*</span></td>
+    </tr>
+  </tbody>
+</table>
+<div class="note">* Pro gross margin is lower due to teacher session cost ($8.32/session) offsetting the higher ARPU. Pro profitability depends on AI session mix growing over time.</div>
+
+<div class="insight"><strong>The Berlitz conversion target of 18–20% is achievable but above Duolingo's rate.</strong> The reason it's justified: Berlitz's target user (career-motivated, specific outcome goal, willing to pay for quality) has a fundamentally different conversion profile than Duolingo's mass consumer. Preply and Italki — which also target outcome-motivated learners — convert 25–40% of signups. The 18–20% target is conservative relative to the peer group of outcome-motivated platforms.</div>
+
+</div>
+
+<!-- ═══════════ B2B ═══════════ -->
+<div class="panel" id="panel-b2b">
+
+<h2>Enterprise B2B Learning & Development — Benchmarks</h2>
+
+<div class="sc-row">
+  <div class="sc" style="border-left:3px solid #22c55e;">
+    <div class="sc-val" style="color:#22c55e;">110–130%</div>
+    <div class="sc-label">NRR benchmark<br>best-in-class B2B SaaS</div>
+    <div class="sc-note">Good: &gt;100%<br>Great: &gt;120%</div>
+  </div>
+  <div class="sc" style="border-left:3px solid #3b82f6;">
+    <div class="sc-val" style="color:#3b82f6;">12–18 mo</div>
+    <div class="sc-label">CAC payback<br>enterprise SaaS</div>
+    <div class="sc-note">SMB: 6–12 mo<br>Enterprise: 18–24 mo</div>
+  </div>
+  <div class="sc" style="border-left:3px solid #a855f7;">
+    <div class="sc-val" style="color:#a855f7;">&gt;3:1</div>
+    <div class="sc-label">LTV:CAC minimum<br>viable B2B</div>
+    <div class="sc-note">Good: &gt;5:1<br>Great: &gt;8:1</div>
+  </div>
+  <div class="sc" style="border-left:3px solid #f59e0b;">
+    <div class="sc-val" style="color:#f59e0b;">70–80%</div>
+    <div class="sc-label">Gross margin<br>B2B SaaS benchmark</div>
+    <div class="sc-note">Berlitz target: 55–65%<br>(lower due to human sessions)</div>
+  </div>
+  <div class="sc" style="border-left:3px solid #06b6d4;">
+    <div class="sc-val" style="color:#06b6d4;">5–15%</div>
+    <div class="sc-label">Annual gross churn<br>enterprise L&D</div>
+    <div class="sc-note">Good: &lt;10%<br>Great: &lt;7%</div>
+  </div>
+</div>
+
+<table class="bm">
+  <thead>
+    <tr>
+      <th>Company / Product</th>
+      <th>NRR</th>
+      <th>Gross Margin</th>
+      <th>ACV range</th>
+      <th>CAC payback</th>
+      <th>Annual churn</th>
+      <th>LTV:CAC</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Coursera for Business</td>
+      <td class="pos">~110–115%</td>
+      <td class="pos">~60–65%</td>
+      <td>$15k–500k</td>
+      <td>~18 mo</td>
+      <td>~8–12%</td>
+      <td>5–8:1</td>
+    </tr>
+    <tr>
+      <td>Kahoot! (B2B)</td>
+      <td class="pos">~120%+</td>
+      <td class="pos">~75%</td>
+      <td>$5k–200k</td>
+      <td>~12 mo</td>
+      <td>~6–9%</td>
+      <td>8–12:1</td>
+    </tr>
+    <tr>
+      <td>Rosetta Stone Enterprise</td>
+      <td>~95–105%</td>
+      <td>~65%</td>
+      <td>$10k–300k</td>
+      <td>~24 mo</td>
+      <td>~10–15%</td>
+      <td>3–5:1</td>
+    </tr>
+    <tr>
+      <td>Preply Business</td>
+      <td class="pos">~115%+</td>
+      <td>~35%</td>
+      <td>$5k–100k</td>
+      <td>~12–15 mo</td>
+      <td>~7–10%</td>
+      <td>6–10:1</td>
+    </tr>
+    <tr>
+      <td>Busuu for Business</td>
+      <td>~105–110%</td>
+      <td>~62%</td>
+      <td>$3k–80k</td>
+      <td>~15 mo</td>
+      <td>~9–12%</td>
+      <td>4–7:1</td>
+    </tr>
+    <tr>
+      <td>Berlitz B2B (current)</td>
+      <td class="warn">~90–95% est.</td>
+      <td class="warn">~45–55% est.</td>
+      <td>$15k–500k</td>
+      <td class="neg">&gt;24 mo</td>
+      <td class="warn">~12–18%</td>
+      <td class="warn">2–4:1</td>
+    </tr>
+    <tr class="berlitz-row">
+      <td>Berlitz B2B (target 2027)</td>
+      <td><span class="tag g">115%+</span></td>
+      <td><span class="tag b">60–65%</span></td>
+      <td><span class="tag b">$15k–500k</span></td>
+      <td><span class="tag b">12–15 mo</span></td>
+      <td><span class="tag g">&lt;8%</span></td>
+      <td><span class="tag b">6–10:1</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="insight"><strong>The NRR gap is the most important commercial metric to track.</strong> Berlitz current NRR is estimated at 90–95% — meaning the base is shrinking, not growing. Every percentage point of NRR improvement above 100% compounds. At 115% NRR, a $10M ARR enterprise base becomes $11.5M in year 2 without a single new logo. The path to 115%+ NRR is Skills and Culture cross-sell on existing Language accounts — that is the expansion motion that drives net retention above 100%.</div>
+
+<div class="warn-box"><strong>The gross margin gap vs pure SaaS benchmarks (70–80%) is structural and expected.</strong> Berlitz's model includes human teacher sessions (COGS ~$8.32/session) which pure SaaS doesn't have. The right benchmark is hybrid edtech platforms like Preply Business (~35%) and Coursera for Business (~62%). Berlitz at 60–65% target gross margin is strong for a hybrid human+AI model.</div>
+
+</div>
+
+<!-- ═══════════ AI COSTS ═══════════ -->
+<div class="panel" id="panel-ai">
+
+<h2>AI Cost Per Session — from Cost Model v0.2.6</h2>
+
+<div class="insight"><strong>Figures below are pulled from the live cost model (v0.2.6 on SharePoint), converted €→$ at 0.92.</strong> Each tier's AI session is a uniform 30-min session; tiers differ by feature mix. The <strong>avatar</strong> (Simli/HeyGen ~$0.05/min × ~9 active min = ~$0.45) is the largest AI line on the paid tiers and was missing from the original benchmark. Pronunciation (Azure) is also now broken out.</div>
+
+<h2 style="margin-top:16px;">Per-Session AI Cost Breakdown (model v0.2.6)</h2>
+
+<div class="ai-card">
+  <div class="ai-card-header">
+    <div><div class="ai-card-title">Free Tier — AI Practice Session (voice-first, 30 min)</div><div class="ai-card-sub">No revenue offset · cost must be minimised</div></div>
+    <span class="tag y">$0.07 per session</span>
+  </div>
+  <div class="ai-grid">
+    <div class="ai-cell">
+      <div class="ai-cell-label">Claude Haiku (LLM)</div>
+      <div class="ai-cell-val" style="color:#a855f7;">$0.01</div>
+      <div class="ai-cell-desc">5k tokens × $0.002/1k (blended).</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Deepgram STT</div>
+      <div class="ai-cell-val" style="color:#3b82f6;">$0.02</div>
+      <div class="ai-cell-desc">4.5 min user speech × $0.0042/min.</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Azure TTS</div>
+      <div class="ai-cell-val" style="color:#22c55e;">$0.01</div>
+      <div class="ai-cell-desc">1.5 min AI speech × $0.0065/min (Azure committed).</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Pronunciation</div>
+      <div class="ai-cell-val" style="color:#06b6d4;">$0.02</div>
+      <div class="ai-cell-desc">Azure pron-assessment, 4.5 min user speech × $0.005/min.</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Avatar</div>
+      <div class="ai-cell-val" style="color:#64748b;">$0.00</div>
+      <div class="ai-cell-desc">Voice-only — no avatar in free tier.</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Total / session</div>
+      <div class="ai-cell-val" style="color:#f59e0b;">$0.07</div>
+      <div class="ai-cell-desc">Model v0.2.6: €0.06 incl. €0.005 content allocation.</div>
+    </div>
+  </div>
+</div>
+
+<div class="ai-card">
+  <div class="ai-card-header">
+    <div><div class="ai-card-title">Plus Tier — AI Tutor Session (30 min, avatar-based)</div><div class="ai-card-sub">1 credit = 1 AI Tutor session</div></div>
+    <span class="tag b">$0.62 per session</span>
+  </div>
+  <div class="ai-grid">
+    <div class="ai-cell">
+      <div class="ai-cell-label">Claude Sonnet (LLM)</div>
+      <div class="ai-cell-val" style="color:#a855f7;">$0.06</div>
+      <div class="ai-cell-desc">10k tokens × $0.006/1k (blended).</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Deepgram STT</div>
+      <div class="ai-cell-val" style="color:#3b82f6;">$0.02</div>
+      <div class="ai-cell-desc">4.5 min × $0.0042/min.</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">OpenAI TTS</div>
+      <div class="ai-cell-val" style="color:#22c55e;">$0.07</div>
+      <div class="ai-cell-desc">4.5 min × $0.015/min.</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Pronunciation</div>
+      <div class="ai-cell-val" style="color:#06b6d4;">$0.02</div>
+      <div class="ai-cell-desc">Azure pron-assessment, 4.5 min × $0.005/min.</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Avatar (Simli/HeyGen)</div>
+      <div class="ai-cell-val" style="color:#f59e0b;">$0.45</div>
+      <div class="ai-cell-desc">9 min × ~$0.05/min — the largest AI line.</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Total / session</div>
+      <div class="ai-cell-val" style="color:#f59e0b;">$0.62</div>
+      <div class="ai-cell-desc">Model v0.2.6: €0.57 incl. content.</div>
+    </div>
+  </div>
+</div>
+
+<div class="ai-card">
+  <div class="ai-card-header">
+    <div><div class="ai-card-title">Pro Tier — AI Tutor Session (30 min, avatar-based)</div><div class="ai-card-sub">Pro's AI session · the human teacher session is separate (below)</div></div>
+    <span class="tag b">$0.78 per session</span>
+  </div>
+  <div class="ai-grid">
+    <div class="ai-cell">
+      <div class="ai-cell-label">Claude Sonnet (LLM)</div>
+      <div class="ai-cell-val" style="color:#a855f7;">$0.06</div>
+      <div class="ai-cell-desc">10k tokens × $0.006/1k.</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Deepgram STT</div>
+      <div class="ai-cell-val" style="color:#3b82f6;">$0.02</div>
+      <div class="ai-cell-desc">4.5 min × $0.0042/min.</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">ElevenLabs TTS</div>
+      <div class="ai-cell-val" style="color:#22c55e;">$0.23</div>
+      <div class="ai-cell-desc">4.5 min × $0.05/min (Turbo).</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Pronunciation</div>
+      <div class="ai-cell-val" style="color:#06b6d4;">$0.02</div>
+      <div class="ai-cell-desc">Azure pron-assessment, 4.5 min × $0.005/min.</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Avatar (Simli/HeyGen)</div>
+      <div class="ai-cell-val" style="color:#f59e0b;">$0.45</div>
+      <div class="ai-cell-desc">9 min × ~$0.05/min.</div>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell-label">Total / session</div>
+      <div class="ai-cell-val" style="color:#f59e0b;">$0.78</div>
+      <div class="ai-cell-desc">Model v0.2.6: €0.72. AI session only — human teacher separate.</div>
+    </div>
+  </div>
+</div>
+
+<div class="warn-box"><strong>Pro's dominant cost is the human teacher session, not AI.</strong> The model costs a live session at <strong>€16.68 (~$18.13)</strong> — teacher pay €10 + delivery infra €5.80, loaded for no-shows — booked separately from AI sessions. At 2 teacher sessions/mo that's ~$36/mo against the $49 Pro price (~74% of revenue), dwarfing the $0.78 AI session. (Note: the model uses a global loaded rate; Srikant's pilot used a LATAM rate of $8.32 — reconcile before deciding.)</div>
+
+<h2>AI Cost as % of Revenue — Industry Comparison</h2>
+
+<div style="background:#0c1a30;border:1px solid #1e3255;border-radius:10px;padding:16px;margin-bottom:16px;">
+  <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#5b8fce;margin-bottom:12px;">AI infrastructure cost as % of revenue · Berlitz bars now from cost model v0.2.6 (incl. avatar)</div>
+  <div class="comp-row"><div class="comp-label" style="color:#fff;">Duolingo Max (AI tier)</div><div class="comp-track"><div class="comp-bar" style="width:30%;background:#f59e0b;">10–20%</div></div><div class="comp-val" style="color:#f59e0b;">10–20%</div></div>
+  <div class="comp-row"><div class="comp-label" style="color:#fff;">ChatGPT Plus (OpenAI)</div><div class="comp-track"><div class="comp-bar" style="width:38%;background:#f59e0b;">15–25%</div></div><div class="comp-val" style="color:#f59e0b;">15–25%</div></div>
+  <div class="comp-row"><div class="comp-label" style="color:#fff;">GitHub Copilot</div><div class="comp-track"><div class="comp-bar" style="width:18%;background:#22c55e;">8–12%</div></div><div class="comp-val" style="color:#22c55e;">8–12%</div></div>
+  <div class="comp-row"><div class="comp-label" style="color:#fff;">Typical AI SaaS (2025)</div><div class="comp-track"><div class="comp-bar" style="width:20%;background:#22c55e;">5–15%</div></div><div class="comp-val" style="color:#22c55e;">5–15%</div></div>
+  <div class="comp-row"><div class="comp-label" style="color:#60a5fa;font-weight:700;">Berlitz Free (est.)</div><div class="comp-track"><div class="comp-bar" style="width:100%;background:#3b82f6;">AI cost ~$0.35/mo, no revenue — cost centre</div></div><div class="comp-val" style="color:#3b82f6;">Cost centre</div></div>
+  <div class="comp-row"><div class="comp-label" style="color:#60a5fa;font-weight:700;">Berlitz Plus (model, incl avatar)</div><div class="comp-track"><div class="comp-bar" style="width:85%;background:#ef4444;">10 sessions × $0.62 = $6.20/mo → 33% ($19) / 58% ($10.80)</div></div><div class="comp-val" style="color:#ef4444;">33–58%</div></div>
+  <div class="comp-row"><div class="comp-label" style="color:#60a5fa;font-weight:700;">Berlitz Pro — AI sessions</div><div class="comp-track"><div class="comp-bar" style="width:30%;background:#f59e0b;">8 × $0.78 = $6.24/mo ÷ $49</div></div><div class="comp-val" style="color:#f59e0b;">~13%</div></div>
+  <div class="comp-row"><div class="comp-label" style="color:#60a5fa;font-weight:700;">Berlitz Pro — human teacher (non-AI)</div><div class="comp-track"><div class="comp-bar" style="width:100%;background:#ef4444;">2 × $18.13 = $36/mo ÷ $49</div></div><div class="comp-val" style="color:#ef4444;">~74%</div></div>
+</div>
+
+<div class="warn-box"><strong>The avatar flips the AI-cost story.</strong> With the avatar included (per model v0.2.6), Plus AI cost is <strong>~33% of revenue at $19 (and ~58% at India's $10.80)</strong> — versus the 3–6% in the original benchmark, and now <em>above</em> Duolingo Max (10–20%). The avatar is the single biggest lever: cap avatar minutes, keep free-tier practice voice-only, or self-host the renderer (per the in-house tutor plan). Pro is instead dominated by the human teacher session (~74% of revenue), with AI a minor line.</div>
+
+</div>
+
+
+<!-- ═══════════ MARGIN ═══════════ -->
+<div class="panel" id="panel-margin">
+
+<h2>Gross Margin Waterfall — By Tier</h2>
+<div style="font-size:11px;color:#64748b;margin-bottom:16px;">What $1 of revenue looks like after direct costs, per tier, at MVP scale</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;">
+
+  <!-- PLUS INDIA -->
+  <div style="background:#0c1a30;border:1px solid #1e3255;border-radius:10px;overflow:hidden;">
+    <div style="padding:10px 14px;border-bottom:1px solid #1e3255;background:#0a1520;">
+      <div style="font-size:12px;font-weight:700;">Plus — India</div>
+      <div style="font-size:10px;color:#64748b;">₹899/mo (~$10.80)</div>
+    </div>
+    <div style="padding:12px 14px;">
+      <div class="wf-row"><div class="wf-label">Revenue</div><div class="wf-area"><div class="wf-bar" style="width:100%;background:#22c55e;">$10.80</div></div><div class="wf-num" style="color:#22c55e;">+$10.80</div></div>
+      <div class="wf-row"><div class="wf-label">Stripe fees (2.5%)</div><div class="wf-area"><div class="wf-bar" style="width:3%;background:#ef4444;left:97%;"></div></div><div class="wf-num" style="color:#ef4444;">−$0.27</div></div>
+      <div class="wf-row"><div class="wf-label">AI Tutor (2 sessions)</div><div class="wf-area"><div class="wf-bar" style="width:8%;background:#ef4444;"></div></div><div class="wf-num" style="color:#ef4444;">−$0.80</div></div>
+      <div class="wf-row"><div class="wf-label">AI Practice (30 sessions)</div><div class="wf-area"><div class="wf-bar" style="width:28%;background:#ef4444;"></div></div><div class="wf-num" style="color:#ef4444;">−$3.00</div></div>
+      <div class="wf-row"><div class="wf-label">Support AI + ops</div><div class="wf-area"><div class="wf-bar" style="width:2%;background:#f59e0b;"></div></div><div class="wf-num" style="color:#f59e0b;">−$0.18</div></div>
+      <div class="wf-row"><div class="wf-label">Platform overhead (12%)</div><div class="wf-area"><div class="wf-bar" style="width:12%;background:#f59e0b;"></div></div><div class="wf-num" style="color:#f59e0b;">−$1.30</div></div>
+      <div style="border-top:1px solid #1e3255;margin:6px 0 4px;"></div>
+      <div class="wf-row"><div class="wf-label" style="color:#fff;font-weight:700;">Gross margin</div><div class="wf-area"><div class="wf-bar" style="width:50%;background:#3b82f6;font-size:10px;">~$5.25</div></div><div class="wf-num" style="color:#3b82f6;font-size:13px;font-weight:800;">~49%</div></div>
+    </div>
+  </div>
+
+  <!-- PLUS CHILE -->
+  <div style="background:#0c1a30;border:1px solid #1e3255;border-radius:10px;overflow:hidden;">
+    <div style="padding:10px 14px;border-bottom:1px solid #1e3255;background:#0a1520;">
+      <div style="font-size:12px;font-weight:700;">Plus — Chile</div>
+      <div style="font-size:10px;color:#64748b;">$19.00 USD</div>
+    </div>
+    <div style="padding:12px 14px;">
+      <div class="wf-row"><div class="wf-label">Revenue</div><div class="wf-area"><div class="wf-bar" style="width:100%;background:#22c55e;">$19.00</div></div><div class="wf-num" style="color:#22c55e;">+$19.00</div></div>
+      <div class="wf-row"><div class="wf-label">Stripe + Webpay fees (2.8%)</div><div class="wf-area"><div class="wf-bar" style="width:3%;background:#ef4444;"></div></div><div class="wf-num" style="color:#ef4444;">−$0.53</div></div>
+      <div class="wf-row"><div class="wf-label">AI Tutor (2 sessions)</div><div class="wf-area"><div class="wf-bar" style="width:5%;background:#ef4444;"></div></div><div class="wf-num" style="color:#ef4444;">−$0.90</div></div>
+      <div class="wf-row"><div class="wf-label">AI Practice (30 sessions)</div><div class="wf-area"><div class="wf-bar" style="width:17%;background:#ef4444;"></div></div><div class="wf-num" style="color:#ef4444;">−$3.00</div></div>
+      <div class="wf-row"><div class="wf-label">Support AI + ops</div><div class="wf-area"><div class="wf-bar" style="width:1%;background:#f59e0b;"></div></div><div class="wf-num" style="color:#f59e0b;">−$0.18</div></div>
+      <div class="wf-row"><div class="wf-label">Platform overhead (12%)</div><div class="wf-area"><div class="wf-bar" style="width:12%;background:#f59e0b;"></div></div><div class="wf-num" style="color:#f59e0b;">−$2.28</div></div>
+      <div style="border-top:1px solid #1e3255;margin:6px 0 4px;"></div>
+      <div class="wf-row"><div class="wf-label" style="color:#fff;font-weight:700;">Gross margin</div><div class="wf-area"><div class="wf-bar" style="width:63%;background:#22c55e;font-size:10px;">~$12.11</div></div><div class="wf-num" style="color:#22c55e;font-size:13px;font-weight:800;">~64%</div></div>
+    </div>
+  </div>
+
+  <!-- PRO CHILE -->
+  <div style="background:#0c1a30;border:1px solid #1e3255;border-radius:10px;overflow:hidden;">
+    <div style="padding:10px 14px;border-bottom:1px solid #1e3255;background:#0a1520;">
+      <div style="font-size:12px;font-weight:700;">Pro — Chile</div>
+      <div style="font-size:10px;color:#64748b;">$49.00 USD · 2 teacher sessions</div>
+    </div>
+    <div style="padding:12px 14px;">
+      <div class="wf-row"><div class="wf-label">Revenue</div><div class="wf-area"><div class="wf-bar" style="width:100%;background:#22c55e;">$49.00</div></div><div class="wf-num" style="color:#22c55e;">+$49.00</div></div>
+      <div class="wf-row"><div class="wf-label">Stripe fees (2.8%)</div><div class="wf-area"><div class="wf-bar" style="width:3%;background:#ef4444;"></div></div><div class="wf-num" style="color:#ef4444;">−$1.37</div></div>
+      <div class="wf-row"><div class="wf-label">Teacher sessions (2 × $8.32)</div><div class="wf-area"><div class="wf-bar" style="width:34%;background:#ef4444;"></div></div><div class="wf-num" style="color:#ef4444;">−$16.64</div></div>
+      <div class="wf-row"><div class="wf-label">AI sessions + pre-briefs</div><div class="wf-area"><div class="wf-bar" style="width:9%;background:#ef4444;"></div></div><div class="wf-num" style="color:#ef4444;">−$4.00</div></div>
+      <div class="wf-row"><div class="wf-label">Transcript (AssemblyAI)</div><div class="wf-area"><div class="wf-bar" style="width:2%;background:#f59e0b;"></div></div><div class="wf-num" style="color:#f59e0b;">−$0.98</div></div>
+      <div class="wf-row"><div class="wf-label">Platform overhead (12%)</div><div class="wf-area"><div class="wf-bar" style="width:12%;background:#f59e0b;"></div></div><div class="wf-num" style="color:#f59e0b;">−$5.88</div></div>
+      <div style="border-top:1px solid #1e3255;margin:6px 0 4px;"></div>
+      <div class="wf-row"><div class="wf-label" style="color:#fff;font-weight:700;">Gross margin</div><div class="wf-area"><div class="wf-bar" style="width:41%;background:#f59e0b;font-size:10px;">~$20.13</div></div><div class="wf-num" style="color:#f59e0b;font-size:13px;font-weight:800;">~41%</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="insight"><strong>Pro gross margin at 41% looks low vs SaaS benchmarks, but it is right for a hybrid model.</strong> Preply's blended gross margin is ~30–35% (marketplace take rate). Berlitz Pro at 41% is better. The path to improving it: (1) increase Pro ARPU by adding higher credit tiers ($69 and $99/mo), (2) reduce teacher session COGS over time by recruiting lower-cost IST-compatible teachers for India, (3) grow the AI session mix within Pro (AI Tutor sessions have 10× the margin of teacher sessions). The margin expands as the AI mix grows.</div>
+
+</div>
+
+<!-- ═══════════ TARGETS ═══════════ -->
+<div class="panel" id="panel-targets">
+
+<h2>Berlitz Target Benchmarks — How We Compare</h2>
+
+<table class="bm">
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Industry floor</th>
+      <th>Industry benchmark</th>
+      <th>Best in class</th>
+      <th>Berlitz target</th>
+      <th>vs benchmark</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Free → paid conversion</td>
+      <td class="neu">5%</td>
+      <td class="neu">8–12%</td>
+      <td class="pos">20–35%</td>
+      <td><span class="tag b">18–20%</span></td>
+      <td class="pos">Above benchmark</td>
+    </tr>
+    <tr>
+      <td>Monthly paid churn (B2C)</td>
+      <td class="neg">&gt;12%</td>
+      <td class="warn">6–10%</td>
+      <td class="pos">&lt;4%</td>
+      <td><span class="tag g">&lt;6–8%</span></td>
+      <td class="pos">At/above benchmark</td>
+    </tr>
+    <tr>
+      <td>D30 retention (free users)</td>
+      <td class="neg">&lt;20%</td>
+      <td class="warn">30–40%</td>
+      <td class="pos">&gt;50%</td>
+      <td><span class="tag b">&gt;40%</span></td>
+      <td class="pos">At benchmark</td>
+    </tr>
+    <tr>
+      <td>Plus gross margin</td>
+      <td class="neg">&lt;40%</td>
+      <td class="warn">50–65%</td>
+      <td class="pos">&gt;70%</td>
+      <td><span class="tag b">49–64%</span></td>
+      <td class="warn">At benchmark (India lower)</td>
+    </tr>
+    <tr>
+      <td>Pro gross margin (hybrid)</td>
+      <td class="neg">&lt;25%</td>
+      <td class="warn">30–45%</td>
+      <td class="pos">&gt;55%</td>
+      <td><span class="tag y">41–52%</span></td>
+      <td class="warn">At benchmark — improves with AI mix</td>
+    </tr>
+    <tr>
+      <td>AI cost as % revenue (paid tiers)</td>
+      <td class="neg">&gt;25%</td>
+      <td class="warn">10–20%</td>
+      <td class="pos">&lt;8%</td>
+      <td><span class="tag g">3–6%</span></td>
+      <td class="pos">Better than benchmark</td>
+    </tr>
+    <tr>
+      <td>LTV:CAC — B2C Plus</td>
+      <td class="neg">&lt;3:1</td>
+      <td class="warn">5–8:1</td>
+      <td class="pos">&gt;12:1</td>
+      <td><span class="tag b">12–18:1</span></td>
+      <td class="pos">Best in class</td>
+    </tr>
+    <tr>
+      <td>Enterprise NRR</td>
+      <td class="neg">&lt;90%</td>
+      <td class="warn">100–110%</td>
+      <td class="pos">&gt;120%</td>
+      <td><span class="tag b">115%+</span></td>
+      <td class="pos">Above benchmark</td>
+    </tr>
+    <tr>
+      <td>Enterprise gross margin</td>
+      <td class="neg">&lt;45%</td>
+      <td class="warn">55–65%</td>
+      <td class="pos">&gt;70%</td>
+      <td><span class="tag b">60–65%</span></td>
+      <td class="pos">At/above benchmark</td>
+    </tr>
+    <tr>
+      <td>Instructor utilization</td>
+      <td class="neg">&lt;40%</td>
+      <td class="warn">50–60%</td>
+      <td class="pos">&gt;70%</td>
+      <td><span class="tag b">60–65%</span></td>
+      <td class="pos">Above benchmark</td>
+    </tr>
+    <tr>
+      <td>Session-to-rebook rate (North Star)</td>
+      <td class="neg">&lt;40%</td>
+      <td class="warn">50–60%</td>
+      <td class="pos">&gt;70%</td>
+      <td><span class="tag b">&gt;60%</span></td>
+      <td class="pos">At benchmark — proxy for quality</td>
+    </tr>
+    <tr>
+      <td>AI cost per AI Tutor session</td>
+      <td class="neg">&gt;$1.00</td>
+      <td class="warn">$0.40–0.80</td>
+      <td class="pos">&lt;$0.30</td>
+      <td><span class="tag b">$0.35–0.55</span></td>
+      <td class="warn">Improving as models get cheaper</td>
+    </tr>
+    <tr>
+      <td>AI cost per human teacher session (AI assist)</td>
+      <td class="neu">n/a</td>
+      <td class="warn">$0.20–0.80</td>
+      <td class="pos">&lt;$0.15</td>
+      <td><span class="tag g">$0.05–0.10</span></td>
+      <td class="pos">Better than benchmark — AI pre-brief only</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="insight"><strong>The two metrics where Berlitz targets are most differentiated from benchmarks:</strong> LTV:CAC at 12–18:1 (vs 5–8:1 typical) is achievable because CAC is very low in India ($3–6 via employer partnerships and social) and LTV at low churn is long. AI cost as % of paid revenue at 3–6% is better than Duolingo Max (10–20%) because Berlitz uses Claude Haiku for free-tier practice and Sonnet only for structured paid sessions — a tiered model architecture that Duolingo doesn't yet have.</div>
+
+<div class="warn-box"><strong>The one metric where Berlitz is currently below benchmark:</strong> Enterprise NRR estimated at 90–95% today (base is shrinking). Every other target is achievable from the current position. NRR above 100% requires Skills and Culture cross-sell to be live — which is a 2027 deliverable. The enterprise NRR target of 115% should not be assessed until 12 months after Skills bundles are in the market.</div>
+
+<p class="note">Sources: Duolingo 10-K and earnings calls (2023–2025), Coursera 10-K, publicly available edtech benchmarks (SaaStr, a16z edtech reports, Bessemer cloud indices), proprietary estimates for private companies (Preply, Babbel, Busuu, Italki). AI cost estimates based on current published Anthropic, Deepgram, ElevenLabs, and Google Cloud TTS pricing as of mid-2025. All figures are estimates; actual costs will vary by usage patterns and negotiated rates.</p>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
