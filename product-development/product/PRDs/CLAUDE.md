@@ -25,6 +25,7 @@ PRDs are organized by product area:
 | PRD | Feature |
 |-----|---------|
 | `ai-tutor/ai-avatar-prd.md` | AI Avatar |
+| `ai-tutor/curriculum-factory-prd.md` | Curriculum Factory |
 
 ---
 
