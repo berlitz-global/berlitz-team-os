@@ -111,7 +111,7 @@ The architecture doc states: "This is where Berlitz's 140-year content advantage
 
 | Metric | Definition | Baseline | Target | Timeframe | Measurement |
 |--------|-----------|----------|--------|-----------|-------------|
-| Scenario generation time | Elapsed time from generation trigger to draft scenario ready for review | Manual: ~4-8 hours per scenario [~] | <30 minutes per scenario (generation + basic validation) [~] | Pipeline v1 | Pipeline log: timestamp delta between `generation.started` and `generation.completed` events per scenario |
+| Scenario generation time | Elapsed time from generation trigger to draft scenario ready for review | Manual: ~4-8 hours per scenario [~] (to be validated by timed authoring sessions in Phase 1) | <30 minutes per scenario (generation + basic validation) [~] | Pipeline v1 | Pipeline log: timestamp delta between `generation.started` and `generation.completed` events per scenario |
 | Scenario volume | Total scenarios in the Scenario Library, tagged and ready for the AI Tutor | 0 (hand-authored scenarios tracked separately) | >=50 scenarios (guided + role-play + drills) across A1–B2 [~] | GA (Oct 2026) | Scenario Library query: COUNT where status = approved |
 | Source material coverage | % of Berlitz English curriculum units with at least one generated scenario | 0% | >=60% of A1–B2 curriculum units [~] | GA + 90 days | Scenario Library query: COUNT DISTINCT curriculum_unit / total curriculum units (total from vocabulary-to-lesson Excel) |
 | Schema validation pass rate | % of generated scenarios that pass automated schema validation (required fields, CEFR tagging, vocabulary bounds) before entering review | N/A | >=95% | Pipeline v1 | Automated: schema validator output logged per generation run. COUNT(pass) / COUNT(total) |
@@ -119,11 +119,11 @@ The architecture doc states: "This is where Berlitz's 140-year content advantage
 
 ### Guardrail Metrics
 
-| Metric | Definition | Threshold | Breach action |
-|--------|-----------|-----------|---------------|
-| Vocabulary bound violation rate | % of generated scenario avatar utterances containing vocabulary above the tagged CEFR level | <5% (aligned with Avatar PRD NFR-04: >=95% within level band) | Scenario blocked from Scenario Library; returned to draft. If >10% of a generation batch exceeds threshold, generation pipeline paused for prompt review. |
-| Factual/cultural error rate | % of scenarios flagged by reviewers for factual inaccuracy or cultural insensitivity | <2% [~] | Flagged scenario immediately removed from library if live; escalated to content lead. If >5% of reviewed scenarios are flagged in a batch, batch generation suspended pending prompt and source material review. |
-| Pipeline-generated vs hand-authored quality delta | Learner session completion rate for pipeline-generated scenarios minus hand-authored scenarios | No statistically significant negative delta (measured post-GA) | If delta is negative and significant (p<0.05, n>=100 sessions per group), pipeline-generated scenarios flagged for quality audit. PM reviews and adjusts generation prompts or source material selection. |
+| Metric | Definition | Threshold | Breach action | Instrumentation |
+|--------|-----------|-----------|---------------|-----------------|
+| Vocabulary bound violation rate | % of generated scenario avatar utterances containing vocabulary above the tagged CEFR level | <5% (aligned with Avatar PRD NFR-04: >=95% within level band) | Scenario blocked from Scenario Library; returned to draft. If >10% of a generation batch exceeds threshold, generation pipeline paused for prompt review. | `validation.vocabulary_breach` event per scenario; aggregated per batch in pipeline logs. PM alerted via pipeline summary if batch rate >5%. |
+| Factual/cultural error rate | % of scenarios flagged by reviewers for factual inaccuracy or cultural insensitivity | <2% [~] | Flagged scenario immediately removed from library if live; escalated to content lead. If >5% of reviewed scenarios are flagged in a batch, batch generation suspended pending prompt and source material review. | `review.flagged` event with `flag_type: factual_error | cultural_sensitivity` per scenario. Aggregated per review batch. Content lead alerted if batch rate >2%. |
+| Pipeline-generated vs hand-authored quality delta | Learner session completion rate for pipeline-generated scenarios minus hand-authored scenarios | No statistically significant negative delta (measured post-GA) | If delta is negative and significant (p<0.05, n>=100 sessions per group), pipeline-generated scenarios flagged for quality audit. PM reviews and adjusts generation prompts or source material selection. | Scenario Library tags each scenario `source: pipeline | hand_authored`. Analytics query joins `avatar.session.ended` (from Avatar PRD instrumentation) with scenario source tag. PM runs comparison monthly post-GA. |
 
 ### Non-Goals
 
@@ -156,7 +156,10 @@ As a content author, I want to trigger scenario generation for a specific curric
 *Acceptance criteria:*
 - Author selects: target CEFR level, curriculum unit, skill type (conversation/role-play/pronunciation/grammar/vocabulary), and topic
 - System generates one or more draft scenarios using the structured content for that unit
-- Each generated scenario includes: learning objectives, vocabulary bounds, grammar focus, success criteria, dialog flow, and CEFR level tag
+- Each generated scenario includes: learning objectives, vocabulary bounds, grammar focus, success criteria, and CEFR level tag. Format varies by skill type:
+  - **Conversation/role-play:** dialog flow with character roles, scenario context, and branching points
+  - **Pronunciation drill:** target phonemes/words/phrases, native reference audio IDs (if available), and pass/fail scoring criteria
+  - **Grammar/vocabulary exercise:** prompt text, expected answer patterns, and explanation text for corrections
 - Generated scenarios reference the source material they were derived from (traceability)
 - Generation completes in <5 minutes per scenario [~]
 
@@ -186,8 +189,8 @@ As the AI Tutor session orchestrator, I want to query the Scenario Library for a
 *Acceptance criteria:*
 - Query accepts: CEFR level, skill type, topic preference (optional), curriculum position
 - Returns an approved scenario with all required fields: learning objectives, vocabulary bounds, grammar focus, success criteria, dialog flow, Berlitz Method system prompt parameters
-- If multiple scenarios match, selection avoids repeating any scenario the learner has completed within their last 5 sessions (or all available scenarios if fewer than 5 exist for the query parameters)
-- Query response time <200ms [~]
+- If multiple scenarios match, selection avoids repeating any scenario the learner has completed within their last 5 sessions. If all matching scenarios have been completed within the lookback window, the least-recently-completed scenario is selected and a `scenario_pool.exhausted` event is logged (feeds content gap tracking and OQ-5 velocity planning)
+- Query response time <200ms p95 at expected MVP load (~50 concurrent sessions [~])
 
 ### Berlitz Teacher (idle-time reviewer — post-MVP extension)
 
@@ -234,7 +237,7 @@ As a Berlitz teacher with a no-show gap, I want to review and rate generated sce
 |----|------------|--------|----------|-----------|
 | NFR-01 | **Generation latency:** Time from generation trigger to draft scenario available | <5 minutes per scenario [~] | P0 | Must not bottleneck content velocity. Batch of 10 scenarios should complete in <30 minutes [~]. |
 | NFR-02 | **Schema validation pass rate** | >=95% of generated scenarios pass automated validation | P0 | Reduces reviewer burden. Failed validations indicate generation quality issues. |
-| NFR-03 | **Scenario Library query latency** | <200ms p95 for runtime queries from AI Tutor | P0 | Session start must not be blocked by slow content retrieval. (Avatar PRD US-3: <30s app-to-speaking) |
+| NFR-03 | **Scenario Library query latency** | <200ms p95 for runtime queries from AI Tutor at expected MVP load (~50 concurrent sessions [~]) | P0 | Session start must not be blocked by slow content retrieval. (Avatar PRD US-3: <30s app-to-speaking) |
 | NFR-04 | **Vocabulary bound accuracy** | >=95% of vocabulary in generated scenarios within the tagged CEFR level band | P0 | Aligned with Avatar PRD NFR-04 (Hu & Nation 2000: 95–98% known vocabulary threshold). |
 | NFR-05 | **Source material traceability** | 100% of generated scenarios link back to at least one source document | P0 | Required for IP audit and Legal review. |
 | NFR-06 | **Language parameterization** | Pipeline architecture supports adding a new target language by providing new source materials, without pipeline code changes | P1 | Multi-language expansion (#24) is post-MVP but the architecture must not be English-hardcoded. |
@@ -260,6 +263,8 @@ The Curriculum Factory's generation pipeline (FR-07) is LLM-powered — the same
 **Expert review (run on every scenario at MVP):**
 
 4. **Berlitz Method compliance spot-check**: Content expert scores each scenario against the 5-dimension rubric from the Avatar PRD Section 8 (L2 immersion, correction strategy, CEFR bounding, Q&A cycle adherence, encouragement ratio). At MVP, every scenario is reviewed. Post-MVP, review shifts to a sample as auto-approval confidence grows.
+
+   **Reviewer calibration:** Before the first formal review round, all reviewers independently score a calibration set of 5 scenarios. Inter-rater agreement must reach >=70% (simple agreement on pass/fail per dimension) before scores are used. If agreement is below threshold, the rubric is refined and calibration repeated. This prevents a single generous or strict reviewer from skewing the compliance score.
 
 **Simulated learner validation (post-MVP, Q4 2026):**
 
@@ -336,7 +341,8 @@ If schema validation drops below 90% or vocabulary bounds below 90% on any gener
 
 **Entry criteria:**
 - Source material inventory completed (exact document counts, formats confirmed)
-- Legal review initiated for transcript consent and IP ownership
+- Legal review initiated for transcript consent, IP ownership, and source material licensing
+- Manual authoring baseline established: time 2–3 scenario authoring sessions with content experts to validate the 4–8 hour baseline [~] (feeds Goal 1 velocity claim)
 
 **Activities:**
 - Build PDF parsing for instructor/student guides — extract lesson goals, vocabulary, grammar, dialogs
@@ -349,6 +355,8 @@ If schema validation drops below 90% or vocabulary bounds below 90% on any gener
 - Structured content store populated for >=3 curriculum units across A1–B1
 - Extraction accuracy >=90% on spot-checked entities [~]
 - CEFR vocabulary and grammar constraints loaded for A1–B2
+- Legal confirmation received for source material licensing (OQ-3), or licensing risk documented and accepted by PM
+- Manual authoring baseline measured and recorded (validates velocity claim)
 
 ### Phase 2: Generation Pipeline (Jul–Aug 2026)
 
@@ -417,7 +425,7 @@ If schema validation drops below 90% or vocabulary bounds below 90% on any gener
 
 ## 12. Post-MVP Roadmap
 
-These are scoped out of this PRD but documented as the planned evolution:
+These are scoped out of this PRD but documented as the planned evolution. **Differentiator** = builds competitive advantage post-launch (Q4 2026). **Enhancement** = deepens the moat (2027). Classification follows the architecture doc's Essential/Differentiator/Enhancement tiers.
 
 | Phase | Feature | Issue | Timing |
 |-------|---------|-------|--------|
