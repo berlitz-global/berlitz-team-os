@@ -22,3 +22,32 @@
 #         - engineering/bug-investigations/{area}/{bug}/investigation-plan.md
 
 # Add features here:
+
+ai-tutor-avatar:
+  c1-ai-avatar-character:
+    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
+
+  c2-guided-conversation:
+    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
+
+  c4-role-play:
+    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
+
+  c5-real-time-grammar-correction:
+    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
+
+  c7-berlitz-method-compliance:
+    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
+
+  c8-level-appropriate-language:
+    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
+
+  c9-live-in-session-feedback:
+    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
