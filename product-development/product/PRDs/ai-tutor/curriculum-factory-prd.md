@@ -5,7 +5,7 @@
 | **Author** | Jan Hoffmann, PM |
 | **Status** | Draft |
 | **Last Updated** | 2026-06-16 |
-| **Related RFC** | TBD — see Section 13 (Decisions Requiring PDRs) |
+| **Related RFC** | [`PDR-001`](../../decisions/PDR-001-content-generation-approach.md) — LLM vs template vs hybrid generation |
 | **Related Plan** | `engineering/design/plans/ai-tutor-architecture.md` (Layer A) |
 | **Epic** | [#39 — Content Pipeline](https://github.com/berlitz-global/berlitz-services/issues/39) |
 | **Child Issues** | [#26](https://github.com/berlitz-global/berlitz-services/issues/26) PDF Ingestion, [#28](https://github.com/berlitz-global/berlitz-services/issues/28) Prompt/Scenario Generation, [#33](https://github.com/berlitz-global/berlitz-services/issues/33) Scenario Library |
@@ -38,7 +38,7 @@ This PRD covers the **MVP pipeline** (architecture components A1–A5): ingestio
 
 The competitive matrix (Section B: Content & Pedagogy) shows Berlitz targeting **5/5 on Structured Curriculum** — the highest score of any competitor, tied only with Duolingo, Babbel, and Lingoda. But unlike those competitors, Berlitz has a proprietary teaching methodology and 140 years of structured curriculum materials. The Curriculum Factory is what converts that historical advantage into an AI-native moat. (competitive-matrix.md)
 
-> **[~] Assumption:** No AI-native competitor (Speak, Praktika, TalkPal, ELSA) has a structured content pipeline grounded in proprietary pedagogical IP. Their content is either LLM-generated from generic training data or manually authored. This is inferred from public product analysis — no competitor has disclosed their content pipeline architecture.
+> **[~] Assumption:** No AI-native competitor (Speak, Praktika, TalkPal, ELSA) has publicly disclosed a content pipeline grounded in proprietary pedagogical IP. Their content appears to be LLM-generated from generic training data or manually authored. Note: Speak scores 4/5 on Structured Curriculum — their content source is unknown, not confirmed absent. This assumption is inferred from public product analysis; no competitor has disclosed their pipeline architecture.
 
 ### Competitive differentiation
 
@@ -111,9 +111,9 @@ The architecture doc states: "This is where Berlitz's 140-year content advantage
 
 | Metric | Definition | Baseline | Target | Timeframe | Measurement |
 |--------|-----------|----------|--------|-----------|-------------|
-| Scenario generation time | Elapsed time from generation trigger to draft scenario ready for review | Manual: ~4-8 hours per scenario [~] (to be validated by timed authoring sessions in Phase 1) | <30 minutes per scenario (generation + basic validation) [~] | Pipeline v1 | Pipeline log: timestamp delta between `generation.started` and `generation.completed` events per scenario |
+| Scenario generation time | Elapsed time from generation trigger to draft scenario passing validation | Manual: ~4-8 hours per scenario [~] (to be validated by timed authoring sessions in Phase 1) | <30 minutes per scenario (generation + automated validation) [~] | Pipeline v1 | Pipeline log: timestamp delta between `generation.started` and `validation.completed` events per scenario |
 | Scenario volume | Total scenarios in the Scenario Library, tagged and ready for the AI Tutor | 0 (hand-authored scenarios tracked separately) | >=50 scenarios (guided + role-play + drills) across A1–B2 [~] | GA (Oct 2026) | Scenario Library query: COUNT where status = approved |
-| Source material coverage | % of Berlitz English curriculum units with at least one generated scenario | 0% | >=60% of A1–B2 curriculum units [~] | GA + 90 days | Scenario Library query: COUNT DISTINCT curriculum_unit / total curriculum units (total from vocabulary-to-lesson Excel) |
+| Source material coverage | % of Berlitz English curriculum units with at least one generated scenario | 0% (denominator: total A1–B2 unit count to be confirmed from vocabulary-to-lesson Excel in Phase 1) | >=60% of A1–B2 curriculum units [~] | GA + 90 days | Scenario Library query: COUNT DISTINCT curriculum_unit / total curriculum units. Denominator confirmed as Phase 1 exit criterion. |
 | Schema validation pass rate | % of generated scenarios that pass automated schema validation (required fields, CEFR tagging, vocabulary bounds) before entering review | N/A | >=95% | Pipeline v1 | Automated: schema validator output logged per generation run. COUNT(pass) / COUNT(total) |
 | Berlitz Method alignment | % of generated scenarios that pass Berlitz Method compliance checks when avatar delivers them in a simulated session | N/A | >=85% [~] | GA | Expert spot-check at MVP: 3 reviewers score a random sample of 20 scenarios [~] against the 5-dimension rubric from Avatar PRD Section 8. Post-MVP (Q4 2026): automated via Simulation Engine #34. |
 
@@ -148,7 +148,7 @@ As a content author, I want to upload Berlitz PDF guides, CEFR reference documen
 - Extracted content is structured into queryable entities: lesson goals, vocabulary lists, grammar points, dialog scripts, story outlines, teaching patterns
 - Each extracted entity is tagged with CEFR level, lesson unit, skill type, and topic
 - Parse failures are flagged with the source location and error type for manual review
-- Re-ingestion of updated source files detects changes (diff) rather than re-processing from scratch
+- Re-ingestion of updated source files detects changes and updates only the affected entities in the content store. Given a previously ingested PDF that has been updated, re-ingestion produces a changeset (added/modified/removed entities) that matches a manual diff of the two document versions for a spot-checked sample
 
 **US-2: Generate scenarios from structured content**
 As a content author, I want to trigger scenario generation for a specific curriculum unit and CEFR level, so that I get draft conversation scenarios, role-play scripts, and drill exercises grounded in Berlitz material.
@@ -266,6 +266,8 @@ The Curriculum Factory's generation pipeline (FR-07) is LLM-powered — the same
 
    **Reviewer calibration:** Before the first formal review round, all reviewers independently score a calibration set of 5 scenarios. Inter-rater agreement must reach >=70% (simple agreement on pass/fail per dimension) before scores are used. If agreement is below threshold, the rubric is refined and calibration repeated. This prevents a single generous or strict reviewer from skewing the compliance score.
 
+   **Reviewer pool contingency:** The calibration protocol requires 3 reviewers. If fewer than 3 content authors are available (Section 5 estimates 2–5 at launch [~]), the minimum viable calibration is 2 reviewers with a higher agreement threshold (>=80%). If only 1 reviewer is available, an external Berlitz Method expert must be brought in as the second reviewer before compliance scores are used. Resolving OQ-6 (Berlitz Method rules owner) by Jul 2026 confirms the reviewer pool.
+
 **Simulated learner validation (post-MVP, Q4 2026):**
 
 5. **Simulation Engine integration**: Generated scenarios are run through the Simulation Engine (#34) with synthetic learner personas before human review. The simulation scores pedagogical quality and catches issues that schema validation cannot (e.g., confusing dialog flow, unreachable scenario goals). This replaces some human review load once available.
@@ -357,6 +359,7 @@ If schema validation drops below 90% or vocabulary bounds below 90% on any gener
 - CEFR vocabulary and grammar constraints loaded for A1–B2
 - Legal confirmation received for source material licensing (OQ-3), or licensing risk documented and accepted by PM
 - Manual authoring baseline measured and recorded (validates velocity claim)
+- Total A1–B2 curriculum unit count confirmed from vocabulary-to-lesson Excel (establishes denominator for source material coverage metric)
 
 ### Phase 2: Generation Pipeline (Jul–Aug 2026)
 
@@ -398,7 +401,7 @@ If schema validation drops below 90% or vocabulary bounds below 90% on any gener
 - **Generation quality ramp:** Continue prompt tuning and few-shot example refinement to close the gap from Phase 2 exit (90%/90%/80%) to GA targets (95%/95%/85%). Run at least 3 quality-focused generation-review-tune cycles [~]. Track improvement per cycle.
 
 **Exit criteria:**
-- >=50 approved scenarios in Scenario Library across A1–B2 [~]
+- >=50 approved scenarios in Scenario Library across A1–B2 [~], with minimum per skill type: >=15 guided conversations, >=8 role-plays, >=10 pronunciation drills, >=10 grammar/vocabulary exercises. At least 3 of the 4 CEFR levels (A1, A2, B1, B2) must have scenarios in every skill type.
 - AI Tutor successfully loads scenarios from library in <200ms
 - Avatar beta (Sep 2026) has >=10 guided conversations and >=5 role-plays available
 - Avatar GA (Oct 2026) has >=15 guided conversations and >=8 role-plays available
@@ -446,7 +449,7 @@ The following cross-team, hard-to-reverse decisions are embedded in this PRD and
 
 | Decision | Current position in PRD | Why it needs a PDR | When |
 |----------|------------------------|-------------------|------|
-| **LLM-powered generation vs template-based / rule-based / hybrid** | FR-07 assumes LLM-powered generation. | This determines cost structure, quality variance, evaluation complexity, and the human review workflow. Template-based generation would produce more predictable output at the cost of variety and adaptability. A hybrid (templates for structure + LLM for dialog) may be optimal. The choice is hard to reverse once the pipeline is built and content experts are trained on the workflow. | Before Phase 2 starts (Jul 2026) |
+| **LLM-powered generation vs template-based / rule-based / hybrid** | FR-07 assumes LLM-powered generation. PDR: [`PDR-001`](../../decisions/PDR-001-content-generation-approach.md) | This determines cost structure, quality variance, evaluation complexity, and the human review workflow. Template-based generation would produce more predictable output at the cost of variety and adaptability. A hybrid (templates for structure + LLM for dialog) may be optimal. The choice is hard to reverse once the pipeline is built and content experts are trained on the workflow. | Before Phase 2 starts (Jul 2026) |
 
 ---
 
