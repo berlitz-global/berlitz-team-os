@@ -24,8 +24,10 @@ PRDs are organized by product area:
 
 | PRD | Feature |
 |-----|---------|
-| `ai-tutor/ai-avatar-prd.md` | AI Avatar |
-| `ai-tutor/curriculum-factory-prd.md` | Curriculum Factory |
+| `curriculum-factory/curriculum-factory-prd.md` | Curriculum Factory (content pipeline) |
+| `ai-conversation/ai-conversation-prd.md` | AI Conversation Experience (guided conversation + role-play, audio & avatar modes) |
+| `practice-drills/practice-drills-prd.md` | Practice Drills (pronunciation, vocabulary, grammar drills + Wordbook) |
+| `ai-avatar/ai-avatar-prd.md` | AI Avatar Experience (visual delivery mode for conversation) |
 
 ---
 

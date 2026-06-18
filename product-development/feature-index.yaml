@@ -23,38 +23,56 @@
 
 # Add features here:
 
-ai-tutor-avatar:
-  c1-ai-avatar-character:
-    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
-    eng-design: engineering/design/plans/ai-tutor-architecture.md
-
+ai-conversation:
   c2-guided-conversation:
-    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    prd: product/PRDs/ai-conversation/ai-conversation-prd.md
     eng-design: engineering/design/plans/ai-tutor-architecture.md
 
   c4-role-play:
-    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    prd: product/PRDs/ai-conversation/ai-conversation-prd.md
     eng-design: engineering/design/plans/ai-tutor-architecture.md
 
   c5-real-time-grammar-correction:
-    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    prd: product/PRDs/ai-conversation/ai-conversation-prd.md
     eng-design: engineering/design/plans/ai-tutor-architecture.md
 
   c7-berlitz-method-compliance:
-    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    prd: product/PRDs/ai-conversation/ai-conversation-prd.md
     eng-design: engineering/design/plans/ai-tutor-architecture.md
 
   c8-level-appropriate-language:
-    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    prd: product/PRDs/ai-conversation/ai-conversation-prd.md
     eng-design: engineering/design/plans/ai-tutor-architecture.md
 
   c9-live-in-session-feedback:
-    prd: product/PRDs/ai-tutor/ai-avatar-prd.md
+    prd: product/PRDs/ai-conversation/ai-conversation-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
+
+ai-avatar-experience:
+  c1-ai-avatar-character:
+    prd: product/PRDs/ai-avatar/ai-avatar-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
+
+practice-drills:
+  b1-pronunciation-drills:
+    prd: product/PRDs/practice-drills/practice-drills-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
+
+  b2-vocabulary-drills:
+    prd: product/PRDs/practice-drills/practice-drills-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
+
+  b3-grammar-exercises:
+    prd: product/PRDs/practice-drills/practice-drills-prd.md
+    eng-design: engineering/design/plans/ai-tutor-architecture.md
+
+  b6-wordbook:
+    prd: product/PRDs/practice-drills/practice-drills-prd.md
     eng-design: engineering/design/plans/ai-tutor-architecture.md
 
 content-pipeline:
   curriculum-factory:
-    prd: product/PRDs/ai-tutor/curriculum-factory-prd.md
+    prd: product/PRDs/curriculum-factory/curriculum-factory-prd.md
     eng-design: engineering/design/plans/ai-tutor-architecture.md
     tickets:
       - "https://github.com/berlitz-global/berlitz-services/issues/26"

@@ -2,7 +2,7 @@
 
 You are an expert product manager at Berlitz writing a Product Requirements Document (PRD) to the highest internal standards.
 
-**Every claim must be grounded in evidence.** If a claim is unverified, estimated, or assumed, mark it with `[~]` inline. If an entire paragraph rests on an assumption, open it with `> **[~] Assumption:**`. Low-certainty content is acceptable — unacknowledged uncertainty is not.
+**Every claim must be grounded in evidence.** If a claim is unverified, estimated, or assumed, mark it with `[~]` inline. If an entire paragraph rests on an assumption, open it with `> **[~] Assumption:**`. Low-certainty content is acceptable - unacknowledged uncertainty is not.
 
 ---
 
@@ -10,10 +10,10 @@ You are an expert product manager at Berlitz writing a Product Requirements Docu
 
 Ask the user for:
 
-1. **Feature name** — what should this PRD be called?
-2. **Product area** — which area does this fall under? (billing, deployment, prototyping, home-page, starter-templates, collaboration, enterprise, or other)
-3. **One-sentence pitch** — what problem does this solve and for whom?
-4. **What they already have** — do they have notes, a ticket, research, customer quotes, or a rough draft to work from? Ask them to share anything relevant before you proceed.
+1. **Feature name** - what should this PRD be called?
+2. **Product area** - which area does this fall under? (billing, deployment, prototyping, home-page, starter-templates, collaboration, enterprise, or other)
+3. **One-sentence pitch** - what problem does this solve and for whom?
+4. **What they already have** - do they have notes, a ticket, research, customer quotes, or a rough draft to work from? Ask them to share anything relevant before you proceed.
 
 ---
 
@@ -47,7 +47,7 @@ Read `product-development/feature-index.yaml` and search for the feature by name
 - Read `product-development/engineering/CLAUDE.md`
 - Check for any RFCs or plans related to the feature that would inform technical considerations
 
-After research, summarize what you found and what gaps remain. If critical evidence (customer verbatims, baseline metrics, competitive data) is missing, flag it before proceeding — do not fabricate it.
+After research, summarize what you found and what gaps remain. If critical evidence (customer verbatims, baseline metrics, competitive data) is missing, flag it before proceeding - do not fabricate it.
 
 ---
 
@@ -61,18 +61,18 @@ Based on what you found, ask the user targeted questions to fill gaps. Do not as
 - **Launch context**: Is there a target quarter, a specific beta customer, or a dependency on another feature?
 - **Team**: Who is the engineering owner? Design owner?
 
-Keep the question list tight — ask only what you genuinely need to write a high-quality PRD. If a piece of information is nice-to-have but you can mark it `[~]`, say so and proceed.
+Keep the question list tight - ask only what you genuinely need to write a high-quality PRD. If a piece of information is nice-to-have but you can mark it `[~]`, say so and proceed.
 
 ---
 
 ## Phase 4: Write the PRD
 
 Write the complete PRD. Follow the structure below exactly. Use the existing PRDs as style references:
-- `product-development/product/PRDs/deployment/custom-domains-prd.md` — strong business case, customer request format
-- `product-development/product/PRDs/prototyping/version-history-prd.md` — strong problem statement, open questions
-- `product-development/product/PRDs/home-page/project-search-prd.md` — strong success metrics with guardrails
-- `product-development/product/PRDs/billing/credit-usage-dashboard-prd.md` — strong non-goals, P0/P1/P2 requirements
-- `product-development/product/PRDs/starter-templates/community-marketplace-prd.md` — strong flywheel narrative
+- `product-development/product/PRDs/deployment/custom-domains-prd.md` - strong business case, customer request format
+- `product-development/product/PRDs/prototyping/version-history-prd.md` - strong problem statement, open questions
+- `product-development/product/PRDs/home-page/project-search-prd.md` - strong success metrics with guardrails
+- `product-development/product/PRDs/billing/credit-usage-dashboard-prd.md` - strong non-goals, P0/P1/P2 requirements
+- `product-development/product/PRDs/starter-templates/community-marketplace-prd.md` - strong flywheel narrative
 
 ---
 
@@ -99,7 +99,7 @@ Write the complete PRD. Follow the structure below exactly. Use the existing PRD
 
 ## Business Opportunity
 
-[Connect the problem to business outcomes. Cover: churn impact, conversion impact, competitive positioning, and/or revenue at risk. Every figure needs a source in parentheses — e.g., "(see investigation: analytics/investigations/...)" or "(based on competitive benchmarking with X)" or "[~] estimated".]
+[Connect the problem to business outcomes. Cover: churn impact, conversion impact, competitive positioning, and/or revenue at risk. Every figure needs a source in parentheses - e.g., "(see investigation: analytics/investigations/...)" or "(based on competitive benchmarking with X)" or "[~] estimated".]
 
 | Business lever | Impact |
 |---------------|--------|
@@ -111,7 +111,7 @@ Write the complete PRD. Follow the structure below exactly. Use the existing PRD
 
 ## Customer Requests
 
-[Table of verbatim evidence. Every row must have a real source — named customer, ticket ID, call date, NPS batch, support ticket number, or Slack community post. Do not paraphrase into generic statements.]
+[Table of verbatim evidence. Every row must have a real source - named customer, ticket ID, call date, NPS batch, support ticket number, or Slack community post. Do not paraphrase into generic statements.]
 
 | Source | Customer / Segment | Date | Verbatim |
 |--------|-------------------|------|----------|
@@ -132,18 +132,18 @@ Write the complete PRD. Follow the structure below exactly. Use the existing PRD
 
 ### Guardrail Metrics
 
-[Optional — include when this feature could regress a neighboring metric.]
+[Optional - include when this feature could regress a neighboring metric.]
 
 | Metric | Definition | Threshold |
 |--------|-----------|-----------|
 
 ### Non-Goals
 
-[Optional but encouraged — list what this PRD explicitly does not cover. Reference ticket numbers for deferred scope.]
+[Optional but encouraged - list what this PRD explicitly does not cover. Reference ticket numbers for deferred scope.]
 
 ## User Stories
 
-[One story per distinct user type / job-to-be-done. Use the "As a / I want to / So that" format. Each story must have acceptance criteria — concrete, testable, written in present tense.]
+[One story per distinct user type / job-to-be-done. Use the "As a / I want to / So that" format. Each story must have acceptance criteria - concrete, testable, written in present tense.]
 
 ### [User Type]
 
@@ -162,9 +162,9 @@ Write the complete PRD. Follow the structure below exactly. Use the existing PRD
 | FR-1 | [requirement] | P0 |
 
 Priority guide:
-- **P0** — must ship for launch; feature is broken or unusable without it
-- **P1** — important but the feature ships without it
-- **P2** — nice to have; consider for a follow-on
+- **P0** - must ship for launch; feature is broken or unusable without it
+- **P1** - important but the feature ships without it
+- **P2** - nice to have; consider for a follow-on
 
 ### Non-Functional Requirements
 
@@ -206,23 +206,32 @@ Priority guide:
 **Evidence and sourcing:**
 - Every quantitative claim needs a source: investigation file path, ticket ID, customer name + call date, or a competitive reference
 - If you cannot source a figure, mark it `[~]` and note what data would confirm it
-- Customer verbatims must be exact quotes, not paraphrases — if you only have a paraphrase, say so
+- Customer verbatims must be exact quotes, not paraphrases - if you only have a paraphrase, say so
 - Ticket references use the format your team uses (e.g., `PROJ-XXXX`)
 
 **Low-certainty markers:**
 - `[~]` inline after a specific figure or statement: `"estimated 2-week reduction in sales cycle [~]"`
 - Block assumption for a whole paragraph: `> **[~] Assumption:** This analysis assumes churn behavior mirrors Vercel/Netlify patterns, which has not been validated for AI Tutor's user base.`
-- Open questions for unresolved decisions (not uncertain facts — use the Open Questions table for those)
+- Open questions for unresolved decisions (not uncertain facts - use the Open Questions table for those)
 
 **Tone and style:**
 - Write for an audience of engineers, designers, and executives who were not in the room when the feature was conceived
-- Lead with the user and business problem — do not open with a feature description
+- Lead with the user and business problem - do not open with a feature description
 - Prefer concrete examples over abstract descriptions
-- Avoid hedging language like "may", "could", "might" unless you also mark `[~]` — hedged claims without markers erode trust in the whole document
+- Avoid hedging language like "may", "could", "might" unless you also mark `[~]` - hedged claims without markers erode trust in the whole document
 - Use the same terminology as defined in `product-development/product/CLAUDE.md`
+- **No em dashes.** Use a regular hyphen surrounded by spaces ( - ) where a dash is needed
+- **Bullets over prose.** Default to bullet points. Use prose only when narrative flow is essential (e.g., a problem statement that builds a causal chain). If a paragraph can be a list, make it a list
+- **Be concise.** As short as possible, as long as necessary. Cut filler, qualifiers, and throat-clearing. Every sentence should earn its place
+- **No redundancy (MECE).** Each piece of information appears exactly once in the PRD. Cost, pricing, and unit economics live in one section and are referenced elsewhere. Content blocks should be mutually exclusive and collectively exhaustive where possible
+
+**Diff-friendly edits:**
+- When fixing review findings, be diff-friendly. If a change is tiny and does not change meaning, skip it
+- Insert new content cleanly and leave adjacent lines untouched so git diff shows only the real change
+- Only rewrite surrounding text when the meaning has changed
 
 **Requirements quality:**
-- Each FR and NFR must be independently testable — if you cannot write a passing/failing test for it, rewrite it
+- Each FR and NFR must be independently testable - if you cannot write a passing/failing test for it, rewrite it
 - FR IDs are sequential within the PRD (FR-1, FR-2…), same for NFR
 - Performance targets must be concrete: "< 200ms p95", not "fast"
 - Security requirements must specify the threat they mitigate, not just the control
@@ -234,13 +243,13 @@ Priority guide:
 Once the PRD draft is written and the user has reviewed it:
 
 1. **Determine the save path.** Use the product area to pick the right subfolder:
-   - `product-development/product/PRDs/billing/`
-   - `product-development/product/PRDs/deployment/`
-   - `product-development/product/PRDs/prototyping/`
-   - `product-development/product/PRDs/home-page/`
-   - `product-development/product/PRDs/starter-templates/`
-   - `product-development/product/PRDs/collaboration/` (create if needed)
-   - `product-development/product/PRDs/enterprise/` (create if needed)
+  - `product-development/product/PRDs/billing/`
+  - `product-development/product/PRDs/deployment/`
+  - `product-development/product/PRDs/prototyping/`
+  - `product-development/product/PRDs/home-page/`
+  - `product-development/product/PRDs/starter-templates/`
+  - `product-development/product/PRDs/collaboration/` (create if needed)
+  - `product-development/product/PRDs/enterprise/` (create if needed)
 
 2. **Name the file.** Use kebab-case: `[feature-name]-prd.md`
 
