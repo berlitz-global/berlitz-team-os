@@ -22,6 +22,9 @@ The Curriculum Factory is the offline content pipeline that transforms Berlitz's
 
 This PRD covers the **MVP pipeline** (architecture components A1-A5): ingestion, structuring, generation, Berlitz Method encoding, and level-appropriate language constraints - plus the quality assurance model that ensures output meets the bar. Content pipeline metrics (#15), business content modules (#14), and multi-language expansion (#24) are post-MVP.
 
+Currently, the landscape of system looks like this.
+![[legacy authoring and delivery.png]]
+
 ---
 
 ## 1. Problem Statement
