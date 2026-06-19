@@ -84,7 +84,7 @@ This is the marginal cost of the conversation itself - cheap. The expensive part
 
 ## 4. Customer Requests
 
-- [~] HeyGen usage data shows audio-only is 10x avatar usage. Suggests AI instructor quality (steering, feedback, corrections) matters more than visual layer. Root cause unconfirmed - see AI Avatar PRD OQ-4
+- [ ] HeyGen usage data shows audio-only is 10x avatar usage. Suggests AI instructor quality (steering, feedback, corrections) matters more than visual layer. Root cause unconfirmed - see AI Avatar PRD OQ-4
 - No direct learner quotes requesting AI conversation practice exist yet. Demand is inferred from Talkio spend (26k EUR/yr [~]), HeyGen usage patterns, and competitive benchmarking (Speak, Praktika)
 - **Validation plan:** Collect >=5 qualitative feedback interviews during Phase 1 dogfood. Owner: PM
 
@@ -234,18 +234,19 @@ As Executive Elena, I want the conversation to feel polished and professional - 
 
 ### Functional Requirements
 
-| ID | Requirement | Priority | Source |
-|----|------------|----------|--------|
-| FR-01 | System shall deliver scenario-based dialogue following Berlitz curriculum: each session has defined learning objectives, vocabulary bounds, grammar focus, and success criteria loaded from the Scenario Library. | P0 | Feature matrix C2; architecture A3, B1 |
-| FR-02 | System shall support pre-defined role-play scenarios where the AI plays one character and the learner plays the other. | P0 | Feature matrix C4; architecture A3 |
-| FR-03 | System shall correct grammar errors inline during conversation using salient, self-repair-eliciting prompts (e.g., "Can you try saying that differently?") rather than implicit recasts, consistent with the Berlitz Method. | P0 | Feature matrix C5; Lyster & Ranta 1997; spec research 2.3 |
-| FR-04 | System prompts shall enforce Berlitz Method compliance: immersive L2 use (minimize L1), question-answer cycles, graduated difficulty, gentle error correction, and encouragement patterns. | P0 | Feature matrix C7; architecture A4 |
-| FR-05 | AI output shall be constrained to the learner's CEFR level: vocabulary, grammar structures, sentence complexity, and speaking speed bounded by curriculum position (~95-98% known vocabulary). | P0 | Feature matrix C8; Hu & Nation 2000; architecture A5 |
-| FR-06 | System shall provide real-time, multi-dimensional feedback: pronunciation flags, vocabulary suggestions, and fluency cues surfaced alongside grammar correction - salient, without breaking flow. | P0 | Feature matrix C9; spec research 2.3 |
-| FR-07 | System shall expose a mode-agnostic session API so that both Audio-Only and Avatar presentation layers can connect without duplicating conversation logic. | P0 | Architecture doc, Layers B+C |
-| FR-08 | System shall provide visual cues and prompts when the learner is stuck: sentence starters, vocabulary hints, or rephrased questions. Silence threshold varies by CEFR level (A1-A2: 8-10s [~], B1-B2: 5s [~]) - validated during dogfood. | P1 | Architecture B7 |
-| FR-09 | Post-session review shall include: full transcript, grammar notes, new vocabulary list, pronunciation scores, session summary, and scenario goal completion status. | P1 | Architecture Layer C shared UI |
-| FR-10 | System shall support "quick start" - begin a recommended scenario within 5 seconds, based on curriculum position and learner profile. | P2 | US-3 |
+| ID    | Requirement                                                                                                                                                                                                                               | Priority | Source                                                    |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --------------------------------------------------------- |
+| FR-01 | System shall deliver scenario-based dialogue following Berlitz curriculum: each session has defined learning objectives, vocabulary bounds, grammar focus, and success criteria loaded from the Scenario Library.                         | P0       | Feature matrix C2; architecture A3, B1                    |
+| FR-02 | System shall support pre-defined role-play scenarios where the AI plays one character and the learner plays the other.                                                                                                                    | P0       | Feature matrix C4; architecture A3                        |
+| FR-03 | System shall correct grammar errors inline during conversation using salient, self-repair-eliciting prompts (e.g., "Can you try saying that differently?") rather than implicit recasts, consistent with the Berlitz Method.              | P0       | Feature matrix C5; Lyster & Ranta 1997; spec research 2.3 |
+| FR-04 | System prompts shall enforce Berlitz Method compliance: immersive L2 use (minimize L1), question-answer cycles, graduated difficulty, gentle error correction, and encouragement patterns.                                                | P0       | Feature matrix C7; architecture A4                        |
+| FR-05 | AI output shall be constrained to the learner's CEFR level: vocabulary, grammar structures, sentence complexity, and speaking speed bounded by curriculum position (~95-98% known vocabulary).                                            | P0       | Feature matrix C8; Hu & Nation 2000; architecture A5      |
+| FR-06 | System shall provide real-time, multi-dimensional feedback: pronunciation flags, vocabulary suggestions, and fluency cues surfaced alongside grammar correction - salient, without breaking flow.                                         | P0       | Feature matrix C9; spec research 2.3                      |
+| FR-07 | System shall expose a mode-agnostic session API so that both Audio-Only and Avatar presentation layers can connect without duplicating conversation logic.                                                                                | P0       | Architecture doc, Layers B+C                              |
+| FR-08 | System shall provide visual cues and prompts when the learner is stuck: sentence starters, vocabulary hints, or rephrased questions. Silence threshold varies by CEFR level (A1-A2: 8-10s [~], B1-B2: 5s [~]) - validated during dogfood. | P1       | Architecture B7                                           |
+| FR-09 | Post-session review shall include: full transcript, grammar notes, new vocabulary list, pronunciation scores, session summary, and scenario goal completion status.                                                                       | P1       | Architecture Layer C shared UI                            |
+| FR-10 | System shall support "quick start" - begin a recommended scenario within 5 seconds, based on curriculum position and learner profile.                                                                                                     | P2       | US-3                                                      |
+@JH: review requirements; add: ensure that guided conversations do not go off track. gently keep the user on target. be able to specify the level of flex that is allowed
 
 ### Non-Functional Requirements
 

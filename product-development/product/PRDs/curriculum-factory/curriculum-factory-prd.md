@@ -83,12 +83,12 @@ The architecture doc states: "This is where Berlitz's 140-year content advantage
 
 > All entries below are internal signals. No customer call transcripts exist for the content pipeline specifically. The pipeline is infrastructure - learners experience its output (scenarios) rather than the pipeline itself.
 
-| Source | Customer / Segment | Date | Verbatim |
-|--------|-------------------|------|----------|
-| Teams message | Chayan Roy / Internal Engineering | Jun 3 2026 | "Raised question on MVP scope for micro-lessons and how existing course content flows into AI avatar practice" [~] (paraphrase) |
-| Architecture doc | Internal / Engineering | Jun 7 2026 | "Berlitz's pedagogical IP (PDF instructor/student guides) feeds a Content Pipeline that generates AI-usable scenarios" - identified as Essential MVP |
-| AI Avatar PRD | Internal / Product | Jun 16 2026 | Avatar launch plan gates on scenario availability: 5 guided + 3 role-play for dogfood, scaling to 15+8 for GA |
-| Competitive analysis | Market signal | Jun 2026 | Berlitz targets 5/5 on Structured Curriculum; no AI-native competitor exceeds 4/5. The gap is closable - urgency to formalize the content advantage. |
+| Customer / Segment                | Verbatim                                                                                                                                             | Date        | Source               |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------------------- |
+| Chayan Roy / Internal Engineering | "Raised question on MVP scope for micro-lessons and how existing course content flows into AI avatar practice" [~] (paraphrase)                      | Jun 3 2026  | Teams message        |
+| Internal / Engineering            | "Berlitz's pedagogical IP (PDF instructor/student guides) feeds a Content Pipeline that generates AI-usable scenarios" - identified as Essential MVP | Jun 7 2026  | Architecture doc     |
+| Internal / Product                | Avatar launch plan gates on scenario availability: 5 guided + 3 role-play for dogfood, scaling to 15+8 for GA                                        | Jun 16 2026 | AI Avatar PRD        |
+| Market signal                     | Berlitz targets 5/5 on Structured Curriculum; no AI-native competitor exceeds 4/5. The gap is closable - urgency to formalize the content advantage. | Jun 2026    | Competitive analysis |
 
 **Learner evidence plan:**
 - **Owner:** PM
@@ -104,7 +104,7 @@ The architecture doc states: "This is where Berlitz's 140-year content advantage
 
 **Content Author (Instructional Designer / Berlitz Method Expert):** The primary user of the pipeline. Today, content authors manually write scenarios from scratch by reading PDF guides and applying their knowledge of the Berlitz Method and CEFR levels. They are experienced language teaching professionals - typically 5+ years of Berlitz Method experience [~]. There are approximately 2-5 people in this role at launch [~]. Their current workflow is: read PDF guide → mentally map to CEFR level → write scenario in a document → peer review → hand off to engineering for integration. The pipeline replaces the "read → write" steps with "ingest → generate → review."
 
-### Goals
+### Goals @JH: review
 
 1. **Build a repeatable pipeline that converts Berlitz source materials into AI-ready scenarios at 8-16x the speed of manual authoring** [~].
 2. **Produce enough validated scenarios to meet the AI Avatar launch requirements** - 15 guided conversations and 8 role-plays across A1-B2 by GA (Oct 2026).
