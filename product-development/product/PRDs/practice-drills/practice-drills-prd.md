@@ -4,7 +4,7 @@
 |-------|-------|
 | **Author** | Jan Hoffmann, PM |
 | **Status** | Draft |
-| **Last Updated** | 2026-06-18 |
+| **Last Updated** | 2026-06-21 |
 | **Related Plan** | `engineering/design/plans/ai-tutor-architecture.md` (Layer C - Presentation, Audio-Only Mode) |
 | **Dependencies** | Upstream: `curriculum-factory/curriculum-factory-prd.md` (content). Sibling: `ai-conversation/ai-conversation-prd.md` (conversation is a separate experience) |
 
@@ -41,7 +41,7 @@ Practice Drills are the short, focused, voice-driven practice activities in the 
 
 | Business lever | Impact |
 |---------------|--------|
-| Free-tier unlimited practice | Drills at 0.078 EUR/session enable unlimited free practice - the top of the conversion funnel. Conversation with avatar cannot serve this economically. (cost model v0.2.8) |
+| Free-tier unlimited practice | Drills are the cheapest AI practice (~0.08 EUR/session free tier). See [Cost Model Summary](../../product-context/cost-model-summary.md) for full breakdown. |
 | Conversion to paid | Free users who build a drill habit are the conversion pool for Plus/Career tiers. Target: >=5% free-to-paid conversion [~] |
 | Session volume | Drills are expected to carry the majority of practice sessions by count (short, repeatable). Quality here drives aggregate engagement metrics |
 
@@ -49,11 +49,11 @@ Practice Drills are the short, focused, voice-driven practice activities in the 
 
 ## 3. Users & Personas
 
-Hana and Pedro are from the canonical persona doc (`strategy/business-context/berlitz-jtbd-and-users.md`). The free-tier "Explorer" is a **proposed persona not yet in the canon** — the cost model assumes a $0 free tier but no persona is defined for it. See OQ-6.
+> **Shared reference:** See [Personas & Tiers](../../product-context/personas-and-tiers.md) for full persona definitions and tier entitlements.
 
-- **Explorer (Free, $0)** [~] - Proposed primary drills user. Uses pronunciation and vocabulary drills for casual practice. Conversion target for paid tiers. Most price-sensitive; drills are the main AI practice available to this tier
-- **Hobbyist Hana (Plus, $19/mo)** - Uses drills between conversation sessions for quick, low-pressure practice
-- **Professional Pedro (Pro, $49/mo)** - Uses pronunciation drills to polish accent for work contexts, in short bursts between meetings
+- **Explorer (Free)** - Primary drills user. Drills are the only AI practice available at this tier.
+- **Hobbyist Hana (Plus)** - Uses drills between conversation sessions
+- **Professional Pedro (Pro)** - Pronunciation drills for accent polish between meetings
 
 ---
 
@@ -102,7 +102,7 @@ Hana and Pedro are from the canonical persona doc (`strategy/business-context/be
 
 ### Instrumentation
 
-Drill events use the `drill.*` namespace (the `ai.*` conversation namespace is owned by the AI Conversation Experience PRD):
+> **Full schema:** See [Instrumentation Schema](../../product-context/instrumentation-schema.md) for the complete event schema across all products. Drill events use the `drill.*` namespace.
 
 | Event | Payload | Metrics it feeds |
 |-------|---------|-----------------|
@@ -182,7 +182,7 @@ As Hana, I want quick grammar fill-in and sentence-construction exercises with v
 
 ### Privacy
 
-Inherits all privacy constraints from AI Conversation Experience PRD Section 7 (Privacy & Data Constraints). Drills record and score learner speech under the same consent, retention, and GDPR requirements. **Note:** a free-tier learner may reach drills before ever starting a conversation, so the voice-recording consent gate must fire on the first *drill* session, not only the first conversation session.
+Inherits all privacy constraints from [Privacy & Data Requirements](../../product-context/privacy-and-data-requirements.md). Drills record and score learner speech under the same consent, retention, and GDPR requirements. **Note:** a free-tier learner may reach drills before ever starting a conversation, so the voice-recording consent gate must fire on the first *drill* session, not only the first conversation session.
 
 ---
 

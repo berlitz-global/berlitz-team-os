@@ -4,7 +4,7 @@
 |-------|-------|
 | **Author** | Jan Hoffmann, PM |
 | **Status** | Draft |
-| **Last Updated** | 2026-06-18 |
+| **Last Updated** | 2026-06-21 |
 | **Related RFC** | TBD - see Decisions Requiring PDRs below |
 | **Related Plan** | `engineering/design/plans/ai-tutor-architecture.md` |
 | **Related Research** | `product-context/ai-avatar-tutor-spec-research.md`, `product/PRDs/feature-matrix.md`, `competitive-research/strategic-positioning.md` |
@@ -68,6 +68,8 @@ The avatar render is the single largest AI cost line for paid tiers. This is why
 
 (cost model v0.2.8)
 
+> For how these compose with conversation costs, see [Cost Model Summary](../../product-context/cost-model-summary.md).
+
 ---
 
 ## 3. Why Now
@@ -111,6 +113,8 @@ All other metrics (speaking time, session return, completion, efficacy) are owne
 | Render latency | Must not exceed 200ms sustained >1h | Alert; if >250ms, rollback to audio-only | Real-time from avatar render pipeline |
 
 ### Instrumentation (avatar-specific events)
+
+> **Full schema:** See [Instrumentation Schema](../../product-context/instrumentation-schema.md) for the complete event schema across all products.
 
 These supplement the `ai.*` events defined in the AI Conversation Experience PRD:
 
@@ -176,15 +180,14 @@ As Executive Elena, I want the avatar to feel polished - no visible lip-sync art
 
 ## 7. Requirements
 
-### Functional Requirements @JH: review!!
+### Functional Requirements
 
 | ID    | Requirement                                                                                                                                                                                                                                                                                                 | Priority | Source                                               |
 | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ---------------------------------------------------- |
 | FR-01 | System shall render a single animated 3D avatar with lip-sync synchronized to TTS output, facial expressions responsive to conversation context (minimum: smile on positive feedback, concerned expression on repeated errors, neutral on exposition), and voice consistent with Berlitz brand personality. | P0       | Feature matrix C1; architecture Layer C              |
 | FR-02 | Learner shall be able to customise the avatar's visual appearance (e.g., gender, skin tone, clothing style) and select the avatar's spoken dialect/accent for the target language. Selection persists across sessions.                                                                                      | P1       | Feature matrix C1 extensions; architecture B4        |
-| FR-03 | System shall display a real-time transcript alongside the avatar during conversation, with inline correction highlights. <br><br>@JH: this is more of a conversation feature                                                                                                                                | P1       | Architecture Layer C                                 |
-| FR-04 | Avatar shall provide visual cues when delivering corrections (hand gesture on correction delivery) or when the learner is stuck (leaning forward, encouraging expression). Minimum 3 distinct gesture types at launch.                                                                                      | P1       | Architecture Layer C; Davis 2018 (gesture d ~= 0.36) |
-| FR-05 | On degraded connections (<2 Mbps), system shall gracefully fall back to audio-only mode with transcript, preserving session data.                                                                                                                                                                           | P1       | US-3                                                 |
+| FR-03 | Avatar shall provide visual cues when delivering corrections (hand gesture on correction delivery) or when the learner is stuck (leaning forward, encouraging expression). Minimum 3 distinct gesture types at launch.                                                                                      | P1       | Architecture Layer C; Davis 2018 (gesture d ~= 0.36) |
+| FR-04 | On degraded connections (<2 Mbps), system shall gracefully fall back to audio-only mode with transcript, preserving session data.                                                                                                                                                                           | P1       | US-3                                                 |
 
 ### Non-Functional Requirements
 

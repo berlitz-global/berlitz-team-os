@@ -4,7 +4,7 @@
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Author**       | Jan Hoffmann, PM                                                                                                                                                                                                                                                        |
 | **Status**       | Draft                                                                                                                                                                                                                                                                   |
-| **Last Updated** | 2026-06-18                                                                                                                                                                                                                                                              |
+| **Last Updated** | 2026-06-21                                                                                                                                                                                                                                                              |
 | **Related RFC**  | [`PDR-001`](../../decisions/PDR-001-content-generation-approach.md) - LLM vs template vs hybrid generation                                                                                                                                                              |
 | **Related Plan** | `engineering/design/plans/ai-tutor-architecture.md` (Layer A)                                                                                                                                                                                                           |
 | **Epic**         | [#39 - Content Pipeline](https://github.com/berlitz-global/berlitz-services/issues/39)                                                                                                                                                                                  |
@@ -106,6 +106,8 @@ The architecture doc states: "This is where Berlitz's 140-year content advantage
 ### Users
 
 **Content Author (Instructional Designer / Berlitz Method Expert):** The primary user of the pipeline. Today, content authors manually write scenarios from scratch by reading PDF guides and applying their knowledge of the Berlitz Method and CEFR levels. They are experienced language teaching professionals - typically 5+ years of Berlitz Method experience [~]. There are approximately 2-5 people in this role at launch [~]. Their current workflow is: read PDF guide → mentally map to CEFR level → write scenario in a document → peer review → hand off to engineering for integration. The pipeline replaces the "read → write" steps with "ingest → generate → review."
+
+> **Learner personas** (the end consumers of generated content) are defined in [Personas & Tiers](../../product-context/personas-and-tiers.md).
 
 ### Goals @JH: review
 
@@ -302,6 +304,8 @@ As the analytics system, I want to rank scenarios by how well they achieve their
 ---
 
 ## 8. AI Evaluation Plan
+
+> **Berlitz Method rubric:** The 5-dimension evaluation rubric is defined in [Berlitz Method & Eval Rubric](../../product-context/berlitz-method-and-eval-rubric.md). This section specifies how the content pipeline applies it to generated scenarios.
 
 The Curriculum Factory's generation pipeline (FR-07) is LLM-powered - the same structured input can produce different scenario outputs on each run. This section defines how we evaluate generation quality, what model capabilities are required, and how we handle failure modes.
 

@@ -4,7 +4,7 @@
 |-------|-------|
 | **Author** | Jan Hoffmann, PM |
 | **Status** | Draft |
-| **Last Updated** | 2026-06-18 |
+| **Last Updated** | 2026-06-21 |
 | **Related RFC** | TBD |
 | **Related Plan** | `engineering/design/plans/ai-tutor-architecture.md` (Layer B - AI Engine owns the runtime contract) |
 | **Related Research** | `product-context/ai-avatar-tutor-spec-research.md`, `product/PRDs/feature-matrix.md`, `competitive-research/strategic-positioning.md` |
@@ -57,16 +57,7 @@ Berlitz targets the **unoccupied top-right quadrant** (High AI + High Human) in 
 
 AI conversation is a shared cost component across all tiers. Its per-session cost is the non-avatar portion of AI Tutor sessions (the avatar render is the only cost unique to the avatar mode - see `ai-avatar-prd.md`).
 
-**Per-session AI conversation costs (v0.2.8, excluding avatar render):**
-- LLM (Claude Sonnet): 0.055€/session (10k tokens)
-- ASR (Deepgram Nova): 0.017€/session (4.5 min user speech)
-- TTS (Azure Neural): 0.028€/session (4.5 min AI speech)
-- Pronunciation (Azure): 0.021€/session (4.5 min user speech)
-- **Total AI conversation cost: ~0.121€/session** (~$0.13)
-
-This is the marginal cost of the conversation itself - cheap. The expensive parts are the avatar render (separate PRD) and the human teacher session (8.60€).
-
-(cost model v0.2.8)
+> **Cost breakdown:** See [Cost Model Summary](../../product-context/cost-model-summary.md). AI conversation cost is ~0.121 EUR/session (LLM + ASR + TTS + pronunciation). Avatar render is the only additional cost (separate PRD).
 
 ---
 
@@ -133,6 +124,8 @@ Grounded in VanLehn's ITS ceiling of d ~= 0.76 and field-RCT realistic range of 
 
 ### Instrumentation
 
+> **Full schema:** See [Instrumentation Schema](../../product-context/instrumentation-schema.md) for the complete event schema across all products. Conversation events use the `ai.*` namespace.
+
 Event names use `snake_case`; all events carry `session_id`, `user_id`, `tier`, `cefr_level`, `mode` (audio_only / avatar), and `timestamp`.
 
 | Event | Payload (key fields) | Metrics it feeds |
@@ -167,6 +160,8 @@ Event names use `snake_case`; all events carry `session_id`, `user_id`, `tier`, 
 ---
 
 ## 6. User Stories
+
+> **Persona definitions:** See [Personas & Tiers](../../product-context/personas-and-tiers.md). User stories below reference these personas.
 
 ### Professional Pedro (Pro, $49/mo)
 
@@ -246,6 +241,7 @@ As Executive Elena, I want the conversation to feel polished and professional - 
 | FR-08 | System shall provide visual cues and prompts when the learner is stuck: sentence starters, vocabulary hints, or rephrased questions. Silence threshold varies by CEFR level (A1-A2: 8-10s [~], B1-B2: 5s [~]) - validated during dogfood. | P1       | Architecture B7                                           |
 | FR-09 | Post-session review shall include: full transcript, grammar notes, new vocabulary list, pronunciation scores, session summary, and scenario goal completion status.                                                                       | P1       | Architecture Layer C shared UI                            |
 | FR-10 | System shall support "quick start" - begin a recommended scenario within 5 seconds, based on curriculum position and learner profile.                                                                                                     | P2       | US-3                                                      |
+| FR-11 | System shall display a real-time transcript alongside the voice/avatar UI during conversation, with inline correction highlights visible to the learner. | P1 | Architecture Layer C shared UI |
 @JH: review requirements; add: ensure that guided conversations do not go off track. gently keep the user on target. be able to specify the level of flex that is allowed
 
 ### Non-Functional Requirements
@@ -261,20 +257,13 @@ As Executive Elena, I want the conversation to feel polished and professional - 
 
 ### Privacy & Data Constraints
 
-The product records, transcribes, and scores learner speech. Berlitz operates in the EU (€ pricing, Germany launch market).
-
-| Constraint | Requirement | Owner |
-|-----------|------------|-------|
-| **Consent for voice recording** | Learner must explicitly consent before their first AI session. Consent revocable at any time. | Legal + Product |
-| **Data retention** | Audio recordings retained max 90 days [~], then auto-deleted. Transcripts retained for learner profile lifetime. Learner can request deletion (GDPR Art. 17). | Legal + Engineering |
-| **Human audit access controls** | 10% human audit sample anonymized/pseudonymized. Auditors access transcripts, not raw audio unless needed for pronunciation eval (logged, time-limited). | Legal + Data |
-| **GDPR DPIA** | Required before Phase 2 beta - voice biometric data is special category (GDPR Art. 9). | Legal |
-| **Data residency** | EU user data processed and stored within the EU. | Engineering + Legal |
-| **Launch gate** | Privacy review and DPIA approval are Phase 2 beta entry gates. | Legal |
+> **Shared reference:** See [Privacy & Data Requirements](../../product-context/privacy-and-data-requirements.md) for the complete privacy framework (consent, retention, GDPR DPIA, data residency). All requirements there are Phase 2 beta entry gates.
 
 ---
 
 ## 8. AI Evaluation Plan
+
+> **Berlitz Method rubric:** The 5-dimension evaluation rubric is defined in [Berlitz Method & Eval Rubric](../../product-context/berlitz-method-and-eval-rubric.md). This section specifies how the conversation product applies it.
 
 The conversation core loop is LLM-driven - the same input produces different outputs. This section defines eval methodology, model requirements, and failure-mode guardrails.
 
