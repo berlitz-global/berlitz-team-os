@@ -4,7 +4,7 @@
 |-------|-------|
 | **Author** | Jan Hoffmann, PM |
 | **Status** | Draft |
-| **Last Updated** | 2026-06-21 |
+| **Last Updated** | 2026-06-22 |
 | **Related RFC** | TBD |
 | **Related Plan** | `engineering/design/plans/ai-tutor-architecture.md` (Layer B - AI Engine owns the runtime contract) |
 | **Related Research** | `product-context/ai-avatar-tutor-spec-research.md`, `product/PRDs/feature-matrix.md`, `competitive-research/strategic-positioning.md` |
@@ -14,10 +14,10 @@
 
 ## Overview
 
-The AI Conversation Experience is the guided-conversation and role-play product in the Berlitz Learner App - the learner talks, and an AI that behaves like a trained Berlitz instructor steers the conversation, delivers corrections, enforces the Berlitz Method, adapts to CEFR level, and gives real-time feedback. It is delivered in two **modes**: audio-only (voice + transcript) and avatar (animated visual character). Both modes are the same conversation product; they differ only in presentation.
+The AI Conversation Experience is the guided-conversation and role-play product in the Berlitz Learner App - the learner talks, and an AI that behaves like a trained Berlitz instructor steers the conversation, delivers corrections, enforces the Berlitz Method, adapts to CEFR level, and gives real-time feedback. It is delivered in three **modes**: text-only (chat interface), audio-only (voice + transcript/subtitles), and avatar (animated visual character with subtitles). All modes may include a chat interface. All modes are the same conversation product; they differ only in presentation.
 
 - Consumes structured scenarios from the Curriculum Factory
-- Owns the conversation product end-to-end: user stories, success metrics, eval, and Berlitz Method compliance, across both delivery modes
+- Owns the conversation product end-to-end: user stories, success metrics, eval, and Berlitz Method compliance, across all delivery modes
 - The **avatar visual layer** is specified as a delta in `ai-avatar/ai-avatar-prd.md`; **practice drills** (pronunciation, vocabulary, grammar) are a separate experience in `practice-drills/practice-drills-prd.md`
 - The runtime engineering contract (mode-agnostic session API, swappable ASR/TTS/LLM/pronunciation components) is owned by Engineering - see architecture doc Layer B
 - If the avatar slips from MVP, the conversation product still ships in audio-only mode
@@ -27,10 +27,9 @@ The AI Conversation Experience is the guided-conversation and role-play product 
 ## 1. Problem Statement
 
 1. **Current third-party dependency is costly, limiting, and a data dead-end.**
-   - Berlitz spends ~26k EUR [~] on Talkio for conversation practice (Jan Hoffmann, Teams, May 18 2026)
-   - Talkio cannot enforce the Berlitz Method, follow Berlitz curriculum, or integrate with the learner profile
-   - No access to session-level data - learner utterances, error patterns, speaking time, and engagement signals stay locked in a third-party system
-   - This blocks the feedback loop needed for an in-house AI tutor and makes it impossible to measure learning outcomes
+   - Berlitz spends ~26k EUR [~] on Talkio for conversation practice (Jan Hoffmann, Teams, May 18 2026); the current pricing does not scale to the session volumes we need
+   - Talkio offers limited control over Berlitz Method enforcement, curriculum integration, and learner profile integration
+   - No access to session-level data - learner utterances, error patterns, speaking time, and engagement signals stay locked in a third-party system, blocking the feedback loop needed to measure learning outcomes
    - Building in-house unlocks: curriculum integration, method compliance, data ownership, lower unit costs (spec research 1.4)
 
 2. **An AI conversation partner is the right shape for speaking practice.**
@@ -63,19 +62,16 @@ AI conversation is a shared cost component across all tiers. Its per-session cos
 
 ## 3. Why Now
 
-1. **Sep 2026 web launch requires working AI conversation.** Both audio-only and avatar modes are deliveries of this one conversation product. It is on the critical path. (roadmap)
-
-2. **Talkio replacement is urgent.** ~26k€ [~] annual spend on a tool that cannot enforce Berlitz Method or feed data back. (spec research 1.4)
-
-3. **LLM capabilities now support the requirement.** Frontier-class models (e.g., Claude Sonnet, GPT-4o) offer the context window (>=32k), multilingual fluency, instruction following, and structured output needed for a pedagogically compliant tutor. This was not reliably achievable 18 months ago.
-
-4. **Conversation is the foundation for all AI experiences.** Audio-only, avatar, and future modes (open conversation, crosstalk) are all deliveries of this one product. Building it right and mode-agnostic is the highest-leverage investment.
+1. **Sep 2026 web launch requires working AI conversation.** All delivery modes (text, audio, avatar) depend on this one conversation product. It is on the critical path. (roadmap)
+2. **Talkio replacement is urgent.** ~26k EUR [~] annual spend on a tool that cannot enforce Berlitz Method or **feed data back**. (spec research 1.4)
+3. **LLM capabilities now support the requirement.** Frontier-class models (e.g., Claude Sonnet, GPT-4o) offer the context window (>=32k), multilingual fluency, instruction following, and structured output needed for a pedagogically compliant tutor.
+4. **Conversation is the foundation for all AI experiences.** Text, audio-only, avatar, and future modes (open conversation, crosstalk) are all deliveries of this one product. Building it right and mode-agnostic is the highest-leverage investment.
 
 ---
 
 ## 4. Customer Requests
 
-- [ ] HeyGen usage data shows audio-only is 10x avatar usage. Suggests AI instructor quality (steering, feedback, corrections) matters more than visual layer. Root cause unconfirmed - see AI Avatar PRD OQ-4
+- HeyGen usage data shows audio-only is 10x avatar usage. Suggests AI instructor quality (steering, feedback, corrections) matters more than visual layer and is accepted by users on its own. Root cause unconfirmed - see AI Avatar PRD OQ-4
 - No direct learner quotes requesting AI conversation practice exist yet. Demand is inferred from Talkio spend (26k EUR/yr [~]), HeyGen usage patterns, and competitive benchmarking (Speak, Praktika)
 - **Validation plan:** Collect >=5 qualitative feedback interviews during Phase 1 dogfood. Owner: PM
 
@@ -124,36 +120,17 @@ Grounded in VanLehn's ITS ceiling of d ~= 0.76 and field-RCT realistic range of 
 
 ### Instrumentation
 
-> **Full schema:** See [Instrumentation Schema](../../product-context/instrumentation-schema.md) for the complete event schema across all products. Conversation events use the `ai.*` namespace.
-
-Event names use `snake_case`; all events carry `session_id`, `user_id`, `tier`, `cefr_level`, `mode` (audio_only / avatar), and `timestamp`.
-
-| Event | Payload (key fields) | Metrics it feeds |
-|-------|---------------------|-----------------|
-| `ai.session.started` | `scenario_id`, `scenario_type` (guided / role_play), `mode` | Session completion rate, weekly sessions |
-| `ai.session.ended` | `end_reason` (goal_reached / time_up / learner_exit / error), `duration_ms` | Session completion rate, return rate |
-| `ai.utterance.learner` | `duration_ms`, `transcript`, `asr_confidence` | Speaking time per session |
-| `ai.utterance.tutor` | `duration_ms`, `latency_ms` (voice-to-first-audio) | Latency guardrail |
-| `ai.correction.delivered` | `correction_type` (grammar / pronunciation / vocabulary), `strategy` (prompt / recast / hint), `learner_response` (self_repair / ignored / n/a) | Berlitz Method compliance |
-| `ai.feedback.surfaced` | `feedback_type` (pronunciation_flag / vocab_suggestion / fluency_cue), `severity` | Diagnostic only (no target metric) |
-| `ai.scenario.goal_reached` | `scenario_id`, `turns_taken`, `time_to_goal_ms` | Session completion rate |
-| `ai.eval.compliance` | `session_id`, `compliance_score`, `violations[]` | Berlitz Method compliance guardrail |
-
-**Derived metrics:**
-- **Speaking time per session** = SUM(`ai.utterance.learner.duration_ms`) per `session_id`
-- **Session return rate** = COUNT(users with >=2 `ai.session.started` within 7 days) / COUNT(users with >=1)
-- **Session completion rate** = COUNT(`ai.session.ended` WHERE `end_reason` IN (goal_reached, time_up)) / COUNT(`ai.session.started`)
-- **Latency p95** = PERCENTILE(95, `ai.utterance.tutor.latency_ms`)
+> **Full event schema:** See [Instrumentation Schema](../../product-context/instrumentation-schema.md) for the complete technical event schema (`ai.*` namespace), payload specs, and derived metric formulas. The schema is an engineering artifact; what matters for this PRD is that every metric above is measurable on launch day.
 
 **Dependency:** Analytics engineering must confirm the event pipeline before Phase 2 beta entry. Owner: Analytics + Engineering.
 
 ### Non-goals
 
 - **Visual avatar rendering** - delta PRD (`ai-avatar-prd.md`): character, lip-sync, expressions, appearance/dialect, render cost. This PRD owns the conversation; the avatar PRD owns only the visual layer.
-- **Practice drills** - separate experience (`practice-drills-prd.md`): pronunciation, vocabulary, and grammar drills, wordbook, phoneme visualisation, SRS. Drills are not conversation.
+- **Practice drills** - separate experience (`practice-drills-prd.md`): pronunciation, vocabulary, and grammar drills, wordbook, phoneme visualisation, SRS. Drills are short listen/repeat/score reps; conversations are multi-turn dialogue. The boundary is the interaction pattern, not the delivery mode.
 - **Content/curriculum generation** - separate PRD (`curriculum-factory-prd.md`). This product consumes scenarios, it does not create them.
 - **Runtime engineering contract** - the mode-agnostic session API and component-swap design are owned by Engineering (architecture Layer B), not this PRD. This PRD states the requirement (FR-07, NFR-04); the contract itself is an engineering artifact.
-- **C3: Open Conversation** - post-MVP.
+- **C3: Open Conversation** - post-MVP. Requires the agent to leverage learner history for personalized open-ended practice; premature without sufficient session data.
 - **C10: Crosstalk Mode (L1<->L2)** - post-MVP.
 - **Human Teaching Integration (Section F)** - all post-MVP.
 
@@ -223,9 +200,23 @@ As Executive Elena, I want the conversation to feel polished and professional - 
 - High-quality TTS with natural prosody
 - Conversation maintains context across the full session (no repetition or topic amnesia)
 
+> **Note on B2B buyer persona (Buyer Ben):** The enterprise buyer's stake in conversation is not the dialogue mechanics but the *content* of conversations being tailored to a market or vertical (e.g., finance English, healthcare German). This is covered by Business Content Modules (#14, post-MVP) in the Curriculum Factory, not by this PRD.
+
 ---
 
 ## 7. Requirements
+
+### Scenario definition
+
+A scenario contains a conversation skeleton with a sequence of topics (story line) to cover, derived from the session objectives. The sequence allows some deviation (skipping ahead) but the system gently nudges the learner back to topics not yet covered. A scenario consists of:
+
+- Defined learning objectives
+- Vocabulary bounds and vocabulary focus, plus supporting visuals
+- Grammar focus
+- Success criteria
+- Visual theme (cafe setting, office setting, etc.)
+
+A conversation lasts a maximum of 15 minutes.
 
 ### Functional Requirements
 
@@ -237,12 +228,12 @@ As Executive Elena, I want the conversation to feel polished and professional - 
 | FR-04 | System prompts shall enforce Berlitz Method compliance: immersive L2 use (minimize L1), question-answer cycles, graduated difficulty, gentle error correction, and encouragement patterns.                                                | P0       | Feature matrix C7; architecture A4                        |
 | FR-05 | AI output shall be constrained to the learner's CEFR level: vocabulary, grammar structures, sentence complexity, and speaking speed bounded by curriculum position (~95-98% known vocabulary).                                            | P0       | Feature matrix C8; Hu & Nation 2000; architecture A5      |
 | FR-06 | System shall provide real-time, multi-dimensional feedback: pronunciation flags, vocabulary suggestions, and fluency cues surfaced alongside grammar correction - salient, without breaking flow.                                         | P0       | Feature matrix C9; spec research 2.3                      |
-| FR-07 | System shall expose a mode-agnostic session API so that both Audio-Only and Avatar presentation layers can connect without duplicating conversation logic.                                                                                | P0       | Architecture doc, Layers B+C                              |
+| FR-07 | System shall expose a mode-agnostic session API so that Text-Only, Audio-Only and Avatar presentation layers can connect without duplicating conversation logic.                                                                           | P0       | Architecture doc, Layers B+C                              |
 | FR-08 | System shall provide visual cues and prompts when the learner is stuck: sentence starters, vocabulary hints, or rephrased questions. Silence threshold varies by CEFR level (A1-A2: 8-10s [~], B1-B2: 5s [~]) - validated during dogfood. | P1       | Architecture B7                                           |
-| FR-09 | Post-session review shall include: full transcript, grammar notes, new vocabulary list, pronunciation scores, session summary, and scenario goal completion status.                                                                       | P1       | Architecture Layer C shared UI                            |
+| FR-09 | Post-session review shall include: full transcript, grammar notes, new vocabulary list, pronunciation scores, session summary, scenario goal completion status, and visual cues given.                                                     | P1       | Architecture Layer C shared UI                            |
 | FR-10 | System shall support "quick start" - begin a recommended scenario within 5 seconds, based on curriculum position and learner profile.                                                                                                     | P2       | US-3                                                      |
 | FR-11 | System shall display a real-time transcript alongside the voice/avatar UI during conversation, with inline correction highlights visible to the learner. | P1 | Architecture Layer C shared UI |
-@JH: review requirements; add: ensure that guided conversations do not go off track. gently keep the user on target. be able to specify the level of flex that is allowed
+| FR-12 | In guided conversation mode, the system shall keep the learner on the scenario's topic sequence. If the learner deviates, the system gently nudges back to uncovered topics. The degree of flexibility (how far off-topic is allowed before nudging) shall be configurable per scenario. | P1 | Scenario definition |
 
 ### Non-Functional Requirements
 
@@ -390,6 +381,8 @@ Must be operational before Phase 2 beta:
 | 6 | **Berlitz Method encoding validation:** Who is the designated Berlitz Method expert? | PM | Open - by Jul 1 2026 | architecture doc section 8 |
 | 7 | **TTS voice selection:** ElevenLabs Flash vs Cartesia Sonic vs Azure Neural TTS. Needs eval benchmark. | Engineering | Open | spec research 4.3 |
 | 8 | **Session API contract:** Mode-agnostic API (FR-07) constrains both avatar and audio-only layers. Engineering to propose contract and review with both PRD owners. | Engineering | Open - by Jul 15 2026 | architecture doc, Layers B+C |
+| 9 | **Talkio cost breakdown:** What do we get for ~26k EUR/yr? How many sessions, users, minutes? Needed to set the replacement baseline and justify build-vs-buy. | PM | Open | Jan Hoffmann comment |
+| 10 | **Latency target validation:** 500ms p95 is based on Stivers et al. turn-taking research. Engineering to validate whether 250ms is achievable and worth targeting. If so, tighten NFR-01. | Engineering | Open | Jan Hoffmann comment |
 
 ---
 
