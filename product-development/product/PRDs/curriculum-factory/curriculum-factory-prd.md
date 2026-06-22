@@ -14,9 +14,15 @@
 
 ## Overview
 
-The Curriculum Factory is the content pipeline that transforms Berlitz's pedagogical source materials into AI-ready scenarios for the AI Tutor. It runs offline at MVP; the vision is to evolve toward real-time personalized content delivery to increase learner stickiness. It ingests five types of source material - PDF instructor/student guides, CEFR reference specifications, vocabulary-to-lesson mappings (Excel), real lesson transcripts, and the **learner path** (defined by the LX team) - structures them, and uses LLM-powered generation to produce conversation scenarios, pronunciation drills, role-play scripts, and practice exercises. The output feeds the Scenario Library consumed by the AI Tutor at runtime.
+The Curriculum Factory is the content pipeline that transforms Berlitz's pedagogical source materials into any format Berlitz needs - from Instructor Guides (PDF) to drills in the mobile app to AI-ready conversation scenarios. It runs offline at MVP; the vision is to evolve toward real-time personalized content delivery to increase learner stickiness. It ingests five types of source material - PDF instructor/student guides, CEFR reference specifications, vocabulary-to-lesson mappings (Excel), real lesson transcripts, and the **learner path** (defined by the LX team) - structures them, and uses LLM-powered generation to produce conversation scenarios, pronunciation drills, role-play scripts, and practice exercises. The output feeds the Scenario Library consumed by the AI Tutor at runtime.
 
 **The overriding principle is output quality.** Every piece of generated content must meet the highest possible standards - linguistically correct, pedagogically sound, and rigorously grounded in the Berlitz Method. If the output quality is not to Berlitz instructor standards, nothing else matters. Speed and volume are valuable only after quality is assured.
+
+**Feedback loops** will optimize both the learner path and lesson content over time:
+- **Explicit feedback:** learner ratings, teacher observations, reviewer corrections
+- **Implicit feedback:** learner progress signals, session completion rates, error pattern clustering, scenario effectiveness scores
+
+**Automated QA** must scale with generation volume. The pipeline needs extensive "Berlitz level-appropriate" checks against the learner path and, ultimately, against actual learner knowledge. This may require a simulated learner agent that models the learning process based on the content provided - validating that a scenario is teachable before a real learner sees it. (See Simulation Engine, post-MVP roadmap #34.)
 
 **Scope: language learning only.** Culture and skills programs are important future Berlitz areas but are out of scope for the MVP and this PRD. The pipeline is designed for English first, with language parameterisation for future expansion.
 
