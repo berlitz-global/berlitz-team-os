@@ -37,6 +37,12 @@ Currently, the landscape of system looks like this.
 
 4. **Berlitz's richest pedagogical asset - real lesson transcripts - is untapped.** Transcripts of live face-to-face lessons capture how expert Berlitz instructors actually teach: their questioning patterns, correction timing, scaffolding techniques, and vocabulary choices by level. This is ground truth for what good Berlitz teaching looks like. Today, these transcripts sit unused. The Curriculum Factory can mine them for teaching patterns that inform scenario generation and evaluation rubrics. (architecture doc, Section 5) *Note: transcript ingestion is P1, not P0, because legal consent must be confirmed before processing - see Section 9.*
 
+5. **Existing content is not mobile-friendly.** Berlitz's current learning materials - PDF instructor/student guides, LMS-authored Flex/On Demand units - were designed for desktop web delivery. They do not render well on mobile and cannot be consumed as bite-sized practice in a native app. The Learner App (web Sep 2026, mobile Oct 2026) needs content in a format that works across devices. The Curriculum Factory produces structured, device-agnostic scenarios that the app renders natively.
+
+6. **Content creation is too slow to scale the language offering.** Updating or creating content for a single language currently takes over a year and requires a team of multiple LX designers plus external writers [~]. At this pace, expanding beyond the current language set (English, German, French, Spanish) is impractical, and keeping existing content fresh is a constant resource bottleneck. The pipeline must compress this cycle dramatically to make new languages and content updates viable.
+
+7. **There is no way to measure content effectiveness today.** Current content lives in static PDFs and LMS units with no structured metadata, no learner-level telemetry, and no feedback loop. Berlitz cannot answer basic questions: which lessons drive the most speaking practice? Which scenarios do learners abandon? Where do error patterns cluster by level? The Curriculum Factory produces tagged, structured content linked to the Scenario Library, enabling per-scenario effectiveness scoring and data-driven content iteration for the first time.
+
 ---
 
 ## 2. Business Opportunity
@@ -65,6 +71,9 @@ The architecture doc states: "This is where Berlitz's 140-year content advantage
 | Competitive moat | Competitors cannot replicate Berlitz's source materials. Even if they build similar pipelines, they lack the input corpus. |
 | Multi-language path | An English-first pipeline designed for language parameterization reduces marginal cost of expanding to Spanish, German, Japanese (post-MVP, #24). [~] |
 | Cost reduction | Replaces manual instructional design labor for scenario creation. Cost per scenario drops from hours of expert time to ~$0.50-2.00 LLM inference cost [~] + 15-30 min review time [~]. |
+| Mobile-native content | Transforms static PDFs and desktop-only LMS units into structured, device-agnostic scenarios the Learner App renders natively on web and mobile. Unblocks the mobile launch (Oct 2026). |
+| Content cycle compression | Current cycle: 1+ year per language with multiple LX people + external writers [~]. Pipeline target: weeks, not years. Makes new language launches and content refreshes viable at scale. |
+| Measurability | Structured, tagged content linked to the Scenario Library enables per-scenario effectiveness scoring, engagement tracking, and data-driven iteration - none of which is possible with today's static content. |
 
 ---
 
