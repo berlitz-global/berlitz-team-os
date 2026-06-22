@@ -125,7 +125,19 @@ The architecture doc states: "This is where Berlitz's 140-year content advantage
 
 ### Users
 
-**Content Author (Instructional Designer / Berlitz Method Expert):** The primary user of the pipeline. Today, content authors manually write scenarios from scratch by reading PDF guides and applying their knowledge of the Berlitz Method and CEFR levels. They are experienced language teaching professionals - typically 5+ years of Berlitz Method experience [~]. There are approximately 2-5 people in this role at launch [~]. Their current workflow is: read PDF guide → mentally map to CEFR level → write scenario in a document → peer review → hand off to engineering for integration. The pipeline replaces the "read → write" steps with "ingest → generate → review."
+**Content Author (Instructional Designer / Berlitz Method Expert):** The primary user of the pipeline. These are experienced language teaching professionals — typically 5+ years of Berlitz Method experience [~], approximately 2–5 people at launch [~]. They produce all learning content: Instructor Guides for live coaching sessions, self-paced lessons for the LMS/app, interactive exercises, drill content, and conversation scenarios.
+
+**Scale of their work.** Each Berlitz level contains 4 modules; each module has 9 self-paced lessons, 5 live coaching sessions (requiring IG content), 1 checkpoint, and 9 review units (content-taxonomy.md). At 8 MVP levels (A1–B2), that is **32 modules, 288 self-paced lessons, 160 coaching sessions, and 32 checkpoints** — each requiring authored content. On top of that, the AI Tutor needs conversation scenarios, role-plays, and drill sets for each unit. Hand-authoring all of this takes over a year per language with multiple LX designers plus external writers [~].
+
+**Current workflow:**
+1. Read PDF instructor/student guides for the target level
+2. Map content to CEFR level — identify vocabulary scope, grammar structures, topic progression
+3. Plan a module — outline 9 lessons with vocabulary and grammar progression across lessons, keeping the learner path coherent
+4. Write each lesson — the creative work: IG teaching prompts, self-paced lesson screens, exercises, drill content, or conversation scenarios depending on the content type
+5. Peer review by another content author
+6. Hand off to engineering for integration into the LMS or app
+
+**What the pipeline changes.** Steps 1–2 become automated ingestion. Step 3 (module planning) remains a human-led creative act — the LX team defines the learner path. Step 4 (writing) is where the pipeline has the highest impact: it generates draft content grounded in the structured source material from steps 1–2 and the learner path from step 3. The content author's role shifts from *writing from scratch* to *reviewing, editing, and approving* generated drafts — a fundamentally faster workflow.
 
 > **Learner personas** (the end consumers of generated content) are defined in [Personas & Tiers](../../product-context/personas-and-tiers.md).
 
