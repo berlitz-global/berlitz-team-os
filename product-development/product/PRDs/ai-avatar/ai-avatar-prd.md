@@ -166,7 +166,7 @@ As a learner on a slow connection, I want the session to continue in audio-only 
 - Learner is informed: "Switched to audio mode - your connection is slow"
 - Session data (corrections, speaking time) is preserved regardless of mode switch
 
-### Executive Elena (Premium, $99/mo)
+### Executive Elena (Premium)
 
 **US-4: Premium visual quality**
 As Executive Elena, I want the avatar to feel polished - no visible lip-sync artifacts, natural expressions - so that it matches the premium quality I expect.

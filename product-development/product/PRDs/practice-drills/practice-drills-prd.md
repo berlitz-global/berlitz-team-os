@@ -122,7 +122,7 @@ Practice Drills are the short, focused, voice-driven practice activities in the 
 
 ## 6. User Stories
 
-### Explorer (Free, $0)
+### Explorer (Free)
 
 **US-1: Pronunciation drill**
 As a free-tier learner, I want to hear a native-speaker example, repeat it, and see phoneme-level feedback showing which sounds I got right and which need work, so that I can improve my pronunciation systematically.
@@ -146,7 +146,7 @@ As a free-tier learner, I want to see a vocabulary flashcard, say the word aloud
 - Words marked "mastered" require fewer reviews; words marked "learning" appear more frequently
 - **Cold start:** New users with no word history see a starter set of high-frequency words for their CEFR level
 
-### Hobbyist Hana (Plus, $19/mo)
+### Hobbyist Hana (Plus)
 
 **US-3: Grammar drill between conversations**
 As Hana, I want quick grammar fill-in and sentence-construction exercises with voice input and instant correction, so that I can shore up a specific structure in a few minutes without starting a full conversation.

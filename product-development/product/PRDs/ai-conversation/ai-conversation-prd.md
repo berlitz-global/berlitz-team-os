@@ -163,7 +163,7 @@ Event names use `snake_case`; all events carry `session_id`, `user_id`, `tier`, 
 
 > **Persona definitions:** See [Personas & Tiers](../../product-context/personas-and-tiers.md). User stories below reference these personas.
 
-### Professional Pedro (Pro, $49/mo)
+### Professional Pedro (Pro)
 
 **US-1: Guided conversation for work scenarios**
 As Professional Pedro, I want to practice a structured business conversation with the AI instructor (e.g., presenting project updates to a client), so that I build speaking confidence for real work situations.
@@ -192,7 +192,7 @@ As Professional Pedro, I want to start a session quickly (under 5 seconds from a
 - "Quick start" recommends a scenario based on curriculum position
 - Session can end at any point without penalty (no negative impact on CEFR level, streak, or progress; partial data saved)
 
-### Hobbyist Hana (Plus, $19/mo)
+### Hobbyist Hana (Plus)
 
 **US-4: Low-pressure conversation practice**
 As Hobbyist Hana, I want to have a casual conversation about everyday topics, so that I practice speaking without feeling judged.
@@ -203,7 +203,7 @@ As Hobbyist Hana, I want to have a casual conversation about everyday topics, so
 - Language is constrained to Hana's CEFR level (>=95% of vocabulary within level band)
 - AI provides explicit positive reinforcement at least once per 5 turns [~] (general conversation behaviour per FR-04 encouragement patterns; stated here as Hana cares most)
 
-### Career Carla (Career, $39/mo)
+### Career Carla (Career)
 
 **US-5: Business role-play for career advancement**
 As Career Carla, I want to role-play a job interview in my target industry, so that I can practice articulating my experience and skills in the target language.
@@ -213,7 +213,7 @@ As Career Carla, I want to role-play a job interview in my target industry, so t
 - AI asks follow-up questions that push Carla to elaborate (Swain output hypothesis)
 - Post-session feedback highlights business-relevant vocabulary and formal register usage
 
-### Executive Elena (Premium, $99/mo)
+### Executive Elena (Premium)
 
 **US-6: Premium conversation experience**
 As Executive Elena, I want the conversation to feel polished and professional - natural voice, responsive timing, no awkward pauses.
