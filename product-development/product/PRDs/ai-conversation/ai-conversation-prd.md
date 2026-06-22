@@ -104,9 +104,10 @@ No AI instructor baselines exist today. Baselines will be set in two passes:
 
 ### Efficacy metrics (longer-term)
 
-| Metric | Definition | Baseline | Target | Timeframe |
-|--------|-----------|----------|--------|-----------|
+| Metric                | Definition                                                           | Baseline           | Target                           | Timeframe     |
+| --------------------- | -------------------------------------------------------------------- | ------------------ | -------------------------------- | ------------- |
 | CEFR progression rate | Rate of CEFR sub-level advancement for AI session users vs non-users | Set from GA cohort | >=1.3x the rate of non-users [~] | GA + 6 months |
+|                       |                                                                      |                    |                                  |               |
 
 Grounded in VanLehn's ITS ceiling of d ~= 0.76 and field-RCT realistic range of g ~= 0.3-0.5. (spec research 2.1)
 

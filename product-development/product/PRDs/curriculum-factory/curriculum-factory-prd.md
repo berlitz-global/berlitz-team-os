@@ -333,6 +333,14 @@ As the analytics system, I want to rank scenarios by how well they achieve their
 
 ### Functional Requirements
 
+### Content required for Mobile App
+
+1. Take existing On-Demand content for (old) English 1-4 and put make available for mobile app usage. No authoring. 
+   !!! find out if there is going to be a new LMS !!!
+2. Updated content made mobile friendly using AI
+3. Update to latest version of content (LX is working on an update for English 1-4, who makes it mobile friendly?) 
+### Actual Curriculum Factory
+
 | ID    | Requirement                                                                                                                                                                                                                                                                                                                                                                      | Priority | Component                  | Source                                    |
 | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------------------------- | ----------------------------------------- |
 | FR-01 | System shall ingest Berlitz PDF instructor guides and student guides, extracting: lesson goals, vocabulary lists, grammar points, dialog scripts, story outlines, and exercise instructions.                                                                                                                                                                                     | P0       | A1 (PDF Ingestion)         | #26; architecture A1                      |

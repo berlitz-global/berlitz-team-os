@@ -15,7 +15,7 @@
 Practice Drills are the short, focused, voice-driven practice activities in the Berlitz Learner App: pronunciation, vocabulary, and grammar drills with a lightweight voice UI and phoneme-level feedback. They are distinct from AI conversation - drills are listen/repeat/score/retry reps, not multi-turn dialogue.
 
 - Default practice mode for the free tier, at near-zero marginal cost (no avatar render, no full conversation LLM loop)
-- Covers pronunciation, vocabulary, and grammar drills plus the Wordbook
+- Covers pronunciation, vocabulary, and grammar drills plus the Wordbook  
 - Conversation (guided + role-play, in either audio or avatar mode) is a separate experience - see `ai-conversation/ai-conversation-prd.md`
 - Content (words, phrases, exercises) comes from the Curriculum Factory
 
@@ -24,14 +24,12 @@ Practice Drills are the short, focused, voice-driven practice activities in the 
 ## 1. Problem Statement
 
 1. **Not every practice session is a conversation.**
-   - Short drills (1-5 min) targeting pronunciation, vocabulary, or grammar are better served by a focused voice UI than a full conversation flow
+   - Short audio driven drills (1-5 min) targeting pronunciation, vocabulary, or grammar are better served by a focused voice UI than a full conversation flow
    - Interaction pattern is listen, repeat, get feedback, try again - a multi-turn AI dialogue adds cost and load time without value for this use case
-
-2. **The free tier needs unlimited practice at near-zero marginal cost.**
+1. **The free tier needs unlimited practice at near-zero marginal cost.**
    - Cost model (v0.2.8): free-tier voice-only practice at 0.078 EUR/session vs 0.507 EUR/session with avatar (Simli)
    - Drills are the cheapest practice we can offer and enable unlimited free practice without destroying unit economics
-
-3. **Drills are the high-frequency habit that feeds the conversion funnel.**
+1. **Drills are the high-frequency habit that feeds the conversion funnel.**
    - A learner can fit several 1-5 min drills into a day where they would not start a full conversation
    - High-frequency drill practice builds the daily habit that converts free users into paid conversation users
 
@@ -59,14 +57,14 @@ Practice Drills are the short, focused, voice-driven practice activities in the 
 
 ## 4. Scope
 
-### In scope (MVP)
+### In scope (MVP) - !!! JH: list out all types of drills!!!
 
 - **Pronunciation drills** - listen to native audio, repeat word/phrase, get phoneme-level scoring with visual feedback (feature matrix B1)
 - **Vocabulary drills** - flashcard with speech input, spaced repetition scheduling (B2)
 - **Grammar exercises** - fill-in-the-blank and sentence construction with voice input, instant correction (B3)
 - **Drill session summary** - words practiced, accuracy rate, pronunciation scores, time spent (B5)
 - **Wordbook** - personal vocabulary collection with SRS review (B6)
-- **Voice-only drill UI** - waveform visualisation, phoneme heatmap (green/yellow/red per sound), recording state indicator, vocabulary flashcard display
+- **Voice-only drill UI** - waveform vizualisation, phoneme heatmap (green/yellow/red per sound), recording state indicator, vocabulary flashcard display
 
 ### Out of scope
 
@@ -95,22 +93,11 @@ Practice Drills are the short, focused, voice-driven practice activities in the 
 
 ### Guardrails
 
-| Guardrail | Threshold | Action |
-|-----------|-----------|--------|
+| Guardrail                                                              | Threshold                                          | Action                                                                                     |
+| ---------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | Pronunciation scoring accuracy (false positive rate on phoneme errors) | <10% false positive rate [~] on calibration corpus | Alert Engineering; if >15%, suppress scoring and show "Try again in a quieter environment" |
-| Cost per drill session | Must not exceed 0.15 EUR (paid) or 0.08 EUR (free) | Alert PM + Engineering; investigate cost spike |
-
-### Instrumentation
-
-> **Full schema:** See [Instrumentation Schema](../../product-context/instrumentation-schema.md) for the complete event schema across all products. Drill events use the `drill.*` namespace.
-
-| Event | Payload | Metrics it feeds |
-|-------|---------|-----------------|
-| `drill.started` | `drill_type` (pronunciation / vocabulary / grammar), `cefr_level`, `tier` | Drill completion rate, weekly sessions |
-| `drill.completed` | `items_total`, `items_completed`, `accuracy_rate`, `duration_ms` | Drill completion rate |
-| `drill.pronunciation.scored` | `phoneme_scores[]`, `word`, `confidence`, `overall_score` | Pronunciation accuracy guardrail |
-| `drill.vocabulary.reviewed` | `word_id`, `srs_interval`, `outcome` (correct / incorrect) | SRS effectiveness |
-| `drill.abandoned` | `items_completed`, `items_total`, `abandon_reason` (if detectable) | Drill completion rate |
+| Cost per drill session                                                 | Must not exceed 0.15 EUR (paid) or 0.08 EUR (free) | Alert PM + Engineering; investigate cost spike                                             |
+|                                                                        |                                                    |                                                                                            |
 
 ### Non-goals
 
@@ -163,14 +150,14 @@ As Hana, I want quick grammar fill-in and sentence-construction exercises with v
 
 ### Functional Requirements
 
-| ID | Requirement | Priority | Source |
-|----|------------|----------|--------|
-| FR-01 | System shall play native reference audio and score learner pronunciation at the phoneme level with visual heatmap feedback. | P0 | Feature matrix B1 |
-| FR-02 | System shall deliver vocabulary drills with speech input and spaced repetition scheduling. | P0 | Feature matrix B2 |
-| FR-03 | System shall deliver grammar exercises with voice input and instant correction with explanation. | P0 | Feature matrix B3 |
-| FR-04 | Post-drill summary shall show: words practiced, accuracy rate, pronunciation scores, time spent. | P0 | Feature matrix B5 |
-| FR-05 | Wordbook shall allow learners to save words/phrases from any session, browse, search, and review via SRS scheduling. | P0 | Feature matrix B6 |
-| FR-06 | Voice UI shall display waveform visualisation, recording state, and phoneme-level feedback during drills. | P0 | Architecture Layer C |
+| ID    | Requirement                                                                                                                   | Priority | Source               |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | -------------------- |
+| FR-01 | System shall play native reference audio and score learner pronunciation at the phoneme level with visual heatmap feedback.   | P0       | Feature matrix B1    |
+| FR-02 | System shall deliver vocabulary drills with speech input and spaced repetition scheduling.                                    | P0       | Feature matrix B2    |
+| FR-03 | System shall deliver grammar exercises with voice input and instant correction with explanation.                              | P0       | Feature matrix B3    |
+| FR-04 | Post-drill summary shall show: words practiced, accuracy rate, pronunciation scores, time spent.                              | P1       | Feature matrix B5    |
+| FR-05 | Wordbook shall allow learners to save words/phrases from any session, browse, search, and review via SRS scheduling.          | P2       | Feature matrix B6    |
+| FR-06 | !!!JH review !!!<br>Voice UI shall display waveform visualisation, recording state, and phoneme-level feedback during drills. | P0       | Architecture Layer C |
 
 ### Non-Functional Requirements
 
