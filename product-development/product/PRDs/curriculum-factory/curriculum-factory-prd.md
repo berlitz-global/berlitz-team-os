@@ -14,7 +14,7 @@
 
 ## Overview
 
-The Curriculum Factory is the offline content pipeline that transforms Berlitz's pedagogical source materials into AI-ready scenarios for the AI Tutor. It ingests five types of source material - PDF instructor/student guides, CEFR reference specifications, vocabulary-to-lesson mappings (Excel), real lesson transcripts, and the **learner path** (defined by the LX team) - structures them, and uses LLM-powered generation to produce conversation scenarios, pronunciation drills, role-play scripts, and practice exercises. The output feeds the Scenario Library consumed by the AI Tutor at runtime.
+The Curriculum Factory is the content pipeline that transforms Berlitz's pedagogical source materials into AI-ready scenarios for the AI Tutor. It runs offline at MVP; the vision is to evolve toward real-time personalized content delivery to increase learner stickiness. It ingests five types of source material - PDF instructor/student guides, CEFR reference specifications, vocabulary-to-lesson mappings (Excel), real lesson transcripts, and the **learner path** (defined by the LX team) - structures them, and uses LLM-powered generation to produce conversation scenarios, pronunciation drills, role-play scripts, and practice exercises. The output feeds the Scenario Library consumed by the AI Tutor at runtime.
 
 **The overriding principle is output quality.** Every piece of generated content must meet the highest possible standards - linguistically correct, pedagogically sound, and rigorously grounded in the Berlitz Method. If the output quality is not to Berlitz instructor standards, nothing else matters. Speed and volume are valuable only after quality is assured.
 
