@@ -14,7 +14,9 @@
 
 ## Overview
 
-The Curriculum Factory is the content pipeline that transforms Berlitz's pedagogical source materials into any format Berlitz needs - from Instructor Guides (PDF) to drills in the mobile app to AI-ready conversation scenarios. It runs offline at MVP; the vision is to evolve toward real-time personalized content delivery to increase learner stickiness. It ingests five types of source material - PDF instructor/student guides, CEFR reference specifications, vocabulary-to-lesson mappings (Excel), real lesson transcripts, and the **learner path** (defined by the LX team) - structures them, and uses LLM-powered generation to produce conversation scenarios, pronunciation drills, role-play scripts, and practice exercises. The output feeds the Scenario Library consumed by the AI Tutor at runtime.
+The Curriculum Factory is the content engine for the entire Berlitz Learner App — and eventually for Berlitz's instructor channel too. It transforms Berlitz's pedagogical source materials into every content format Berlitz needs: conversation scenarios and role-plays for the AI Tutor, pronunciation/vocabulary/grammar drills for practice mode, self-paced lesson screens for learning mode, and Instructor Guide (IG) teaching prompts for live coaching sessions. One pipeline, many outputs.
+
+It runs offline at MVP; the vision is to evolve toward real-time personalised content delivery to increase learner stickiness. It ingests five types of source material — PDF instructor/student guides, CEFR reference specifications, vocabulary-to-lesson mappings (Excel), QA'd lesson recordings, and the **learner path** (defined by the LX team) — structures them, and uses LLM-powered generation to produce content across all types. The output feeds the Scenario Library consumed by the Learner App at runtime.
 
 **The overriding principle is output quality.** Every piece of generated content must meet the highest possible standards - linguistically correct, pedagogically sound, and rigorously grounded in the Berlitz Method. If the output quality is not to Berlitz instructor standards, nothing else matters. Speed and volume are valuable only after quality is assured.
 
@@ -26,7 +28,7 @@ The Curriculum Factory is the content pipeline that transforms Berlitz's pedagog
 
 **Scope: language learning only.** Culture and skills programs are important future Berlitz areas but are out of scope for the MVP and this PRD. The pipeline is designed for English first, with language parameterisation for future expansion.
 
-This PRD covers the **MVP pipeline** (architecture components A1-A5): ingestion, structuring, generation, Berlitz Method encoding, and level-appropriate language constraints - plus the quality assurance model that ensures output meets the bar. Content pipeline metrics (#15), business content modules (#14), and multi-language expansion (#24) are post-MVP.
+This PRD covers the **MVP pipeline** (architecture components A1–A5): ingestion, structuring, generation across all content types (conversations, drills, lesson screens, IG prompts), Berlitz Method encoding, level-appropriate language constraints, and the quality assurance model that ensures output meets the bar. Content pipeline metrics (#15), business content modules (#14), and multi-language expansion (#24) are post-MVP.
 
 Currently, the landscape of system looks like this.
 ![[legacy authoring and delivery.png]]
@@ -35,19 +37,21 @@ Currently, the landscape of system looks like this.
 
 ## 1. Problem Statement
 
-1. **Berlitz has 140 years of pedagogical IP locked in static formats.** Instructor guides, student guides, CEFR reference material, vocabulary mappings, and lesson transcripts exist as PDFs, Excel files, and audio/text transcripts. None of this material is machine-readable or queryable. The AI Tutor cannot use any of it without manual extraction and reformatting. Every scenario created today is hand-authored from scratch - the existing curriculum is effectively invisible to the AI system. (architecture doc, Layer A)
+1. **Berlitz has 140 years of pedagogical IP locked in static formats.** Instructor guides, student guides, CEFR reference material, vocabulary mappings, and lesson transcripts exist as PDFs, Excel files, and audio/text transcripts. None of this material is machine-readable or queryable. The Learner App cannot use any of it without manual extraction and reformatting. Every piece of content — from a conversation scenario to a pronunciation drill to a vocabulary exercise — is hand-authored from scratch. The existing curriculum is effectively invisible to the AI system and to the mobile app. (architecture doc, Layer A)
 
-2. **Hand-authored scenarios do not scale.** The AI Avatar PRD requires 5 guided conversations and 3 role-plays by Aug 2026 (dogfood), 15 guided conversations and 8 role-plays by Oct 2026 (GA), spanning CEFR levels A1-B2. Hand-authoring each scenario takes hours of instructional design time [~]. At steady state, the AI Tutor needs hundreds of scenarios across levels, skill types, and topics to avoid learner repetition and maintain engagement. Manual creation cannot reach this volume at acceptable cost or speed. (AI Avatar PRD, Section 9)
+2. **Hand-authored content does not scale to fill the mobile app.** The Learner App needs content across every content type in the taxonomy: guided conversations, role-plays, pronunciation drills, vocabulary drills, grammar exercises, and self-paced learning screens — for each of 8 Berlitz levels (A1–B2), across 4 modules per level, with 9 lessons per module. That is ~288 lesson units at MVP scope (content-taxonomy.md), each containing multiple activities. Hand-authoring each activity takes hours of instructional design time [~]. The pipeline must produce all content types the app delivers, not just conversation scenarios. (content-taxonomy.md; AI Conversation Experience PRD; Practice Drills PRD)
 
-3. **Without structured content, the AI Tutor cannot enforce the Berlitz Method or respect CEFR bounds.** The AI Tutor's system prompts need vocabulary lists, grammar scoping, lesson objectives, and dialog patterns drawn from the Berlitz curriculum - not generic LLM knowledge. If the Tutor generates content from its own training data rather than Berlitz-specific material, it will drift from the Berlitz Method and produce level-inappropriate output. The content pipeline is what makes the AI Tutor a *Berlitz* tutor rather than a generic language chatbot. (architecture doc, A4-A5; competitive-matrix.md, Section B)
+3. **Without structured content, the AI Tutor cannot enforce the Berlitz Method or respect CEFR bounds.** The AI Tutor's system prompts need vocabulary lists, grammar scoping, lesson objectives, and dialog patterns drawn from the Berlitz curriculum — not generic LLM knowledge. If the Tutor generates content from its own training data rather than Berlitz-specific material, it will drift from the Berlitz Method and produce level-inappropriate output. This applies equally to drill content (word lists, grammar exercises) and conversation content (dialog flows, correction opportunities). The content pipeline is what makes the AI Tutor a *Berlitz* tutor rather than a generic language chatbot. (architecture doc, A4–A5; competitive-matrix.md, Section B)
 
-4. **Berlitz's richest pedagogical asset - real lesson transcripts - is untapped.** Transcripts of live face-to-face lessons capture how expert Berlitz instructors actually teach: their questioning patterns, correction timing, scaffolding techniques, and vocabulary choices by level. This is ground truth for what good Berlitz teaching looks like. Today, these transcripts sit unused. The Curriculum Factory can mine them for teaching patterns that inform scenario generation and evaluation rubrics. (architecture doc, Section 5) *Note: transcript ingestion is P1, not P0, because legal consent must be confirmed before processing - see Section 9.*
+4. **Berlitz's richest pedagogical asset — QA'd lesson recordings — is untapped.** Tens of thousands of recorded Berlitz lessons exist, individually scored as part of the instructor QA process. These capture how expert Berlitz instructors actually teach: their questioning patterns, correction timing, scaffolding techniques, and vocabulary choices by level. This is ground truth for what good Berlitz teaching looks like. Today, these recordings are used mainly to rank instructors. The Curriculum Factory can mine them as few-shot training examples for generation, as evaluation benchmarks for generated content, and as a source of teaching patterns for Berlitz Method encoding. (architecture doc, Section 5) *Note: transcript ingestion is P1, not P0, because legal consent must be confirmed before processing — see Section 10. A 90-day retention limit means structured pattern extraction must happen within the retention window — see Section 9.*
 
-5. **Existing content is not mobile-friendly.** Berlitz's current learning materials - PDF instructor/student guides, LMS-authored Flex/On Demand units - were designed for desktop web delivery. They do not render well on mobile and cannot be consumed as bite-sized practice in a native app. The Learner App (web Sep 2026, mobile Oct 2026) needs content in a format that works across devices. The Curriculum Factory produces structured, device-agnostic scenarios that the app renders natively.
+5. **Existing content is not mobile-friendly.** Berlitz's current learning materials — PDF instructor/student guides, LMS-authored Flex/On Demand units — were designed for desktop web delivery. They do not render well on mobile and cannot be consumed as bite-sized practice in a native app. The Learner App (web Sep 2026, mobile Oct 2026) needs content in a structured, device-agnostic format. The Curriculum Factory produces content the app renders natively — whether that is a conversation scenario, a drill set, or a self-paced lesson screen.
 
 6. **Content creation is too slow to scale the language offering.** Updating or creating content for a single language currently takes over a year and requires a team of multiple LX designers plus external writers [~]. At this pace, expanding beyond the current language set (English, German, French, Spanish) is impractical, and keeping existing content fresh is a constant resource bottleneck. The pipeline must compress this cycle dramatically to make new languages and content updates viable.
 
-7. **There is no way to measure content effectiveness today.** Current content lives in static PDFs and LMS units with no structured metadata, no learner-level telemetry, and no feedback loop. Berlitz cannot answer basic questions: which lessons drive the most speaking practice? Which scenarios do learners abandon? Where do error patterns cluster by level? The Curriculum Factory produces tagged, structured content linked to the Scenario Library, enabling per-scenario effectiveness scoring and data-driven content iteration for the first time.
+7. **There is no way to measure content effectiveness today.** Current content lives in static PDFs and LMS units with no structured metadata, no learner-level telemetry, and no feedback loop. Berlitz cannot answer basic questions: which lessons drive the most speaking practice? Which drills do learners skip? Which scenarios do learners abandon? Where do error patterns cluster by level? The Curriculum Factory produces tagged, structured content linked to the Scenario Library, enabling per-item effectiveness scoring and data-driven content iteration for the first time.
+
+8. **Content customization is only possible through human instructors.** Currently, some customization is performed for large enterprise customers (industry-specific vocabulary, company glossaries, role-specific scenarios), and this is possible only because human instructors adapt on the fly. This increases engagement and retention but does not scale. The Curriculum Factory lays the foundation for programmatic content customization — generating scenarios that use a customer's glossary, industry context, or role requirements — without requiring instructor improvisation.  
 
 ---
 
@@ -69,31 +73,32 @@ The architecture doc states: "This is where Berlitz's 140-year content advantage
 
 ### Business levers
 
-| Business lever | Impact |
-|---------------|--------|
-| Content velocity | Pipeline batch-generates scenarios ~8-16x faster than manual authoring [~]. Baseline: ~4-8 hours per scenario manually. Target: <30 min per scenario including validation. Batch generation amplifies this further - 10 scenarios in <30 min vs. 40-80 hours manual [~]. |
-| Berlitz Method enforcement | Scenarios generated from Berlitz source material and constrained by Berlitz Method encoding are structurally compliant - not relying solely on LLM system prompts at runtime. (architecture doc, A4) |
-| CEFR precision | Vocabulary and grammar constraints drawn from CEFR reference material and the vocabulary-to-lesson Excel mapping, not LLM approximations. Enables the >=95% known-vocabulary target in the Avatar PRD (NFR-04). |
-| Competitive moat | Competitors cannot replicate Berlitz's source materials. Even if they build similar pipelines, they lack the input corpus. |
-| Multi-language path | An English-first pipeline designed for language parameterization reduces marginal cost of expanding to Spanish, German, Japanese (post-MVP, #24). [~] |
-| Cost reduction | Replaces manual instructional design labor for scenario creation. Cost per scenario drops from hours of expert time to ~$0.50-2.00 LLM inference cost [~] + 15-30 min review time [~]. |
-| Mobile-native content | Transforms static PDFs and desktop-only LMS units into structured, device-agnostic scenarios the Learner App renders natively on web and mobile. Unblocks the mobile launch (Oct 2026). |
-| Content cycle compression | Current cycle: 1+ year per language with multiple LX people + external writers [~]. Pipeline target: weeks, not years. Makes new language launches and content refreshes viable at scale. |
-| Measurability | Structured, tagged content linked to the Scenario Library enables per-scenario effectiveness scoring, engagement tracking, and data-driven iteration - none of which is possible with today's static content. |
+| Business lever             | Impact                                                                                                                                                                                                                                       |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Content velocity           | Pipeline batch-generates scenarios many times faster than manual authoring [~].                                                                                                                                                              |
+| Berlitz Method enforcement | Scenarios generated from Berlitz source material and constrained by Berlitz Method encoding are structurally compliant - not relying solely on LLM system prompts at runtime. (architecture doc, A4)                                         |
+| CEFR precision             | Vocabulary and grammar constraints drawn from CEFR reference material and the vocabulary-to-lesson Excel mapping, not LLM approximations. Enables the >=95% known-vocabulary target in the Avatar PRD (NFR-04).                              |
+| Competitive moat           | Competitors cannot replicate Berlitz's source materials. Even if they build similar pipelines, they lack the input corpus.                                                                                                                   |
+| Multi-language path        | An English-first pipeline designed for language parameterization reduces marginal cost of expanding to Spanish, German, Japanese (post-MVP, #24). [~]                                                                                        |
+| Cost reduction             | Replaces manual instructional design labor for scenario creation. Review to can be a continuous (integrated into the delivery process, review by teachers in their idle time) and guided (based on feedback, attack biggest problems first). |
+| Mobile-native content      | Transforms static PDFs and desktop-only LMS units into structured, device-agnostic scenarios the Learner App renders natively on web and mobile. Unblocks the mobile launch (Oct 2026).                                                      |
+| Content cycle compression  | Current cycle: 1+ year per language with multiple LX people + external writers [~]. Pipeline target: weeks (days even), not years. Makes new language launches and content refreshes viable at scale.                                        |
+| Measurability              | Structured, tagged content linked to the Scenario Library enables per-scenario effectiveness scoring, engagement tracking, and data-driven iteration - none of which is possible with today's static content.                                |
+| Content Customization      | Customer retention and lock-in by, e.g., using customer specific vocabulary (glossary based).                                                                                                                                                |
 
 ---
 
 ## 3. Why Now
 
-1. **The AI Avatar launches Sep 2026 and needs scenarios to teach with.** The avatar is a conversation engine without content of its own. Without the Curriculum Factory, every scenario is hand-authored, creating a bottleneck that limits the avatar's launch scope and post-launch freshness. (AI Avatar PRD, Phase 1-3)
+1. **The mobile app launches Oct 2026 and needs content to ship with.** The Learner App is an empty shell without content. It needs conversation scenarios for the AI Tutor, drill content for practice mode, and self-paced lesson screens — across A1–B2, in a structured format the app can render natively. None of this exists today in a mobile-ready format. The Curriculum Factory is the content engine for the entire app, not just the AI conversation feature. (content-taxonomy.md; AI Conversation Experience PRD; Practice Drills PRD)
 
-2. **Initial scenarios will be hand-crafted; the pipeline must take over before GA.** Dogfood (Aug 2026) can ship with hand-authored scenarios. But GA (Oct 2026) needs 15+ guided conversations and 8+ role-plays across A1-B2, and post-GA growth requires a continuous content supply. The pipeline must be producing validated scenarios by Sep 2026 to feed GA. (AI Avatar PRD, Section 9)
+2. **Initial content will be hand-crafted; the pipeline must take over before GA.** Dogfood (Aug 2026) can ship with hand-authored content. But GA (Oct 2026) needs learning and practice content across all content types and CEFR levels, and post-GA growth requires a continuous content supply. Hand-authoring cannot fill the app at the volume and variety learners expect. The pipeline must be producing validated content by Sep 2026 to feed GA.
 
-3. **Berlitz's content advantage is perishable.** AI-native competitors are generating content from LLMs at scale. As general-purpose LLMs improve at language teaching, the quality gap between generic and Berlitz-specific content narrows. The window to establish a structured content pipeline grounded in proprietary IP - before competitors close the gap with pure AI - is now. (strategic-positioning.md)
+3. **Berlitz's content advantage is perishable.** AI-native competitors are generating content from LLMs at scale. As general-purpose LLMs improve at language teaching, the quality gap between generic and Berlitz-specific content narrows. The window to establish a structured content pipeline grounded in proprietary IP — before competitors close the gap with pure AI — is now. (strategic-positioning.md)
 
-4. **Source material inventory is complete.** Four source types are available today: PDF instructor/student guides (extensive, multi-level), CEFR reference specifications, vocabulary-to-lesson Excel mappings, and real lesson transcripts. No new content needs to be created before the pipeline can start ingesting.
+4. **Source material inventory is complete.** Five source types are available today: PDF instructor/student guides (extensive, multi-level), CEFR reference specifications, vocabulary-to-lesson Excel mappings, QA'd lesson recordings (tens of thousands), and the learner path (to be formalised by LX team). No new content needs to be created before the pipeline can start ingesting.
 
-5. **The Simulation Engine (#34) and Berlitz Method Compliance (#13) depend on pipeline output.** Both require structured scenarios with annotated learning objectives, vocabulary bounds, and grammar focus to function. The pipeline's structured output is their input. Delaying the pipeline delays the entire evaluation framework.
+5. **The pipeline also produces IG content — not just digital.** Berlitz's live coaching sessions (5 per module, 20 per level) are taught from Instructor Guides. The Curriculum Factory can generate IG teaching prompts from the same structured content that feeds the app, ensuring consistency between what learners practise digitally and what instructors teach live. This is a unique capability: the same pipeline serves both the mobile app and the human instructor channel.
 
 ---
 
@@ -124,19 +129,20 @@ The architecture doc states: "This is where Berlitz's 140-year content advantage
 
 > **Learner personas** (the end consumers of generated content) are defined in [Personas & Tiers](../../product-context/personas-and-tiers.md).
 
-### Goals @JH: review
+### Goals
 
-1. **Build a repeatable pipeline that converts Berlitz source materials into AI-ready scenarios at 8-16x the speed of manual authoring** [~].
-2. **Produce enough validated scenarios to meet the AI Avatar launch requirements** - 15 guided conversations and 8 role-plays across A1-B2 by GA (Oct 2026).
-3. **Ensure every generated scenario is grounded in Berlitz curriculum** - vocabulary, grammar, and teaching patterns drawn from source materials, not generic LLM knowledge.
-4. **Design the pipeline for language parameterization** so that multi-language expansion (post-MVP) requires new source material input, not a pipeline rebuild.
+1. **Build a repeatable pipeline that produces all content the Learner App needs** — conversation scenarios, drill content (pronunciation, vocabulary, grammar), self-paced learning screens, and IG materials — from Berlitz source materials, at an order of magnitude faster than manual authoring [~].
+2. **Produce enough validated content to launch the mobile app** — at minimum: 15 guided conversations, 8 role-plays, 10 pronunciation drills, 10 grammar/vocabulary exercises across A1–B2 by GA (Oct 2026), plus the learning content (self-paced lessons) for >=3 curriculum units.
+3. **Ensure every generated piece of content is grounded in Berlitz curriculum** — vocabulary, grammar, teaching patterns, and lesson sequencing drawn from source materials and the learner path, not generic LLM knowledge.
+4. **Close the feedback loop**: every piece of live content accumulates effectiveness data (completion, speaking time, learning outcomes), and underperformers are flagged for revision — making content quality measurable and improvable for the first time.
+5. **Design the pipeline for language parameterization** so that multi-language expansion (post-MVP) requires new source material input, not a pipeline rebuild.
 
 ### Success Metrics
 
 | Metric | Definition | Baseline | Target | Timeframe | Measurement |
 |--------|-----------|----------|--------|-----------|-------------|
-| Scenario generation time | Elapsed time from generation trigger to draft scenario passing validation | Manual: ~4-8 hours per scenario [~] (to be validated by timed authoring sessions in Phase 1) | <30 minutes per scenario (generation + automated validation) [~] | Pipeline v1 | Pipeline log: timestamp delta between `generation.started` and `validation.completed` events per scenario |
-| Scenario volume | Total scenarios in the Scenario Library, tagged and ready for the AI Tutor | 0 (hand-authored scenarios tracked separately) | >=50 scenarios (guided + role-play + drills) across A1-B2 [~] | GA (Oct 2026) | Scenario Library query: COUNT where status = approved |
+| Content generation time | Elapsed time from generation trigger to draft content item passing validation | Manual: ~4-8 hours per item [~] (to be validated by timed authoring sessions in Phase 1) | <30 minutes per item (generation + automated validation) [~] | Pipeline v1 | Pipeline log: timestamp delta between `generation.started` and `validation.completed` events per item |
+| Content volume | Total content items in the Scenario Library (all types: conversations, drills, exercises, lesson screens, IG prompts), tagged and ready for consumption | 0 (hand-authored content tracked separately) | >=50 AI activity items (conversations + role-plays + drills) across A1-B2 [~], plus self-paced lesson content for >=3 curriculum units [~] | GA (Oct 2026) | Scenario Library query: COUNT where status = approved, grouped by content_type |
 | Source material coverage | % of Berlitz English curriculum units with at least one generated scenario | 0% (denominator: total A1-B2 unit count to be confirmed from vocabulary-to-lesson Excel in Phase 1) | >=60% of A1-B2 curriculum units [~] | GA + 90 days | Scenario Library query: COUNT DISTINCT curriculum_unit / total curriculum units. Denominator confirmed as Phase 1 exit criterion. |
 | Schema validation pass rate | % of generated scenarios that pass automated schema validation (required fields, CEFR tagging, vocabulary bounds) before entering review | N/A | >=95% | Pipeline v1 | Automated: schema validator output logged per generation run. COUNT(pass) / COUNT(total) |
 | Berlitz Method alignment | % of generated scenarios that pass Berlitz Method compliance checks when avatar delivers them in a simulated session | N/A | >=85% [~] | GA | Expert spot-check: 3 reviewers score a random sample of >=50 scenarios against the 5-dimension rubric from AI Conversation Experience PRD Section 8. At n=50, 85% target has +/-10pp confidence interval. Post-MVP (Q4 2026): automated via Simulation Engine #34. |
@@ -176,18 +182,21 @@ As a content author, I want to upload Berlitz PDF guides, CEFR reference documen
 - Parse failures are flagged with the source location and error type for manual review
 - Re-ingestion of updated source files detects changes and updates only the affected entities in the content store. Given a previously ingested PDF that has been updated, re-ingestion produces a changeset (added/modified/removed entities) that matches a manual diff of the two document versions for a spot-checked sample
 
-**US-2: Generate scenarios from structured content**
-As a content author, I want to trigger scenario generation for a specific curriculum unit and CEFR level, so that I get draft conversation scenarios, role-play scripts, and drill exercises grounded in Berlitz material.
+**US-2: Generate content from structured content**
+As a content author, I want to trigger content generation for a specific curriculum unit and CEFR level, so that I get draft content — conversation scenarios, drill exercises, self-paced lesson screens, and IG teaching prompts — grounded in Berlitz material.
 
 *Acceptance criteria:*
-- Author selects: target CEFR level, curriculum unit, skill type (conversation/role-play/pronunciation/grammar/vocabulary), and topic
-- System generates one or more draft scenarios using the structured content for that unit
-- Each generated scenario includes: learning objectives, vocabulary bounds, grammar focus, success criteria, and CEFR level tag. Format varies by skill type:
- - **Conversation/role-play:** dialog flow with character roles, scenario context, and branching points
- - **Pronunciation drill:** target phonemes/words/phrases, native reference audio IDs (if available), and pass/fail scoring criteria
- - **Grammar/vocabulary exercise:** prompt text, expected answer patterns, and explanation text for corrections
-- Generated scenarios reference the source material they were derived from (traceability)
-- Generation completes in <5 minutes per scenario [~]
+- Author selects: target CEFR level, curriculum unit, content type (conversation/role-play/pronunciation drill/vocabulary drill/grammar exercise/self-paced lesson/IG prompt), and topic
+- System generates one or more draft content items using the structured content for that unit
+- Each generated item includes: learning objectives, vocabulary bounds, grammar focus, success criteria, position in learner path, and CEFR level tag. Format varies by content type:
+  - **Conversation/role-play:** dialog flow with character roles, scenario context, correction opportunities, and branching points
+  - **Pronunciation drill:** target phonemes/words/phrases, native reference audio IDs (if available), and pass/fail scoring criteria
+  - **Vocabulary drill:** target words/phrases, definitions, example sentences, spaced repetition metadata
+  - **Grammar exercise:** prompt text, expected answer patterns, explanation text for corrections, and common error patterns for the CEFR level
+  - **Self-paced lesson screen:** vocabulary introduction, grammar explanation, reading/listening comprehension, interactive exercises (tap-based)
+  - **IG teaching prompt:** lesson objective, warm-up activity, main activity flow, correction guidance, wrap-up, and differentiation notes for mixed-level groups
+- Generated content references the source material it was derived from (traceability)
+- Generation completes in <5 minutes per item [~]
 
 **US-3: Review and approve generated content (two-stream model)**
 
@@ -287,7 +296,7 @@ As the analytics system, I want to rank scenarios by how well they achieve their
 | FR-04 | System shall ingest lesson transcripts (text format) and extract teaching patterns: question types, correction timing, scaffolding techniques, vocabulary choices, and encouragement patterns. | P1 | A1 | Clarification Q2 |
 | FR-05 | All extracted content shall be structured and tagged by: CEFR level, lesson unit/sequence position, skill type (grammar, vocabulary, pronunciation, conversation, reading, listening), and topic. | P0 | A2 (Structuring) | Architecture A2 |
 | FR-06 | System shall store extracted content in a structured, queryable format (JSON/database) for downstream generation. | P0 | A2 | Architecture A2 |
-| FR-07 | LLM-powered generation pipeline shall transform structured lesson content into runtime-ready scenarios: conversation scenarios, role-play scripts, pronunciation drills, and practice exercises. | P0 | A3 (Generation) | #28; architecture A3 |
+| FR-07 | LLM-powered generation pipeline shall transform structured lesson content into all content types the Learner App consumes: conversation scenarios, role-play scripts, pronunciation drills, vocabulary drills, grammar exercises, self-paced lesson screens, and IG teaching prompts. Output format varies by type (see content-taxonomy.md). | P0 | A3 (Generation) | #28; architecture A3; content-taxonomy.md |
 | FR-08 | Each generated scenario shall include: learning objectives, vocabulary bounds, grammar focus, CEFR level, success criteria, and source material reference. | P0 | A3 | Architecture A3 |
 | FR-09 | Generated scenarios shall pass automated schema validation before entering the review queue. Validation checks: all required fields present, vocabulary within CEFR level band, grammar structures within level scope, valid skill type and topic tags. | P0 | A3 | Guardrail metrics |
 | FR-10 | System prompts for the AI Tutor shall encode the Berlitz Method: immersive L2 use, question-answer cycles, graduated difficulty, correction by salient prompts (not implicit recasts), and encouragement patterns. System prompts shall be generated from structured Berlitz Method rules - the rules are the single source of truth. | P0 | A4 (Method Encoding) | #13; architecture A4 |
@@ -500,7 +509,8 @@ If schema validation drops below 90% or vocabulary bounds below 90% on any gener
 - **Generation quality ramp:** Continue prompt tuning and few-shot example refinement to close the gap from Phase 2 exit (90%/90%/80%) to GA targets (95%/95%/85%). Run at least 3 quality-focused generation-review-tune cycles [~]. Track improvement per cycle.
 
 **Exit criteria:**
-- >=50 approved scenarios in Scenario Library across A1-B2 [~], with minimum per skill type: >=15 guided conversations, >=8 role-plays, >=10 pronunciation drills, >=10 grammar/vocabulary exercises. At least 3 of the 4 CEFR levels (A1, A2, B1, B2) must have scenarios in every skill type.
+- >=50 approved AI activity items in the Scenario Library across A1-B2 [~], with minimum per content type: >=15 guided conversations, >=8 role-plays, >=10 pronunciation drills, >=10 grammar/vocabulary exercises. At least 3 of the 4 CEFR levels (A1, A2, B1, B2) must have content in every type.
+- Self-paced lesson content generated and approved for >=3 curriculum units [~] (proves the pipeline produces learning content, not just practice content)
 - AI Tutor successfully loads scenarios from library in <200ms
 - Avatar beta (Sep 2026) has >=10 guided conversations and >=5 role-plays available
 - Avatar GA (Oct 2026) has >=15 guided conversations and >=8 role-plays available
@@ -510,18 +520,20 @@ If schema validation drops below 90% or vocabulary bounds below 90% on any gener
 
 ### Success Criteria for GA
 
-- Scenario Library meets avatar GA content requirements
-- Pipeline can generate a new scenario in <5 minutes
+- Scenario Library meets all content requirements for the Learner App launch: AI activity items (conversations, drills, exercises) + self-paced lesson content for >=3 units
+- Pipeline can generate a new content item in <5 minutes regardless of type
 - Schema validation pass rate >=95%
+- At least 2 content types beyond conversation scenarios (e.g., drills + lesson screens) are being produced through the pipeline, proving it is a general content engine, not a scenario-only tool
 - No P0 or unresolved P1 bugs in the pipeline
 - Legal review completed for IP ownership and transcript consent
 
 ### Rollback Plan
 
-- The pipeline is offline infrastructure - it does not affect runtime if disabled
-- If pipeline-generated scenarios have quality issues, fall back to hand-authored scenarios for the avatar
-- Scenario Library can serve hand-authored scenarios alongside pipeline-generated ones (same schema)
-- Individual scenarios can be unpublished from the library without affecting other content
+- The pipeline is offline infrastructure — it does not affect runtime if disabled
+- If pipeline-generated content has quality issues, fall back to hand-authored content for any content type
+- The Scenario Library can serve hand-authored and pipeline-generated content interchangeably (same schema)
+- Individual content items can be unpublished from the library without affecting other content
+- Content types can be rolled back independently — e.g., revert to hand-authored drills while continuing to use pipeline-generated conversations
 
 ---
 
