@@ -144,20 +144,26 @@ The architecture doc states: "This is where Berlitz's 140-year content advantage
 ### Goals
 
 1. **Build a repeatable pipeline that produces all content the Learner App needs** — conversation scenarios, drill content (pronunciation, vocabulary, grammar), self-paced learning screens, and IG materials — from Berlitz source materials, at an order of magnitude faster than manual authoring [~].
-2. **Produce enough validated content to launch the mobile app** — at minimum: 15 guided conversations, 8 role-plays, 10 pronunciation drills, 10 grammar/vocabulary exercises across A1–B2 by GA (Oct 2026), plus the learning content (self-paced lessons) for >=3 curriculum units.
+2. **Produce enough validated content to launch the mobile app** — at minimum: the learning content (self-paced lessons "learn" and "practice"), pronunciation drills, grammar/vocabulary exercises across A1–B2.
 3. **Ensure every generated piece of content is grounded in Berlitz curriculum** — vocabulary, grammar, teaching patterns, and lesson sequencing drawn from source materials and the learner path, not generic LLM knowledge.
 4. **Close the feedback loop**: every piece of live content accumulates effectiveness data (completion, speaking time, learning outcomes), and underperformers are flagged for revision — making content quality measurable and improvable for the first time.
 5. **Design the pipeline for language parameterization** so that multi-language expansion (post-MVP) requires new source material input, not a pipeline rebuild.
 
-### Success Metrics
+### Success Metrics [~]
 
-| Metric | Definition | Baseline | Target | Timeframe | Measurement |
-|--------|-----------|----------|--------|-----------|-------------|
-| Content generation time | Elapsed time from generation trigger to draft content item passing validation | Manual: ~4-8 hours per item [~] (to be validated by timed authoring sessions in Phase 1) | <30 minutes per item (generation + automated validation) [~] | Pipeline v1 | Pipeline log: timestamp delta between `generation.started` and `validation.completed` events per item |
-| Content volume | Total content items in the Scenario Library (all types: conversations, drills, exercises, lesson screens, IG prompts), tagged and ready for consumption | 0 (hand-authored content tracked separately) | >=50 AI activity items (conversations + role-plays + drills) across A1-B2 [~], plus self-paced lesson content for >=3 curriculum units [~] | GA (Oct 2026) | Scenario Library query: COUNT where status = approved, grouped by content_type |
-| Source material coverage | % of Berlitz English curriculum units with at least one generated scenario | 0% (denominator: total A1-B2 unit count to be confirmed from vocabulary-to-lesson Excel in Phase 1) | >=60% of A1-B2 curriculum units [~] | GA + 90 days | Scenario Library query: COUNT DISTINCT curriculum_unit / total curriculum units. Denominator confirmed as Phase 1 exit criterion. |
-| Schema validation pass rate | % of generated scenarios that pass automated schema validation (required fields, CEFR tagging, vocabulary bounds) before entering review | N/A | >=95% | Pipeline v1 | Automated: schema validator output logged per generation run. COUNT(pass) / COUNT(total) |
-| Berlitz Method alignment | % of generated scenarios that pass Berlitz Method compliance checks when avatar delivers them in a simulated session | N/A | >=85% [~] | GA | Expert spot-check: 3 reviewers score a random sample of >=50 scenarios against the 5-dimension rubric from AI Conversation Experience PRD Section 8. At n=50, 85% target has +/-10pp confidence interval. Post-MVP (Q4 2026): automated via Simulation Engine #34. |
+JH: !!!this table still needs a bit of love!!!
+
+| Metric                          | Definition                                                                                                                                              | Baseline                                                                                 | Target                                                                                                                                                                                           | Timeframe     | Measurement                                                                                                                                                                                                                                                                |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Content generation time         | Elapsed time from generation trigger to draft content item passing validation                                                                           | Manual: ~4-8 hours per item [~] (to be validated by timed authoring sessions in Phase 1) | <30 minutes per item (generation + automated validation) This is assuming all content is reviewed, this will decrease over time as auto review increases as we build trust in AI (see below) [~] | Pipeline v1   | Pipeline log: timestamp delta between `generation.started` and `validation.completed` events per item                                                                                                                                                                      |
+| Content volume                  | Total content items in the Scenario Library (all types: conversations, drills, exercises, lesson screens, IG prompts), tagged and ready for consumption | 0 (hand-authored content tracked separately)                                             | Full A1-B2 [~] incl. self paced lesson content                                                                                                                                                   | GA (Oct 2026) | Scenario Library query: COUNT where status = approved, grouped by content_type                                                                                                                                                                                             |
+| Source material coverage        | % of Berlitz English curriculum units with at least one generated scenario                                                                              | 0%                                                                                       | 100% of A1-B2                                                                                                                                                                                    | GA + 90 days  | Scenario Library query: COUNT DISTINCT curriculum_unit / total curriculum units. Denominator confirmed as Phase 1 exit criterion.                                                                                                                                          |
+| [~] Schema validation pass rate | % of generated scenarios that pass automated schema validation (required fields, CEFR tagging, vocabulary bounds) before entering review                | N/A                                                                                      | >=95%                                                                                                                                                                                            | Pipeline v1   | Automated: schema validator output logged per generation run. COUNT(pass) / COUNT(total)<br><br>!!! Not sure if we need this: ultimately, it should be 100%. see below                                                                                                     |
+| Generation Failures             | % manual intervention when CF is unable to produce content meeting requirements                                                                         | 100%                                                                                     | 2%                                                                                                                                                                                               | GA            | Attempt up to 5 times to create content that fulfills requirements. If not possible, hand over to human. this should happen in no more than 2% of the cases                                                                                                                |
+| [~] Berlitz Method alignment    | % of generated scenarios that pass Berlitz Method compliance checks when avatar delivers them in a simulated session                                    | N/A                                                                                      | >=85% [~]                                                                                                                                                                                        | GA            | Expert spot-check: 3 reviewers score a random sample of >=50 scenarios against the 5-dimension rubric from AI Conversation Experience PRD Section 8. At n=50, 85% target has +/-10pp confidence interval. Post-MVP (Q4 2026): automated via Simulation Engine #34.<br><br> |
+| Trust in AI                     | % of agreement of AI review relative to human reviewer                                                                                                  | N/A                                                                                      | > 90%                                                                                                                                                                                            |               |                                                                                                                                                                                                                                                                            |
+| Content shoot out/AB testing    | Rank performance of human generated content against CF generated. Create some samples for this.                                                         | N/A                                                                                      | CF generated content should be rated same or better 80% of the time                                                                                                                              |               |                                                                                                                                                                                                                                                                            |
+|                                 |                                                                                                                                                         |                                                                                          |                                                                                                                                                                                                  |               |                                                                                                                                                                                                                                                                            |
 
 ### Guardrail Metrics
 
@@ -195,20 +201,44 @@ As a content author, I want to upload Berlitz PDF guides, CEFR reference documen
 - Re-ingestion of updated source files detects changes and updates only the affected entities in the content store. Given a previously ingested PDF that has been updated, re-ingestion produces a changeset (added/modified/removed entities) that matches a manual diff of the two document versions for a spot-checked sample
 
 **US-2: Generate content from structured content**
-As a content author, I want to trigger content generation for a specific curriculum unit and CEFR level, so that I get draft content — conversation scenarios, drill exercises, self-paced lesson screens, and IG teaching prompts — grounded in Berlitz material.
+As a content author, I want to trigger content generation for a specific curriculum unit and CEFR level, so that I get draft content across all output formats — grounded in Berlitz material.
 
 *Acceptance criteria:*
-- Author selects: target CEFR level, curriculum unit, content type (conversation/role-play/pronunciation drill/vocabulary drill/grammar exercise/self-paced lesson/IG prompt), and topic
+- Author selects: target CEFR level, curriculum unit, output format (see list below), and topic
 - System generates one or more draft content items using the structured content for that unit
-- Each generated item includes: learning objectives, vocabulary bounds, grammar focus, success criteria, position in learner path, and CEFR level tag. Format varies by content type:
-  - **Conversation/role-play:** dialog flow with character roles, scenario context, correction opportunities, and branching points
-  - **Pronunciation drill:** target phonemes/words/phrases, native reference audio IDs (if available), and pass/fail scoring criteria
-  - **Vocabulary drill:** target words/phrases, definitions, example sentences, spaced repetition metadata
-  - **Grammar exercise:** prompt text, expected answer patterns, explanation text for corrections, and common error patterns for the CEFR level
-  - **Self-paced lesson screen:** vocabulary introduction, grammar explanation, reading/listening comprehension, interactive exercises (tap-based)
-  - **IG teaching prompt:** lesson objective, warm-up activity, main activity flow, correction guidance, wrap-up, and differentiation notes for mixed-level groups
+- Each generated item includes: learning objectives, vocabulary bounds, grammar focus, success criteria, position in learner path, and CEFR level tag
 - Generated content references the source material it was derived from (traceability)
 - Generation completes in <5 minutes per item [~]
+
+**Output formats** (grouped by delivery channel):
+
+*AI Tutor activities (runtime, voice-driven):*
+
+| Output format | Key fields | Notes |
+|---------------|-----------|-------|
+| **Guided conversation** | Dialog flow, character roles, scenario context, correction opportunities, branching points, success criteria | Consumed by AI Conversation Experience PRD |
+| **Role-play** | Character descriptions, setting, objectives, expected dialog flow, success criteria | Same engine as guided conversation, different framing |
+| **Pronunciation drill** | Target phonemes/words/phrases, native reference audio IDs (if available), pass/fail scoring criteria, common mispronunciation patterns for the L1 | Consumed by Practice Drills PRD |
+| **Vocabulary drill** | Target words/phrases, definitions, example sentences, distractor options, spaced repetition metadata | Consumed by Practice Drills PRD |
+| **Grammar exercise** | Prompt text, expected answer patterns, explanation text for corrections, common error patterns for the CEFR level | Consumed by Practice Drills PRD |
+| **Listening comprehension** | Audio script (for TTS generation), comprehension questions, answer key, transcript | Distinct from conversation — learner listens, then answers questions |
+
+*Self-paced learning content (async, in-app):*
+
+| Output format | Key fields | Notes |
+|---------------|-----------|-------|
+| **Self-paced lesson screen** | Vocabulary introduction, grammar explanation, reading passage, interactive exercises (tap-based), media placeholders | The 9 lessons per module in the learner path (content-taxonomy.md) |
+| **Review unit** | Exercises revisiting vocabulary, grammar, and dialog from preceding lessons in the module | 9 review units per module (Flex-only) |
+| **Checkpoint assessment** | Test items covering the module's learning objectives, scoring rubric, pass threshold | 1 per module, gates progression |
+| **Reading comprehension passage** | Level-appropriate text, comprehension questions, answer key, vocabulary glosses for new words | Can be standalone or embedded in a self-paced lesson |
+
+*Instructor channel (IG + SG):*
+
+| Output format | Key fields | Notes |
+|---------------|-----------|-------|
+| **Instructor Guide (IG) teaching prompt** | Lesson objective, warm-up activity, main activity flow, correction guidance, wrap-up, differentiation notes for mixed-level groups | 5 coaching sessions per module, 20 per level |
+| **Student Guide (SG) content** | Exercises, vocabulary lists, reading passages, dialog prompts, homework activities — the learner-facing companion to the IG | Matches the IG lesson-by-lesson |
+| **Learning video script** | Script for presentation/explainer videos: narration text, on-screen text cues, visual direction notes, vocabulary highlights | Stream B review (LX team sign-off) |
 
 **US-3: Review and approve generated content (two-stream model)**
 
