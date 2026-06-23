@@ -10,6 +10,32 @@
 - A key clarification: the Berlitz Method Compliance deliverable is a markdown file reviewed by language-teaching staff and stored in the repo — not an API.
 - The team agreed to review the triage output with Jan before formally assigning tasks.
 
+## Decisions
+
+- Berlitz Method Compliance = a markdown file in the repo, not an API; effort estimate revised accordingly.
+- Grammar and pronunciation drills placed in the same iteration.
+- Audio clips issues removed from the AI board (not an AI feature).
+- All vague issues must be rewritten to meet the clarity standard before anyone picks them up.
+- Triage output to be reviewed with Jan before task assignment.
+
+## Action items
+
+| Owner | Action | Status |
+| ----- | ------ | ------ |
+| Rob Zinkov | Confirm Postman collection status at 11 AM meeting | New |
+| Rob Zinkov | Remove audio clips issues from the AI board | New |
+| Rob Zinkov | Scaffold open conversation / avatar issues in the repo with clear parent-child structure | New |
+| Michal Sobocinski | Start on Berlitz Method Compliance markdown | New |
+| Michal Sobocinski | Start on grammar exercise implementation | New |
+| Michal Sobocinski | Rewrite vague backlog issues using Claude | New |
+| Michal Sobocinski | Meet with mentor about LMS content access | New |
+
+## Open questions
+
+- Should the placement test be API-only or include a full in-app UX? (Needs Jan's input.)
+- Who is the intended audience for the drill session summary feature?
+- Which API key / provider should be used for the grammar exercise implementation?
+
 ## Discussion
 
 ### Avatar and open conversation overlap
@@ -43,29 +69,3 @@ Rob reinforced the standard: every issue must be clear enough for a newcomer or 
 ### Postman collection and sprint timing
 
 Rob flagged a pending Postman collection question to confirm at an 11 AM meeting. The team discussed sprint start timing relative to Jan's availability.
-
-## Decisions
-
-- Berlitz Method Compliance = a markdown file in the repo, not an API; effort estimate revised accordingly.
-- Grammar and pronunciation drills placed in the same iteration.
-- Audio clips issues removed from the AI board (not an AI feature).
-- All vague issues must be rewritten to meet the clarity standard before anyone picks them up.
-- Triage output to be reviewed with Jan before task assignment.
-
-## Action items
-
-| Owner | Action | Status |
-| ----- | ------ | ------ |
-| Rob Zinkov | Confirm Postman collection status at 11 AM meeting | New |
-| Rob Zinkov | Remove audio clips issues from the AI board | New |
-| Rob Zinkov | Scaffold open conversation / avatar issues in the repo with clear parent-child structure | New |
-| Michal Sobocinski | Start on Berlitz Method Compliance markdown | New |
-| Michal Sobocinski | Start on grammar exercise implementation | New |
-| Michal Sobocinski | Rewrite vague backlog issues using Claude | New |
-| Michal Sobocinski | Meet with mentor about LMS content access | New |
-
-## Open questions
-
-- Should the placement test be API-only or include a full in-app UX? (Needs Jan's input.)
-- Who is the intended audience for the drill session summary feature?
-- Which API key / provider should be used for the grammar exercise implementation?

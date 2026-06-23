@@ -10,6 +10,32 @@
 - The team identified a need to map transcripts to instructor guides and lesson content, and to eventually build a pipeline that automatically pulls transcripts from Zoom into a durable store (e.g., Dataverse or S3) for AI analysis.
 - The immediate next step is for the team to set up Zoom accounts, get access to recordings, and schedule a call with Martin (QA team lead) to understand the end-to-end evaluation workflow.
 
+## Decisions
+
+- The team will set up Zoom accounts (Dainis sent invitations before the meeting) and notify Dainis so he can assign roles for transcript access.
+- Dainis will share the knowledge-base document used by Max and also the custom prompt (as a TXT file) with the team.
+- Jan will invite Dainis to Nicole's workshop the following Wednesday.
+
+## Action items
+
+| Owner | Action | Status |
+| ----- | ------ | ------ |
+| Rob Zinkov | Create and activate Zoom account; ping Dainis on Teams when done | New |
+| Michal Sobocinski | Create and activate Zoom account; ping Dainis on Teams when done | New |
+| Jan Hoffmann | Create and activate Zoom account; ping Dainis on Teams when done | New |
+| Dainis Tkacovs | Share Max agent knowledge-base document and custom prompt (as TXT) with the team | New |
+| Dainis Tkacovs | Find a previously analyzed lesson transcript along with the associated instructor guide for the team to experiment with | New |
+| Jan Hoffmann | Invite Dainis to Nicole's workshop next Wednesday | New |
+| Jan Hoffmann | Review AI-generated PRD draft and follow up with the team | New |
+| Jan Hoffmann | Schedule follow-up to review roadmap/iterations (target: same day or next morning) | New |
+
+## Open questions
+
+- Where exactly are Martin's team's manual QA evaluation documents stored (SharePoint folder, specific Teams channel)?
+- Can the Zoom API be used to extract transcripts automatically before the 15-day window closes, and would there be GDPR or contractual constraints on storing them in a separate database?
+- Why is Nicole/Product Ops leading the session data analysis workshop, and what is the scope of that effort?
+- Is video analysis of lessons (for facial expressions, gestures, pronunciation) feasible in the near future, and at what cost?
+
 ## Discussion
 
 ### QA Lesson Evaluation Agent (Max)
@@ -53,32 +79,6 @@ Rob raised the question of tracking AI spend as a team responsibility. Dainis co
 ### PRD and Roadmap (brief)
 
 After Dainis left the call, the remaining three briefly touched on follow-up items. Jan mentioned he had generated a PRD using the PRD skill with a large data dump, and the output was long but mixed in quality — he was still reviewing it. Rob had set up iterations in GitHub (building on Jan's starting point) and added priorities to all issues. Jan planned to review the PRD and the iteration setup, with a goal of getting the roadmap kicked off that day or the next morning.
-
-## Decisions
-
-- The team will set up Zoom accounts (Dainis sent invitations before the meeting) and notify Dainis so he can assign roles for transcript access.
-- Dainis will share the knowledge-base document used by Max and also the custom prompt (as a TXT file) with the team.
-- Jan will invite Dainis to Nicole's workshop the following Wednesday.
-
-## Action items
-
-| Owner | Action | Status |
-| ----- | ------ | ------ |
-| Rob Zinkov | Create and activate Zoom account; ping Dainis on Teams when done | New |
-| Michal Sobocinski | Create and activate Zoom account; ping Dainis on Teams when done | New |
-| Jan Hoffmann | Create and activate Zoom account; ping Dainis on Teams when done | New |
-| Dainis Tkacovs | Share Max agent knowledge-base document and custom prompt (as TXT) with the team | New |
-| Dainis Tkacovs | Find a previously analyzed lesson transcript along with the associated instructor guide for the team to experiment with | New |
-| Jan Hoffmann | Invite Dainis to Nicole's workshop next Wednesday | New |
-| Jan Hoffmann | Review AI-generated PRD draft and follow up with the team | New |
-| Jan Hoffmann | Schedule follow-up to review roadmap/iterations (target: same day or next morning) | New |
-
-## Open questions
-
-- Where exactly are Martin's team's manual QA evaluation documents stored (SharePoint folder, specific Teams channel)?
-- Can the Zoom API be used to extract transcripts automatically before the 15-day window closes, and would there be GDPR or contractual constraints on storing them in a separate database?
-- Why is Nicole/Product Ops leading the session data analysis workshop, and what is the scope of that effort?
-- Is video analysis of lessons (for facial expressions, gestures, pronunciation) feasible in the near future, and at what cost?
 
 ## Misc
 

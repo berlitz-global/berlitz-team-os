@@ -10,6 +10,28 @@
 - Lessons are currently static but the design must accommodate future AI-generated lessons — once generated, a lesson persists so users can resume it.
 - The backend will return the full lesson payload in a single response (not paginated per exercise), enabling offline use; the API will follow a backend-for-frontend pattern where the backend dictates UI shape.
 
+## Decisions
+
+- Lesson schema will follow a **learning path → module → lesson → exercise** hierarchy.
+- Exercises will be stored in a **shared pool table**, typed via an enum, each type carrying its own data shape and evaluation expression.
+- **User state** (progress, completion) will live in a separate `user_lessons` layer derived from, not embedded in, the lesson definition.
+- The `/lesson/{id}` endpoint will return the **full lesson payload in one response** (not paginated per exercise), enabling offline use.
+- Schema must use **plain serializable JSON** — no custom serialization formats.
+- New exercise types will be added by **extending the enum** and adding a matching backend shape and frontend component.
+
+## Action items
+
+| Owner | Action | Status |
+| ----- | ------ | ------ |
+| Daniel Peter | Formalize the exercise type enum and data shapes based on existing exercise types (matching pairs, fill-in-the-blank, ordering, etc.) | New |
+| Rob Zinkov | Confirm which exercise types need to be supported at launch | New |
+
+## Open questions
+
+- How will learning path routing work for content that does not fit neatly into a module (e.g., Cultural Navigator lessons)?
+- What is the complete set of exercise types to be supported at launch, and do any require non-trivial evaluation logic?
+- How will dynamically generated lessons be triggered and parameterized (i.e., what parameters define a "generation context" for a lesson)?
+
 ## Discussion
 
 ### Scope of the schema problem
@@ -53,25 +75,3 @@ Rob and Daniel agreed that adding a new exercise type should be straightforward:
 ### API shape: full lesson payload vs. per-exercise fetching
 
 Rob expressed a product preference for fetching the entire lesson in a single API call rather than fetching one exercise at a time. His reasoning: lesson content is not large, and a full upfront fetch enables offline use. Daniel agreed. The API will follow a backend-for-frontend (BFF) pattern: the backend tells the frontend what UI shape to render, and the frontend reports completion/error back.
-
-## Decisions
-
-- Lesson schema will follow a **learning path → module → lesson → exercise** hierarchy.
-- Exercises will be stored in a **shared pool table**, typed via an enum, each type carrying its own data shape and evaluation expression.
-- **User state** (progress, completion) will live in a separate `user_lessons` layer derived from, not embedded in, the lesson definition.
-- The `/lesson/{id}` endpoint will return the **full lesson payload in one response** (not paginated per exercise), enabling offline use.
-- Schema must use **plain serializable JSON** — no custom serialization formats.
-- New exercise types will be added by **extending the enum** and adding a matching backend shape and frontend component.
-
-## Action items
-
-| Owner | Action | Status |
-| ----- | ------ | ------ |
-| Daniel Peter | Formalize the exercise type enum and data shapes based on existing exercise types (matching pairs, fill-in-the-blank, ordering, etc.) | New |
-| Rob Zinkov | Confirm which exercise types need to be supported at launch | New |
-
-## Open questions
-
-- How will learning path routing work for content that does not fit neatly into a module (e.g., Cultural Navigator lessons)?
-- What is the complete set of exercise types to be supported at launch, and do any require non-trivial evaluation logic?
-- How will dynamically generated lessons be triggered and parameterized (i.e., what parameters define a "generation context" for a lesson)?

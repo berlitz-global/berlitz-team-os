@@ -10,6 +10,32 @@
 - Usage data shows current AI avatar sessions average 2–3 minutes and users prefer audio/text over video at a 10-to-1 ratio, informing the discussion on whether to use video avatar at all for MVP.
 - The team discussed on-device vs. cloud inference for TTS/STT and the cost/quality trade-offs of avatar providers (Tavus vs. Live Avatar).
 
+## Decisions
+
+- Use Live Avatar (current provider) for MVP; architecture to remain provider-agnostic for future swaps.
+- HUD overlay is the designated surface for all real-time text during avatar sessions (transcription, corrections, vocab tracking, historical references).
+- Backend will deliver content via WebSockets; no web views.
+- Defer on-device LLM inference; evaluate on-device TTS/STT selectively by device tier as a cost-reduction measure.
+- Prioritize shipping with third-party APIs in the near term rather than in-housing AI infrastructure.
+
+## Action items
+
+| Owner | Action | Status |
+| ----- | ------ | ------ |
+| Chayan Roy | Complete sign-up/sign-in flow delivery to Daniel, then return to Learn tab and AI tutor flows | New |
+| Chayan Roy | Share Figma access with Rob Zinkov | New |
+| Chayan Roy | Arrange Duolingo brownbag session and invite Rob | New |
+| Rob Zinkov | Pull sample AI tutor session transcripts and share with Chayan for design reference | New |
+| Rob Zinkov | Explore LiveKit integration to improve avatar turn-detection and responsiveness | New |
+| Rob Zinkov | Investigate device-tier routing strategy for on-device vs. cloud TTS/STT | New |
+
+## Open questions
+
+- What lesson content types will be built for the Learn tab, and how will that determine HUD/overlay requirements?
+- Can Jan Hoffmann's proposed AI pipeline handle LX content reformatting for mobile microlearning at scale?
+- What is Berlitz's total annual revenue (needed for cost/margin modeling)?
+- At what point does Tavus become cost-competitive enough to revisit as the avatar provider?
+
 ## Discussion
 
 ### Figma Walkthrough and Design Status
@@ -47,32 +73,6 @@ Chayan has a contact on Duolingo's subscription/conversion team and is arranging
 ### LX Content Portability to Mobile
 
 Chayan flagged that existing LMS content does not map 1-to-1 to the mobile app; microlearning-format content will need to be created or transformed. Jan Hoffmann has proposed an AI pipeline to reformat LX content. This was noted as an open coordination item.
-
-## Decisions
-
-- Use Live Avatar (current provider) for MVP; architecture to remain provider-agnostic for future swaps.
-- HUD overlay is the designated surface for all real-time text during avatar sessions (transcription, corrections, vocab tracking, historical references).
-- Backend will deliver content via WebSockets; no web views.
-- Defer on-device LLM inference; evaluate on-device TTS/STT selectively by device tier as a cost-reduction measure.
-- Prioritize shipping with third-party APIs in the near term rather than in-housing AI infrastructure.
-
-## Action items
-
-| Owner | Action | Status |
-| ----- | ------ | ------ |
-| Chayan Roy | Complete sign-up/sign-in flow delivery to Daniel, then return to Learn tab and AI tutor flows | New |
-| Chayan Roy | Share Figma access with Rob Zinkov | New |
-| Chayan Roy | Arrange Duolingo brownbag session and invite Rob | New |
-| Rob Zinkov | Pull sample AI tutor session transcripts and share with Chayan for design reference | New |
-| Rob Zinkov | Explore LiveKit integration to improve avatar turn-detection and responsiveness | New |
-| Rob Zinkov | Investigate device-tier routing strategy for on-device vs. cloud TTS/STT | New |
-
-## Open questions
-
-- What lesson content types will be built for the Learn tab, and how will that determine HUD/overlay requirements?
-- Can Jan Hoffmann's proposed AI pipeline handle LX content reformatting for mobile microlearning at scale?
-- What is Berlitz's total annual revenue (needed for cost/margin modeling)?
-- At what point does Tavus become cost-competitive enough to revisit as the avatar provider?
 
 ## Misc
 

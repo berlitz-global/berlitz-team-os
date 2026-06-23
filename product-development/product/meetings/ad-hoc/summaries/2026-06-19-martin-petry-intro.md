@@ -10,6 +10,27 @@
 - The team discussed how lesson observation forms link to individual lessons via CH/PD identifiers in Salesforce, and how instructor guides are intentionally flexible frameworks rather than rigid scripts.
 - Martin offered to run a dedicated session on the Berlitz method and lesson observation form to help the AI Tutor team better understand pedagogy.
 
+## Decisions
+
+- Martin will share the lesson observation form guides (for standard and Flex/blended lessons) with the team via Jan; Jan already has copies.
+- A follow-up session on the Berlitz method and lesson observation form will be arranged (Martin, Jan, Rob, Michal).
+
+## Action items
+
+| Owner | Action | Status |
+| ----- | ------ | ------ |
+| Jan Hoffmann | Share lesson observation form guides (standard + Flex) with Rob and Michal | New |
+| Jan Hoffmann / Rob Zinkov | Schedule follow-up session with Martin on Berlitz method and lesson observation rubric | New |
+| Martin Petry | Run same transcript through Max multiple times to measure score variance | New |
+| Rob Zinkov | Identify Salesforce data owner (likely Javier or Dynas) to arrange data access | New |
+
+## Open questions
+
+- Who is currently the owner/maintainer of the Salesforce system after the recent reorganisation and development freeze?
+- How much score variance does Max produce when the same transcript is evaluated multiple times?
+- To what extent do instructors actually diverge from IGs in practice, and is that divergence measurable at scale from transcripts?
+- Should the mobile AI Tutor curriculum be "on rails" (like the online Felix component) or allow flexibility comparable to live human sessions?
+
 ## Discussion
 
 ### Max — AI lesson evaluator (testing status)
@@ -41,24 +62,3 @@ Martin flagged a long-standing gap: instructors cannot currently see their own c
 ### Access to Salesforce data
 
 Rob asked who manages the Salesforce systems in order to get data access. Martin was uncertain of the current owner following recent organisational changes and a ~3-month development freeze; he suggested Javier or Dynas (the engineer who built Max) as contact points.
-
-## Decisions
-
-- Martin will share the lesson observation form guides (for standard and Flex/blended lessons) with the team via Jan; Jan already has copies.
-- A follow-up session on the Berlitz method and lesson observation form will be arranged (Martin, Jan, Rob, Michal).
-
-## Action items
-
-| Owner | Action | Status |
-| ----- | ------ | ------ |
-| Jan Hoffmann | Share lesson observation form guides (standard + Flex) with Rob and Michal | New |
-| Jan Hoffmann / Rob Zinkov | Schedule follow-up session with Martin on Berlitz method and lesson observation rubric | New |
-| Martin Petry | Run same transcript through Max multiple times to measure score variance | New |
-| Rob Zinkov | Identify Salesforce data owner (likely Javier or Dynas) to arrange data access | New |
-
-## Open questions
-
-- Who is currently the owner/maintainer of the Salesforce system after the recent reorganisation and development freeze?
-- How much score variance does Max produce when the same transcript is evaluated multiple times?
-- To what extent do instructors actually diverge from IGs in practice, and is that divergence measurable at scale from transcripts?
-- Should the mobile AI Tutor curriculum be "on rails" (like the online Felix component) or allow flexibility comparable to live human sessions?

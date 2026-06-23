@@ -10,6 +10,33 @@
 - Lesson recordings and transcripts are valuable training data for the AI Tutor but are stored only briefly (~30 days); Martin Petry governs access.
 - English flex video scripts are largely missing; the team agreed to explore AI-generated captioning via CloudFlare, which already hosts the videos.
 
+## Decisions
+
+- The team will reach out to Vladimir at Arcadia to ask about HyperWave API access and to obtain existing API documentation.
+- Nicolas will share CloudFlare credentials with Rob and Michal so they can explore AI-generated captioning for English Flex videos.
+- The primary near-term use of transcript/recording data is content generation (creating more lesson content), not student modeling.
+
+## Action items
+
+| Owner | Action | Status |
+| ----- | ------ | ------ |
+| Nicolas Potel | Send Vladimir's and Alexander's contact details to Rob and Michal | New |
+| Rob Zinkov | Contact Vladimir (Arcadia/Software Country) to ask about HyperWave API availability and request documentation | New |
+| Michal Sobocinski | Contact Vladimir (Arcadia/Software Country) to ask about HyperWave API availability and request documentation | New |
+| Jan Hoffmann | Forward sample lesson recording (with corresponding IG and quality observation) to Rob and Michal | New |
+| Nicolas Potel | Share additional sample lesson recordings with the team | New |
+| Nicolas Potel | Add CloudFlare credentials to shared access (for Rob and Michal) | New |
+| Rob Zinkov | Explore AI-generated captioning service for older English Flex videos hosted on CloudFlare | New |
+| Rob Zinkov | Reach out to Martin Petry to discuss access to lesson recordings and transcripts, and clarify retention policy | New |
+| Michal Sobocinski | Reach out to Martin Petry to discuss access to lesson recordings and transcripts, and clarify retention policy | New |
+
+## Open questions
+
+- Does HyperWave expose an API, and if so, is Berlitz licensed to use it?
+- Are lesson transcripts retained beyond the ~30-day recording window, and under what terms can they be used for AI training?
+- What do current customer agreements say about using session recordings for AI/benchmarking purposes?
+- Can CloudFlare's built-in AI captioning handle the existing English Flex video library, or is a third-party batch transcription service needed?
+
 ## Discussion
 
 ### HyperWave Content Architecture
@@ -63,30 +90,3 @@ Andres Mora confirmed the new SCORM packages include video plus transcription be
 Michal asked whether structured student progress notes exist (level, quiz results, instructor notes for the next session). Nicolas explained the post-lesson survey instructors fill out captures: (1) whether the student met the speaking goal, and (2) a 5-skill rating (speaking, pronunciation, listening, reading, grammar). Free-text notes are possible but rarely used. Berlitz policy is that instructors are paid only for teaching time, not admin, so cross-lesson communication is minimal and usually oral.
 
 Nicolas relayed that the Gold operations team raised the same gap that morning: they want a feedback loop so the next instructor knows what was covered and what to focus on. Jan and Nicolas agreed that transcript-derived analysis could automate this — detecting errors, summarizing progress, and presenting a pre-lesson brief to the instructor (a "cockpit") so they can confirm or adjust before the session begins. A concierge that prompts homework check-in before the lesson was also discussed.
-
-## Decisions
-
-- The team will reach out to Vladimir at Arcadia to ask about HyperWave API access and to obtain existing API documentation.
-- Nicolas will share CloudFlare credentials with Rob and Michal so they can explore AI-generated captioning for English Flex videos.
-- The primary near-term use of transcript/recording data is content generation (creating more lesson content), not student modeling.
-
-## Action items
-
-| Owner | Action | Status |
-| ----- | ------ | ------ |
-| Nicolas Potel | Send Vladimir's and Alexander's contact details to Rob and Michal | New |
-| Rob Zinkov | Contact Vladimir (Arcadia/Software Country) to ask about HyperWave API availability and request documentation | New |
-| Michal Sobocinski | Contact Vladimir (Arcadia/Software Country) to ask about HyperWave API availability and request documentation | New |
-| Jan Hoffmann | Forward sample lesson recording (with corresponding IG and quality observation) to Rob and Michal | New |
-| Nicolas Potel | Share additional sample lesson recordings with the team | New |
-| Nicolas Potel | Add CloudFlare credentials to shared access (for Rob and Michal) | New |
-| Rob Zinkov | Explore AI-generated captioning service for older English Flex videos hosted on CloudFlare | New |
-| Rob Zinkov | Reach out to Martin Petry to discuss access to lesson recordings and transcripts, and clarify retention policy | New |
-| Michal Sobocinski | Reach out to Martin Petry to discuss access to lesson recordings and transcripts, and clarify retention policy | New |
-
-## Open questions
-
-- Does HyperWave expose an API, and if so, is Berlitz licensed to use it?
-- Are lesson transcripts retained beyond the ~30-day recording window, and under what terms can they be used for AI training?
-- What do current customer agreements say about using session recordings for AI/benchmarking purposes?
-- Can CloudFlare's built-in AI captioning handle the existing English Flex video library, or is a third-party batch transcription service needed?

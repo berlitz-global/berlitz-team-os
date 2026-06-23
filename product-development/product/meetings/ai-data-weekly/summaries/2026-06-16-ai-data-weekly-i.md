@@ -10,6 +10,35 @@
 - Jan proposed two parallel work tracks for MVP: (1) AI avatar component (with ASR/TTS/video avatar integrated) and (2) content/curriculum factory; these are likely large enough to each warrant their own PRD.
 - The meeting closed with Jan committing to flag MVP issues and write PRDs; Michal and Rob to then assign and begin work.
 
+## Decisions
+
+- MVP milestone target: end of July 2026.
+- "AI MVP" milestone created in GitHub Projects; issues to be tagged accordingly.
+- Parent issue "AI Avatar" created in GitHub Projects; sub-issues to be nested below it.
+- Issues must be clear enough for a newcomer or LLM to act on without additional context.
+- AI Avatar and Curriculum Factory each warrant separate PRDs.
+- PRDs are authoritative; GitHub issues should link to the relevant PRD.
+- Internal quality/engineering dashboards are in scope; business BI dashboards are out of scope for MVP.
+
+## Action items
+
+| Owner | Action | Status |
+| ----- | ------ | ------ |
+| Jan Hoffmann | Review all GitHub Projects issues and flag MVP vs. non-MVP using the AI MVP milestone | New |
+| Jan Hoffmann | Write PRDs for AI Avatar and Curriculum Factory | New |
+| Jan Hoffmann | Propose swim-lane/parent-issue groupings via group chat | New |
+| Rob Zinkov | Manicure issue groupings/parent-child relationships after Jan proposes them | New |
+| Rob Zinkov | Polish issues using the AI engineering kit's write-issue skill once priorities are agreed | New |
+| Michal Sobocinski | Sync with Rob Zinkov on AI avatar implementation to clarify what can start now | New |
+| Michal Sobocinski | Follow up with Nicolas Potel on whether instructor guide content mirrors lesson videos | New |
+
+## Open questions
+
+- Does the existing instructor guide content for English cover the same material as the lesson videos, or are the two independent?
+- What structured data is available from the mobile app team (Daniel, Jon) for non-audio, non-avatar lesson interactions?
+- Should the content pipeline for MVP be fully manual/handcrafted (spike), or is there a faster path to a partially automated first version?
+- Where does Snowflake end and other systems begin for business analytics?
+
 ## Discussion
 
 ### GitHub Projects board orientation
@@ -47,32 +76,3 @@ Internal engineering-facing quality dashboards will be built by this team; broad
 ### Terminology: curriculum vs. certification
 
 "Curriculum" maps to a full course path (e.g., English 1–8), not an individual lesson. Skipped quizzes should not be ignored — the AI Tutor should track unmet learning goals and resurface them in subsequent sessions.
-
-## Decisions
-
-- MVP milestone target: end of July 2026.
-- "AI MVP" milestone created in GitHub Projects; issues to be tagged accordingly.
-- Parent issue "AI Avatar" created in GitHub Projects; sub-issues to be nested below it.
-- Issues must be clear enough for a newcomer or LLM to act on without additional context.
-- AI Avatar and Curriculum Factory each warrant separate PRDs.
-- PRDs are authoritative; GitHub issues should link to the relevant PRD.
-- Internal quality/engineering dashboards are in scope; business BI dashboards are out of scope for MVP.
-
-## Action items
-
-| Owner | Action | Status |
-| ----- | ------ | ------ |
-| Jan Hoffmann | Review all GitHub Projects issues and flag MVP vs. non-MVP using the AI MVP milestone | New |
-| Jan Hoffmann | Write PRDs for AI Avatar and Curriculum Factory | New |
-| Jan Hoffmann | Propose swim-lane/parent-issue groupings via group chat | New |
-| Rob Zinkov | Manicure issue groupings/parent-child relationships after Jan proposes them | New |
-| Rob Zinkov | Polish issues using the AI engineering kit's write-issue skill once priorities are agreed | New |
-| Michal Sobocinski | Sync with Rob Zinkov on AI avatar implementation to clarify what can start now | New |
-| Michal Sobocinski | Follow up with Nicolas Potel on whether instructor guide content mirrors lesson videos | New |
-
-## Open questions
-
-- Does the existing instructor guide content for English cover the same material as the lesson videos, or are the two independent?
-- What structured data is available from the mobile app team (Daniel, Jon) for non-audio, non-avatar lesson interactions?
-- Should the content pipeline for MVP be fully manual/handcrafted (spike), or is there a faster path to a partially automated first version?
-- Where does Snowflake end and other systems begin for business analytics?

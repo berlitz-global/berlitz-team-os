@@ -10,6 +10,31 @@
 - Rob will create GitHub issues tagged by milestone by end of day or start of next week; first sprint plan targeted for early the following week.
 - Michal will connect with Andres Mora about the LMS and reach out to Nicolas Potel (LX team lead) to obtain lesson content and Talkio avatar configuration exports.
 
+## Decisions
+
+- Primary milestone: AI tutor plugged into the mobile app; myBerlitz replacement is secondary and non-blocking.
+- Use the bring-your-own (non-fully-managed) Talkio avatar tier to preserve dialect and persona control.
+- Twice-weekly team syncs going forward.
+- First sprint plan to be ready early the following week.
+
+## Action items
+
+| Owner | Action | Status |
+| ----- | ------ | ------ |
+| Rob Zinkov | Share prompts spreadsheet with Michal | New |
+| Rob Zinkov | Create GitHub issues tagged by milestone | New |
+| Rob Zinkov | Produce cost estimates for Jan | New |
+| Michal Sobocinski | Meet with Andres Mora about LMS content access | New |
+| Michal Sobocinski | Reach out to Nicolas Potel (LX team lead) for lesson content and Talkio avatar config exports | New |
+| Jan Hoffmann | Arrange twice-weekly sync cadence | New |
+
+## Open questions
+
+- What is the long-term fate of myBerlitz — sunset, parallel operation, or handoff?
+- How will student profile data be surfaced in the mobile app?
+- What Talkio metadata (persona configs, dialect settings) is exportable and in what format?
+- Should microservices be written in Python, Go, or Rust? (Deferred pending performance data.)
+
 ## Discussion
 
 ### Cost model concerns
@@ -35,28 +60,3 @@ After MVP, the team discussed a roadmap of longer-term features: voice cloning, 
 ### GitHub project setup and sprint planning
 
 Rob committed to creating GitHub issues tagged by milestone by end of day or start of the following week. The first sprint plan was targeted for early the following week. Jan proposed twice-weekly syncs going forward.
-
-## Decisions
-
-- Primary milestone: AI tutor plugged into the mobile app; myBerlitz replacement is secondary and non-blocking.
-- Use the bring-your-own (non-fully-managed) Talkio avatar tier to preserve dialect and persona control.
-- Twice-weekly team syncs going forward.
-- First sprint plan to be ready early the following week.
-
-## Action items
-
-| Owner | Action | Status |
-| ----- | ------ | ------ |
-| Rob Zinkov | Share prompts spreadsheet with Michal | New |
-| Rob Zinkov | Create GitHub issues tagged by milestone | New |
-| Rob Zinkov | Produce cost estimates for Jan | New |
-| Michal Sobocinski | Meet with Andres Mora about LMS content access | New |
-| Michal Sobocinski | Reach out to Nicolas Potel (LX team lead) for lesson content and Talkio avatar config exports | New |
-| Jan Hoffmann | Arrange twice-weekly sync cadence | New |
-
-## Open questions
-
-- What is the long-term fate of myBerlitz — sunset, parallel operation, or handoff?
-- How will student profile data be surfaced in the mobile app?
-- What Talkio metadata (persona configs, dialect settings) is exportable and in what format?
-- Should microservices be written in Python, Go, or Rust? (Deferred pending performance data.)
