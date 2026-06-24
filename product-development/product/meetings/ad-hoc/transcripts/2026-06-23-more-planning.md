@@ -72,7 +72,7 @@
 
 **[2:20] Jan:** It's not what I wanted to share; this is what I wanted to share.
 
-**[2:21] Rob:** Theis.
+**[2:21] Rob:** This.
 
 **[2:23] Michal:** Okay, now.
 
@@ -126,7 +126,7 @@
 
 **[5:21] Jan:** For cost reasons.
 
-**[5:21] Rob:** I. Say what?
+**[5:21] Rob:** Say what?
 
 **[5:24] Jan:** For cost reasons.
 
@@ -222,7 +222,7 @@
 
 **[13:27] Jan:** I mean, if yeah, if that's what we want to do, if this could like, you could do that explicitly, you could just say, okay, we render the audio and it's part of a...
 
-**[13:31] Rob:** V. Yeah.
+**[13:31] Rob:** Yeah.
 
 **[13:39] Jan:** Of the of the. Grilletto.
 
@@ -264,7 +264,7 @@
 
 **[16:30] Jan:** What's that? Can you put it in?
 
-**[16:31] Rob:** A. Ohh, OK. Here, let me let me let me try here. I, I, I know, hold on.
+**[16:31] Rob:** Ohh, OK. Here, let me let me let me try here. I, I, I know, hold on.
 
 **[16:38] Jan:** Ohh.
 
@@ -466,7 +466,7 @@
 
 **[30:27] Rob:** Your mouse is off the screen, so hold on. Are you up? Are you down? Where are you? Hold on. Oh, I see. Yeah, yeah, you're pointing at the front end. Okay.
 
-**[30:30] Jan:** I'm back up, up, up in the mobile app, right? OK, so... Yeah, when you left, Mia and I were discussing like front end is just this audio that may or may not be cached. And now the user input.
+**[30:30] Jan:** I'm back up, up, up in the mobile app, right? OK, so... Yeah, when you left, Michal and I were discussing like front end is just this audio that may or may not be cached. And now the user input.
 
 **[30:53] Michal:** Mhm.
 
@@ -1116,7 +1116,7 @@
 
 **[1:20:54] Rob:** And also for the different vocabulary, like... I believe I've showed this to you. , Jan, when we met at the coworking space, but they, there, there is sort of a way to sort of show it for. different phrasing. So for pass on, you get all the like pass on, passes on, passing on, pass John on, passes John, like even all the different formattings.
 
-**[1:21:30] Jan:** Yeah. OK, and this. Where do Theis? Appear. Like now you have something that is called take down and pass on information.
+**[1:21:30] Jan:** Yeah. OK, and this. Where do these appear? Like now you have something that is called take down and pass on information.
 
 **[1:21:46] Rob:** Right, so if we kind of open it in the chat. Peres here. Hello, I am interested in placing an order for some custom made items. I am a repeat customer. My store is upscale. So I don't know how much audio you heard or audio that I was talking, but I was just showing that in the screen you have the audio on the left.
 
@@ -1238,7 +1238,7 @@
 
 **[1:29:38] Rob:** Yes.
 
-**[1:29:39] Jan:** Ohh. which is interesting. Thomson.
+**[1:29:39] Jan:** Ohh. which is interesting. [unclear].
 
 **[1:29:51] Michal:** And.
 
@@ -1404,7 +1404,7 @@
 
 **[1:39:47] Jan:** Yes. We should actually, can we put that in our knowledge base? I think I tried and then GitHub realized that it was credentials and didn't want to put that on GitHub.
 
-**[1:40:00] Michal:** N. But we have some password manager or...
+**[1:40:00] Michal:** But we have some password manager or...
 
 **[1:40:04] Rob:** We should start doing, we should start doing, we should get into like a habit of not just dumping credentials onto repos anyway, but I'll set what I think we should do is we should either commit to... AWS secret sharing or one pass something and basically. The idea is that we'll dump the we.
 
@@ -1668,7 +1668,7 @@
 
 **[1:56:25] Rob:** And maybe in the app there's a learner place where all the playing the videos happens. And yeah, maybe they're separated out a little bit in the mobile app as they see it now, but I think I broadly agree.
 
-**[1:56:43] Jan:** I. So, this would... Mm. The way they are, but I would probably... Make this something like... PowerPoint doesn't like it when you go off the slide.
+**[1:56:43] Jan:** So, this would... Mm. The way they are, but I would probably... Make this something like... PowerPoint doesn't like it when you go off the slide.
 
 **[1:57:56] Rob:** Oh no.
 

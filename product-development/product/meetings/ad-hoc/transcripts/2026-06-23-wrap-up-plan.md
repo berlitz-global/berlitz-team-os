@@ -12,7 +12,7 @@
 
 **[0:05] Rob:** Alright, did you get my email?
 
-**[0:05] Jan:** Awesome, yeah, Greg. Did I get your email? I did not check my email, so I probably got an email from you. Yes.
+**[0:05] Jan:** Awesome, yeah, great. Did I get your email? I did not check my email, so I probably got an email from you. Yes.
 
 **[0:13] Rob:** Ahh.
 
@@ -20,7 +20,7 @@
 
 **[0:21] Jan:** I got your email now.
 
-**[0:21] Rob:** S. Okay, alright.
+**[0:21] Rob:** Okay, alright.
 
 **[0:25] Jan:** Rob was going to be late.
 
@@ -388,7 +388,7 @@
 
 **[27:16] Rob:** I think it's more of a reference point for other people than me, but yes.
 
-**[27:21] Michal:** But I don't know if you see it, the Busu app that I put on there, because Duolingo for me was always like the very boring and not like never enjoying the stuff, but for example, with Busu is like the more interactive, more video, more different accents that you hear from video and more...
+**[27:21] Michal:** But I don't know if you see it, the Busuu app that I put on there, because Duolingo for me was always like the very boring and not like never enjoying the stuff, but for example, with Busuu is like the more interactive, more video, more different accents that you hear from video and more...
 
 **[27:25] Rob:** Yeah. Yeah. Yeah.
 
@@ -404,7 +404,7 @@
 
 **[28:41] Rob:** Yeah, okay. I'm going to download now. I'm obviously not going to try it now, but yes.
 
-**[28:48] Michal:** I. And they have some similar application that I think so that we want to create.
+**[28:48] Michal:** And they have some similar application that I think so that we want to create.
 
 **[29:03] Rob:** Yeah.
 
@@ -612,7 +612,7 @@
 
 **[43:47] Rob:** Right. Yeah.
 
-**[43:56] Jan:** I mean... Theis.
+**[43:56] Jan:** I mean... these.
 
 **[44:05] Rob:** ..
 
@@ -778,7 +778,7 @@
 
 **[54:55] Michal:** Yeah, , yeah, I think I think so. Let's let me check. I think so. Let's go here. Yeah, I can share my screen if you want.
 
-**[55:07] Jan:** Theis.
+**[55:07] Jan:** these.
 
 **[55:08] Michal:** Where this here is like the... Yeah. There is some issue that you have right open it right now we have that is assigned it to me and here you have the milestones that you can assign the milestones and what is needed is create a new milestone right that I don't know what was name Evalu. I evaluate those or whatever, and you create new milestone and you can use it here, right?
 
